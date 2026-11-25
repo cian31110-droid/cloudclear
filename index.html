@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CloudClear">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CloudClear%22%2C%22short_name%22%3A%22CloudClear%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23060911%22%2C%22theme_color%22%3A%22%23060911%22%2C%22start_url%22%3A%22.%22%7D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23060911'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='%2310B981' stroke-width='40'/%3E%3Ccircle cx='256' cy='256' r='60' fill='%2306B6D4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23060911'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='%2310B981' stroke-width='40'/%3E%3Ccircle cx='256' cy='256' r='60' fill='%2306B6D4'/%3E%3C/svg%3E">
+<title>CloudClear</title>
+<meta name="theme-color" content="#060911">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{
+  --bg:#060911;--em:#10B981;--cy:#06B6D4;--am:#F59E0B;--rose:#FB7185;
+  --tx:#F8FAFC;--mu:#94A3B8;--nav:64px;--ease:cubic-bezier(0.22,1,0.36,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-text-size-adjust:100%;overscroll-behavior:none}
+button{font-family:inherit;color:inherit;touch-action:manipulation}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+
+/* ambient orbs */
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ambient i{position:absolute;border-radius:50%;will-change:transform}
+.a1{width:80vmax;height:80vmax;left:-30vmax;top:-25vmax;background:radial-gradient(circle,rgba(16,185,129,.32),transparent 65%);animation:d1 28s ease-in-out infinite alternate}
+.a2{width:70vmax;height:70vmax;right:-35vmax;top:28%;background:radial-gradient(circle,rgba(6,182,212,.28),transparent 65%);animation:d2 34s ease-in-out infinite alternate}
+.a3{width:65vmax;height:65vmax;left:-10vmax;bottom:-30vmax;background:radial-gradient(circle,rgba(16,185,129,.2),transparent 65%);animation:d3 40s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(22vmin,16vmin)}}
+@keyframes d2{to{transform:translate(-20vmin,-14vmin)}}
+@keyframes d3{to{transform:translate(18vmin,-18vmin)}}
+
+#shell{position:relative;z-index:1;max-width:480px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 6px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;letter-spacing:.2px}
+.brand svg{width:26px;height:26px;fill:var(--em);filter:drop-shadow(0 0 8px rgba(16,185,129,.6))}
+.brand em{font-style:normal;color:var(--em)}
+.tag{font-size:12px;color:var(--mu)}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 16px 176px;-webkit-overflow-scrolling:touch}
+.tab{display:none}
+.tab.active{display:block;animation:fade .45s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h2{font-size:19px;margin:6px 2px 12px}
+h3{font-size:15px;margin:0 0 8px}
+
+/* liquid glass */
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  -webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,.14);border-radius:24px;
+  box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.2);
+  padding:16px;margin-bottom:14px}
+.warm{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(251,113,133,.06));border-color:rgba(245,158,11,.3)}
+.muted{color:var(--mu)}
+.small{font-size:12.5px}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:8px}
+.num{font-variant-numeric:tabular-nums}
+
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:-55%;width:130%;aspect-ratio:1;transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(16,185,129,.3),transparent 60%);pointer-events:none}
+.hero>*{position:relative}
+.clock{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cbox{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:12px 4px;text-align:center}
+.cbox b{display:block;font-size:30px;font-variant-numeric:tabular-nums;color:var(--em);line-height:1.1;text-shadow:0 0 18px rgba(16,185,129,.55)}
+.cbox span{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px}
+.sub{margin-top:10px;font-size:13px;color:var(--mu);text-align:center}
+
+.row{display:flex;gap:8px}.row>*{flex:1}
+.between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* buttons */
+.btn{min-height:48px;padding:0 20px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+  color:var(--tx);font-size:15px;font-weight:600;cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 16px rgba(0,0,0,.3);
+  transition:transform .4s var(--ease),background .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease)}
+.btn:active{transform:scale(.97)}
+.primary{background:linear-gradient(180deg,rgba(16,185,129,.85),rgba(16,185,129,.5));border-color:rgba(110,231,183,.55);color:#031a12;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 24px rgba(16,185,129,.35)}
+.cyan{background:linear-gradient(180deg,rgba(6,182,212,.85),rgba(6,182,212,.5));border-color:rgba(103,232,249,.5);color:#021a1f;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 24px rgba(6,182,212,.3)}
+.danger{border-color:rgba(251,113,133,.55);color:#fecdd3;background:linear-gradient(180deg,rgba(251,113,133,.14),rgba(251,113,133,.04))}
+.full{width:100%}
+.btn.on{background:linear-gradient(180deg,rgba(16,185,129,.85),rgba(16,185,129,.5));border-color:rgba(110,231,183,.55);color:#031a12;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 24px rgba(16,185,129,.35)}
+
+/* patch + spray */
+.banner{border-radius:16px;padding:10px 14px;margin-bottom:12px;font-size:14px;
+  background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.45);color:#fde68a}
+.patchbtn{width:100%;min-height:54px;margin-top:10px;font-size:16px}
+.divider{height:1px;background:rgba(255,255,255,.1);margin:14px 0}
+.spraynum{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;color:var(--cy);text-shadow:0 0 20px rgba(6,182,212,.5)}
+.appt{position:relative;overflow:hidden;padding-left:22px}
+.appt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--em),var(--cy))}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.grid .glass{margin:0;min-height:108px;display:flex;flex-direction:column;justify-content:space-between;padding:14px}
+.mv{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.mv.em{color:var(--em)}.mv.cy{color:var(--cy)}.mv.am{color:var(--am)}
+.why p{margin:0 0 12px;font-size:17px;line-height:1.4}
+
+/* forms */
+label.f{display:block;font-size:13px;color:var(--mu);margin:12px 0 6px}
+.field,input,select,textarea{width:100%;min-height:48px;font-size:16px;background:rgba(255,255,255,.06);color:var(--tx);
+  border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:0 14px;font-family:inherit;outline:none;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.3)}
+textarea{padding:10px 14px;font-family:ui-monospace,Menlo,monospace;resize:none}
+input:focus,select:focus,textarea:focus{border-color:rgba(6,182,212,.7)}
+.hint{font-size:12px;color:var(--mu);margin-top:6px}
+
+/* orb */
+.orb-wrap{--oc:6,182,212;width:240px;height:240px;margin:6px auto 10px;position:relative;display:grid;place-items:center}
+.orb-wrap.hold{--oc:16,185,129}
+.orb-wrap.out{--oc:245,158,11}
+.orb{position:absolute;inset:0;transform:scale(.55);transition:transform 4s cubic-bezier(0.45,0.05,0.35,1)}
+.orb i{position:absolute;border-radius:50%}
+.l1{inset:0;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.35),rgba(var(--oc),.32) 38%,rgba(var(--oc),.06) 72%);
+  border:1px solid rgba(255,255,255,.28);box-shadow:0 0 50px rgba(var(--oc),.4),inset 0 0 40px rgba(var(--oc),.2);transition:box-shadow .6s}
+.l2{inset:14%;background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.25),rgba(var(--oc),.35) 45%,transparent 75%);animation:swirl 9s linear infinite}
+.l3{inset:32%;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,.6),rgba(var(--oc),.55) 55%,rgba(var(--oc),.1));
+  box-shadow:0 0 30px rgba(var(--oc),.6);animation:swirl 13s linear infinite reverse}
+@keyframes swirl{to{transform:rotate(360deg)}}
+.orb-text{position:relative;text-align:center;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.orb-text b{display:block;font-size:22px}
+.orb-text span{font-size:40px;font-weight:800;font-variant-numeric:tabular-nums}
+.timer{text-align:center;font-size:34px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--cy);text-shadow:0 0 18px rgba(6,182,212,.5)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{min-height:48px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.02));font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:transform .4s var(--ease),background .4s var(--ease)}
+.chip:active{transform:scale(.97)}
+.chip.on{border-color:rgba(110,231,183,.6);background:linear-gradient(180deg,rgba(16,185,129,.4),rgba(16,185,129,.12));color:#a7f3d0}
+.pulse{animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 0 rgba(16,185,129,.55)}100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 16px rgba(16,185,129,0)}}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px}
+.list li:last-child{border-bottom:0}
+.list li>span:first-child{min-width:0}
+.freq{margin-bottom:10px}
+.freq .t{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.bar{height:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;position:relative;overflow:hidden;border-radius:99px;
+  background:linear-gradient(90deg,#10B981,#06B6D4);box-shadow:0 0 14px rgba(16,185,129,.55);transition:width .8s var(--ease)}
+.bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:translateX(-100%);animation:shim 2.8s infinite}
+@keyframes shim{to{transform:translateX(100%)}}
+
+/* milestones */
+.ms{opacity:.82}
+.ms.done{opacity:1;border-color:rgba(16,185,129,.55);box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 24px rgba(16,185,129,.18),inset 0 1px 0 rgba(255,255,255,.2)}
+.ms .head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+.ms .head b{font-size:16px}
+.badge{font-size:12px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--mu);white-space:nowrap}
+.ms.done .badge{background:rgba(16,185,129,.2);border-color:var(--em);color:#6ee7b7;box-shadow:0 0 14px rgba(16,185,129,.45)}
+.ms p{margin:0 0 10px;font-size:13.5px;color:var(--mu)}
+
+/* fab + dock */
+.fab{position:absolute;left:16px;right:16px;bottom:calc(var(--nav) + 22px);min-height:54px;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;z-index:20;
+  border:1px solid rgba(255,255,255,.3);color:#1f0a00;
+  background:linear-gradient(135deg,rgba(245,158,11,.85),rgba(251,113,133,.8));
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 30px rgba(251,113,133,.4);
+  transition:transform .4s var(--ease)}
+.fab:active{transform:scale(.97)}
+.fab.big{min-height:66px;font-size:19px}
+.fab.stop{background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05));color:var(--tx);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 20px rgba(0,0,0,.4)}
+nav{position:absolute;left:14px;right:14px;bottom:10px;height:var(--nav);display:flex;gap:4px;padding:6px;z-index:30;border-radius:32px;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);
+  border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 36px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22)}
+nav button{flex:1;min-height:48px;background:none;border:0;border-radius:26px;color:var(--mu);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;cursor:pointer;
+  transition:background .4s var(--ease),color .4s var(--ease),transform .4s var(--ease)}
+nav button:active{transform:scale(.95)}
+nav button svg{width:22px;height:22px}
+nav button[aria-selected=true]{color:#6ee7b7;background:rgba(16,185,129,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+
+/* modals */
+.modal{position:fixed;inset:0;background:rgba(3,6,12,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet{width:100%;max-width:480px;max-height:90dvh;overflow-y:auto;margin:0;border-radius:28px 28px 0 0;
+  padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),rgba(10,14,24,.85);
+  border:1px solid rgba(255,255,255,.16);border-bottom:0;box-shadow:0 -10px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2)}
+.srow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:15px}
+.srow:last-child{border-bottom:0}
+.srow span:first-child{color:var(--mu)}
+.srow b{text-align:right}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(160px + env(safe-area-inset-bottom,0px));
+  background:rgba(12,18,30,.85);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border:1px solid rgba(16,185,129,.6);color:var(--tx);padding:12px 18px;border-radius:999px;
+  font-size:14px;z-index:60;max-width:90%;text-align:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .ambient i,.orb i,.bar i::after,.pulse{animation:none}
+  .tab.active{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+
+<div id="shell">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+      <span>Cloud<em>Clear</em></span>
+    </div>
+    <div class="tag">Breathe easy 🌿</div>
+  </header>
+
+  <main id="main">
+    <!-- TAB 1 -->
+    <section id="tab-dashboard" class="tab active" role="tabpanel">
+      <div id="onboardCard" class="glass" hidden>
+        <h3>👋 Welcome to CloudClear</h3>
+        <p class="muted small" style="margin:0 0 12px">Set your quit date, patch and clinic details to start the clock.</p>
+        <button class="btn primary full" id="goSetup">Set up my quit</button>
+      </div>
+
+      <div class="glass hero">
+        <div class="label">⏱ Vape-free for</div>
+        <div class="clock">
+          <div class="cbox"><b id="cD">0</b><span>Days</span></div>
+          <div class="cbox"><b id="cH">00</b><span>Hours</span></div>
+          <div class="cbox"><b id="cM">00</b><span>Mins</span></div>
+          <div class="cbox"><b id="cS">00</b><span>Secs</span></div>
+        </div>
+        <div class="sub" id="streakSub"></div>
+      </div>
+
+      <div class="glass">
+        <div class="label">🩺 NRT routine</div>
+        <div id="remBanner" class="banner" hidden></div>
+        <div class="between">
+          <div style="min-width:0">
+            <h3 id="patchTitle" style="margin:0 0 2px">💊 14mg Nicotine Patch</h3>
+            <div class="small muted" id="patchSub"></div>
+          </div>
+        </div>
+        <button class="btn patchbtn" id="patchBtn">Pending · tap when applied</button>
+        <div class="divider"></div>
+        <div class="between">
+          <div>
+            <div class="small muted">💨 Mouth spray today</div>
+            <div class="spraynum" id="sprayCount">0</div>
+          </div>
+          <div class="row" style="flex:0 0 auto;gap:8px">
+            <button class="btn primary" id="sprayAdd" style="min-width:112px">+1 Spray</button>
+            <button class="btn" id="sprayUndo" aria-label="Undo last spray">Undo</button>
+          </div>
+        </div>
+        <div class="small muted" id="sprayTimes" style="margin-top:10px"></div>
+      </div>
+
+      <div class="glass appt">
+        <div class="label">📞 Clinic review</div>
+        <div style="font-size:16px;font-weight:700;line-height:1.3" id="apptTitle"></div>
+        <div class="num" style="margin-top:4px;color:var(--cy);font-weight:600" id="apptWhen"></div>
+        <div class="small muted" id="apptCount" style="margin:2px 0 12px"></div>
+        <button class="btn cyan full" id="sumBtn">Prepare Review Summary</button>
+      </div>
+
+      <div class="grid">
+        <div class="glass"><div class="label">💷 Money saved</div><div class="mv em" id="mMoney">£0.00</div><div class="small muted">Lifetime, slips don't wipe it</div></div>
+        <div class="glass"><div class="label">🔋 Pods avoided</div><div class="mv cy" id="mPods">0.0</div><div class="small muted">Based on weekly use</div></div>
+        <div class="glass"><div class="label">💪 Cravings beaten</div><div class="mv am" id="mCrav">0</div><div class="small muted">From the SOS tab</div></div>
+        <div class="glass"><div class="label">📅 Lifetime days</div><div class="mv em" id="mLife">0.0</div><div class="small muted">All streaks combined</div></div>
+      </div>
+
+      <div class="glass warm why">
+        <div class="label">💛 My Why</div>
+        <p id="whyText"></p>
+        <div id="whyView"><button class="btn full" id="whyEdit">Edit my why</button></div>
+        <div id="whyBox" hidden>
+          <input id="whyInput" type="text" maxlength="120" placeholder="e.g. Fitness, Tyler, saving money" autocomplete="off">
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary" id="whySave">Save</button>
+            <button class="btn" id="whyCancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2 -->
+    <section id="tab-sos" class="tab" role="tabpanel">
+      <h2>🆘 Craving SOS</h2>
+      <div class="glass">
+        <div class="orb-wrap" id="orbWrap">
+          <div class="orb" id="orb"><i class="l1"></i><i class="l2"></i><i class="l3"></i></div>
+          <div class="orb-text"><b id="ringLabel">Ready</b><span id="ringCount">4-7-8</span></div>
+        </div>
+        <div class="timer" id="sosTimer">3:00</div>
+        <div class="sub" id="sosMsg">Hit the big button. Cravings peak and pass within a few minutes.</div>
+      </div>
+
+      <div class="glass">
+        <h3>🏷 What set it off?</h3>
+        <div class="chips" id="chips"></div>
+        <button class="btn full" id="sosSpray" style="margin-top:12px">💨 Used Mouth Spray (+1)</button>
+        <button class="btn primary full pulse" id="defeatBtn" style="margin-top:10px;min-height:54px;font-size:16px">✅ Craving Defeated (+1)</button>
+      </div>
+
+      <div class="glass">
+        <h3>📊 Trigger breakdown</h3>
+        <div id="freq"></div>
+      </div>
+
+      <div class="glass">
+        <h3>🕒 Recent cravings & sprays</h3>
+        <ul class="list" id="cravList"></ul>
+      </div>
+    </section>
+
+    <!-- TAB 3 -->
+    <section id="tab-health" class="tab" role="tabpanel">
+      <h2>❤️ Health & Goals</h2>
+      <div class="glass">
+        <h3>🎯 Reward Goal</h3>
+        <label class="f" for="goalName" style="margin-top:0">Reward item</label>
+        <input id="goalName" type="text" maxlength="60" placeholder="New Running Shoes" autocomplete="off">
+        <label class="f" for="goalCost">Target cost (£)</label>
+        <input id="goalCost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="120">
+        <button class="btn cyan full" id="goalSave" style="margin-top:12px">Save goal</button>
+        <div style="margin-top:14px">
+          <div class="between small" style="margin-bottom:6px">
+            <span id="goalTitle" class="muted">No goal set</span><b id="goalPct" class="num">0%</b>
+          </div>
+          <div class="bar"><i id="goalBar"></i></div>
+          <div class="small muted" style="margin-top:6px" id="goalSub"></div>
+        </div>
+      </div>
+      <div class="label" style="margin:6px 4px 8px">Body recovery (current streak)</div>
+      <div id="msList"></div>
+    </section>
+
+    <!-- TAB 4 -->
+    <section id="tab-setup" class="tab" role="tabpanel">
+      <h2 id="setupTitle">⚙️ Setup & Backup</h2>
+      <div class="glass">
+        <label class="f" for="inQuit" style="margin-top:0">Quit date & time</label>
+        <input id="inQuit" type="datetime-local">
+        <div class="hint">Changing this after a slip won't rewind your current streak.</div>
+        <label class="f" for="inSpend">Weekly vape spend (£)</label>
+        <input id="inSpend" type="number" inputmode="decimal" min="0" step="0.5">
+        <label class="f" for="inPods">Pods / disposables per week</label>
+        <input id="inPods" type="number" inputmode="decimal" min="0" step="0.5">
+        <label class="f" for="inMg">Nicotine patch strength (mg)</label>
+        <input id="inMg" type="number" inputmode="numeric" min="0" step="1">
+        <label class="f" for="inRem">Daily patch reminder time</label>
+        <input id="inRem" type="time">
+        <label class="f" for="inAppt">Clinic appointment</label>
+        <input id="inAppt" type="text" maxlength="120" autocomplete="off">
+        <label class="f" for="inApptWhen">Appointment date & time</label>
+        <input id="inApptWhen" type="datetime-local">
+        <label class="f" for="inWhy">My Why</label>
+        <input id="inWhy" type="text" maxlength="120" placeholder="Fitness, family, saving money" autocomplete="off">
+        <button class="btn primary full" id="saveCfg" style="margin-top:16px">Save</button>
+      </div>
+
+      <div class="glass">
+        <h3>💛 Slipped? No drama.</h3>
+        <p class="muted small" style="margin:0 0 12px">A slip isn't a reset on everything. Your money saved and total vape-free time stay banked, and a fresh streak starts.</p>
+        <button class="btn danger full" id="slipBtn">Log a Slip</button>
+        <div class="small muted" style="margin-top:10px" id="slipInfo"></div>
+        <ul class="list" id="slipList" style="margin-top:6px"></ul>
+      </div>
+
+      <div class="glass">
+        <h3>💾 Backup</h3>
+        <div class="row">
+          <button class="btn cyan" id="expBtn">Export backup</button>
+          <button class="btn" id="impBtn">Restore backup</button>
+        </div>
+        <input id="impFile" type="file" accept=".json,application/json" hidden>
+        <div class="hint">Includes patch logs, sprays and appointment details. Your data lives in this browser only, so export now and then and keep the text somewhere safe.</div>
+      </div>
+    </section>
+  </main>
+
+  <button class="fab" id="sosFab">🆘 I Have a Craving</button>
+
+  <nav role="tablist" aria-label="Main">
+    <button role="tab" data-tab="dashboard" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Home</button>
+    <button role="tab" data-tab="sos" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.6 3.6M18.4 5.6l-3.6 3.6M5.6 18.4l3.6-3.6M18.4 18.4l-3.6-3.6"/></svg>SOS</button>
+    <button role="tab" data-tab="health" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Health</button>
+    <button role="tab" data-tab="setup" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></svg>Setup</button>
+  </nav>
+</div>
+
+<!-- first-run onboarding -->
+<div class="modal" id="onbModal" hidden>
+  <div class="sheet">
+    <h3 style="font-size:19px">Welcome to CloudClear 🌿</h3>
+    <p class="muted small" style="margin:0 0 4px">Quick setup. Everything is pre-filled with sensible defaults and you can change it later in Setup.</p>
+    <label class="f" for="onbQuit">Quit date & time</label>
+    <input id="onbQuit" type="datetime-local">
+    <div class="row">
+      <div><label class="f" for="onbSpend">Weekly spend (£)</label><input id="onbSpend" type="number" inputmode="decimal" min="0" step="0.5"></div>
+      <div><label class="f" for="onbPods">Pods per week</label><input id="onbPods" type="number" inputmode="decimal" min="0" step="0.5"></div>
+    </div>
+    <div class="row">
+      <div><label class="f" for="onbMg">Patch (mg)</label><input id="onbMg" type="number" inputmode="numeric" min="0" step="1"></div>
+      <div><label class="f" for="onbRem">Reminder time</label><input id="onbRem" type="time"></div>
+    </div>
+    <label class="f" for="onbWhy">My Why</label>
+    <input id="onbWhy" type="text" maxlength="120" placeholder="Fitness, family, saving money" autocomplete="off">
+    <div class="srow" style="margin-top:14px"><span>Clinic review</span><b id="onbAppt" style="font-size:14px"></b></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="onbLater">Later</button>
+      <button class="btn primary" id="onbSave">Start my quit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="slipModal" hidden>
+  <div class="sheet">
+    <h3 style="font-size:18px">Log a slip?</h3>
+    <p class="muted small" style="margin:0 0 6px">One slip doesn't erase your progress. Your money saved and total vape-free time stay banked. Let's note what triggered it and go again. 💚</p>
+    <label class="f" for="slipTrigger">What triggered it?</label>
+    <select id="slipTrigger">
+      <option>Stress</option><option>Work Break</option><option>Driving</option><option>After Meal</option>
+      <option>Social / Alcohol</option><option>Boredom</option><option>Other</option>
+    </select>
+    <div class="row" style="margin-top:16px">
+      <button class="btn" id="slipCancel">Cancel</button>
+      <button class="btn primary" id="slipConfirm">Log slip & restart</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="sumModal" hidden>
+  <div class="sheet">
+    <h3 style="font-size:18px">Review summary</h3>
+    <p class="muted small" style="margin:0 0 8px" id="sumHead"></p>
+    <div id="sumBody"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn cyan" id="sumCopy">Copy text</button>
+      <button class="btn" id="sumClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="bkModal" hidden>
+  <div class="sheet">
+    <h3 style="font-size:18px" id="bkTitle">Backup</h3>
+    <p class="muted small" style="margin:0 0 10px" id="bkHint"></p>
+    <textarea id="bkText" rows="7" spellcheck="false"></textarea>
+    <div class="row" style="margin-top:12px">
+      <button class="btn cyan" id="bkCopy">Copy</button>
+      <button class="btn" id="bkFile">Pick file</button>
+    </div>
+    <button class="btn full" id="bkDl" style="margin-top:8px">Download .json</button>
+    <div class="row" style="margin-top:8px">
+      <button class="btn primary" id="bkRestore">Restore from text</button>
+      <button class="btn" id="bkClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var KEY = 'cloudclear_pwa_v1';
+  var MIN = 60000, HOUR = 3600000, DAY = 86400000, WEEK = 7 * DAY;
+  var TRIGGERS = ['Stress', 'Work Break', 'Driving', 'After Meal', 'Social / Alcohol', 'Boredom'];
+  var TRIG_ICON = { 'Stress': '😤', 'Work Break': '☕', 'Driving': '🚗', 'After Meal': '🍽️', 'Social / Alcohol': '🍻', 'Boredom': '🥱' };
+  var MILESTONES = [
+    { ms: 20 * MIN, t: '20 Minutes', d: 'Heart rate & blood pressure drop toward normal.' },
+    { ms: 8 * HOUR, t: '8 Hours', d: 'Carbon monoxide levels halve; oxygen levels normalise.' },
+    { ms: 48 * HOUR, t: '48 Hours', d: 'Nicotine & byproducts eliminated; taste and smell sharpen.' },
+    { ms: 72 * HOUR, t: '72 Hours', d: 'Bronchial tubes relax; breathing feels easier.' },
+    { ms: 14 * DAY, t: '2 Weeks', d: 'Circulation improves across hands and feet.' },
+    { ms: 30 * DAY, t: '1 Month', d: 'Lung cilia begin regenerating; coughing & shortness of breath decrease.' },
+    { ms: 90 * DAY, t: '3 Months', d: 'Lung function increases significantly.' }
+  ];
+  var DEFAULT_APPT_LABEL = 'Ashville Medical Practice — Smoking Cessation Review (Telephone)';
+  var DEFAULT_APPT_TS = new Date(2026, 11, 2, 14, 40).getTime();
+
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------- PWA manifest + icon ---------- */
+  var ICON_SVG = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='#060911'/><circle cx='256' cy='256' r='150' fill='none' stroke='#10B981' stroke-width='40'/><circle cx='256' cy='256' r='60' fill='#06B6D4'/></svg>";
+  var ICON_URI = 'data:image/svg+xml,' + encodeURIComponent(ICON_SVG);
+  (function upgradeManifest() {
+    try {
+      var start = /^https?:$/.test(location.protocol) ? location.href.split('#')[0] : '.';
+      var m = {
+        name: 'CloudClear', short_name: 'CloudClear',
+        description: 'Quit vaping, one breath at a time.',
+        start_url: start, display: 'standalone', orientation: 'portrait',
+        background_color: '#060911', theme_color: '#060911',
+        icons: [
+          { src: ICON_URI, sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: ICON_URI, sizes: '512x512', type: 'image/svg+xml', purpose: 'maskable' }
+        ]
+      };
+      var link = document.querySelector('link[rel="manifest"]');
+      if (!link) { link = document.createElement('link'); link.rel = 'manifest'; document.head.appendChild(link); }
+      link.setAttribute('href', 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(m)));
+      var ic = document.createElement('link');
+      ic.rel = 'icon'; ic.href = ICON_URI;
+      document.head.appendChild(ic);
+    } catch (e) { /* page still works without a manifest */ }
+  })();
+
+  /* ---------- Date helpers ---------- */
+  function dayKey(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function keyToDate(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(k, n) { var d = keyToDate(k); d.setDate(d.getDate() + n); return dayKey(d.getTime()); }
+  function todayKey() { return dayKey(Date.now()); }
+  function dayDiff(a, b) { return Math.round((keyToDate(b) - keyToDate(a)) / DAY); }
+  function toLocalInput(ts) {
+    var d = new Date(ts);
+    return dayKey(ts) + 'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  }
+  function fmtTime(ts) {
+    try { return new Date(ts).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+    catch (e) { return pad2(new Date(ts).getHours()) + ':' + pad2(new Date(ts).getMinutes()); }
+  }
+  function fmtWhen(ts) {
+    try { return new Date(ts).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+    catch (e) { return new Date(ts).toISOString().slice(0, 16).replace('T', ' '); }
+  }
+  function fmtApptWhen(ts) {
+    try { return new Date(ts).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+    catch (e) { return fmtWhen(ts); }
+  }
+
+  /* ---------- State ---------- */
+  function defaults() {
+    var n = Date.now();
+    return {
+      configured: false, quitDate: n, currentStreakStart: n,
+      weeklySpend: 25, podsPerWeek: 3, why: '',
+      bankedVapeFreeMs: 0, slipsCount: 0, slips: [],
+      cravings: [], cravingsDefeated: 0, goalName: '', goalCost: 0,
+      patchMg: 14, reminderTime: '08:00', patchDays: [], sprays: [],
+      apptLabel: DEFAULT_APPT_LABEL, apptTs: DEFAULT_APPT_TS
+    };
+  }
+  function num(v, d) { v = Number(v); return (isFinite(v) && v >= 0) ? v : d; }
+  function sanitize(o) {
+    if (!o || typeof o !== 'object' || Array.isArray(o)) return null;
+    if (!('currentStreakStart' in o) && !('quitDate' in o)) return null;
+    var d = defaults(), s = {};
+    s.configured = !!o.configured;
+    s.quitDate = num(o.quitDate, d.quitDate);
+    s.currentStreakStart = num(o.currentStreakStart, s.quitDate);
+    s.weeklySpend = num(o.weeklySpend, d.weeklySpend);
+    s.podsPerWeek = num(o.podsPerWeek, d.podsPerWeek);
+    s.why = typeof o.why === 'string' ? o.why.slice(0, 120) : '';
+    s.bankedVapeFreeMs = num(o.bankedVapeFreeMs, 0);
+    s.slipsCount = Math.floor(num(o.slipsCount, 0));
+    s.cravingsDefeated = Math.floor(num(o.cravingsDefeated, 0));
+    s.goalName = typeof o.goalName === 'string' ? o.goalName.slice(0, 60) : '';
+    s.goalCost = num(o.goalCost, 0);
+    s.patchMg = Math.min(100, num(o.patchMg, d.patchMg));
+    s.reminderTime = (typeof o.reminderTime === 'string' && /^\d{2}:\d{2}$/.test(o.reminderTime)) ? o.reminderTime : d.reminderTime;
+    s.apptLabel = typeof o.apptLabel === 'string' ? o.apptLabel.slice(0, 120) : d.apptLabel;
+    s.apptTs = ('apptTs' in o) ? num(o.apptTs, 0) : d.apptTs;
+    var seen = {};
+    s.patchDays = Array.isArray(o.patchDays) ? o.patchDays.filter(function (k) {
+      if (typeof k !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(k) || seen[k]) return false;
+      seen[k] = true; return true;
+    }).sort().slice(-400) : [];
+    s.sprays = Array.isArray(o.sprays) ? o.sprays.filter(function (x) {
+      return x && isFinite(Number(x.ts));
+    }).slice(-1000).map(function (x) {
+      return { ts: Number(x.ts), cid: typeof x.cid === 'string' ? x.cid.slice(0, 60) : '' };
+    }) : [];
+    s.slips = Array.isArray(o.slips) ? o.slips.filter(function (x) {
+      return x && isFinite(Number(x.ts));
+    }).slice(-200).map(function (x) {
+      return { ts: Number(x.ts), trigger: String(x.trigger || 'Other').slice(0, 40) };
+    }) : [];
+    s.cravings = Array.isArray(o.cravings) ? o.cravings.filter(function (x) {
+      return x && isFinite(Number(x.ts));
+    }).slice(-500).map(function (x, i) {
+      return {
+        id: String(x.id || (Number(x.ts) + '-' + i)),
+        ts: Number(x.ts),
+        trigger: String(x.trigger || 'Not logged').slice(0, 40),
+        defeated: !!x.defeated,
+        sprayUsed: !!x.sprayUsed
+      };
+    }) : [];
+    if (s.slipsCount < s.slips.length) s.slipsCount = s.slips.length;
+    return s;
+  }
+  function load() {
+    var raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; }
+    if (!raw) return defaults();
+    try { return sanitize(JSON.parse(raw)) || defaults(); } catch (e) { return defaults(); }
+  }
+  var S = load();
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* private mode: keep running in memory */ }
+  }
+
+  /* ---------- Helpers ---------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+  function fmtGBP(v) {
+    var p = v.toFixed(2).split('.');
+    p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return '£' + p.join('.');
+  }
+  function fmtShort(ms) {
+    ms = Math.max(0, ms);
+    var d = Math.floor(ms / DAY), h = Math.floor((ms % DAY) / HOUR), m = Math.floor((ms % HOUR) / MIN);
+    if (d > 0) return d + 'd ' + h + 'h';
+    if (h > 0) return h + 'h ' + m + 'm';
+    return Math.max(1, m) + 'm';
+  }
+  function streakMs() { return S.configured ? Math.max(0, Date.now() - S.currentStreakStart) : 0; }
+  function totalMs() { return S.bankedVapeFreeMs + streakMs(); }
+
+  /* ---------- NRT: patch + spray ---------- */
+  function patchApplied(k) { return S.patchDays.indexOf(k) !== -1; }
+  function patchStreak() {
+    var k = todayKey();
+    if (!patchApplied(k)) k = addDays(k, -1);
+    var c = 0;
+    while (patchApplied(k) && c < 1000) { c++; k = addDays(k, -1); }
+    return c;
+  }
+  function patchAdherence() {
+    var t = todayKey(), start = dayKey(S.quitDate), floor = addDays(t, -13);
+    if (S.patchDays.length && S.patchDays[0] < start) start = S.patchDays[0];
+    if (start < floor) start = floor;
+    var end = patchApplied(t) ? t : addDays(t, -1);
+    if (end < start) return null;
+    var total = 0, applied = 0, k = start;
+    while (k <= end && total < 400) { total++; if (patchApplied(k)) applied++; k = addDays(k, 1); }
+    return { pct: Math.round(applied / total * 100), applied: applied, total: total };
+  }
+  function togglePatch() {
+    var k = todayKey(), i = S.patchDays.indexOf(k);
+    if (i === -1) { S.patchDays.push(k); S.patchDays.sort(); toast('Patch logged ✅'); }
+    else { S.patchDays.splice(i, 1); toast('Patch marked pending'); }
+    save();
+    renderNrt();
+  }
+  function sprayToday() {
+    var k = todayKey();
+    return S.sprays.filter(function (x) { return dayKey(x.ts) === k; });
+  }
+  function addSpray(cid) {
+    S.sprays.push({ ts: Date.now(), cid: cid || '' });
+    if (S.sprays.length > 1000) S.sprays.shift();
+  }
+  function undoSpray() {
+    var k = todayKey();
+    for (var i = S.sprays.length - 1; i >= 0; i--) {
+      if (dayKey(S.sprays[i].ts) === k) {
+        var cid = S.sprays[i].cid;
+        S.sprays.splice(i, 1);
+        if (cid) { var c = findEntry(cid); if (c) c.sprayUsed = false; }
+        save(); renderNrt(); renderHistory(); markChips();
+        toast('Last spray removed');
+        return;
+      }
+    }
+    toast('No sprays logged today');
+  }
+  function sprayAvg() {
+    var t = todayKey(), since = Math.max(0, dayDiff(dayKey(S.quitDate), t));
+    var win = Math.min(7, since + 1);
+    var from = keyToDate(addDays(t, -(win - 1))).getTime(), n = 0;
+    S.sprays.forEach(function (x) { if (x.ts >= from) n++; });
+    return { avg: n / win, win: win, n: n };
+  }
+  function reminderMins() {
+    var p = S.reminderTime.split(':');
+    return (+p[0]) * 60 + (+p[1]);
+  }
+  function updateReminder() {
+    var b = $('remBanner'), d = new Date();
+    var due = d.getHours() * 60 + d.getMinutes() >= reminderMins();
+    var show = S.configured && due && !patchApplied(todayKey());
+    b.hidden = !show;
+    if (show) b.textContent = '🕗 Patch reminder: apply your ' + S.patchMg + 'mg patch and tap it off below.';
+  }
+  function renderNrt() {
+    var on = patchApplied(todayKey()), b = $('patchBtn');
+    $('patchTitle').textContent = '💊 ' + S.patchMg + 'mg Nicotine Patch';
+    b.classList.toggle('on', on);
+    b.textContent = on ? '✓ Applied Today' : 'Pending · tap when applied';
+    var ps = patchStreak(), ad = patchAdherence();
+    $('patchSub').textContent = 'Streak: ' + ps + (ps === 1 ? ' day' : ' days') + ' · Adherence: ' + (ad ? ad.pct + '%' : 'no data yet') + (on ? '' : ' · reminder ' + S.reminderTime);
+    updateReminder();
+    var td = sprayToday();
+    $('sprayCount').textContent = td.length;
+    $('sprayTimes').textContent = td.length ? 'Today: ' + td.slice(-8).map(function (x) { return fmtTime(x.ts); }).join(' · ') : 'No sprays logged today.';
+  }
+  function renderAppt() {
+    $('apptTitle').textContent = S.apptLabel || 'No appointment set';
+    if (!S.apptTs) {
+      $('apptWhen').textContent = 'Add one in Setup';
+      $('apptCount').textContent = '';
+      return;
+    }
+    $('apptWhen').textContent = fmtApptWhen(S.apptTs);
+    var t = todayKey(), a = dayKey(S.apptTs), diff = dayDiff(t, a), c;
+    if (S.apptTs < Date.now() && diff <= 0 && a !== t) c = 'That one has passed. Add the next one in Setup.';
+    else if (a === t) c = S.apptTs < Date.now() ? 'Today, time has passed.' : 'Today at ' + fmtTime(S.apptTs);
+    else if (diff === 1) c = 'Tomorrow';
+    else if (diff > 1) c = 'In ' + diff + ' days';
+    else c = 'That one has passed. Add the next one in Setup.';
+    $('apptCount').textContent = c;
+  }
+
+  /* ---------- Review summary ---------- */
+  function topTriggers() {
+    var counts = {};
+    S.cravings.forEach(function (c) { if (c.trigger !== 'Not logged') counts[c.trigger] = (counts[c.trigger] || 0) + 1; });
+    return Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 3).map(function (k) { return k + ' (' + counts[k] + ')'; });
+  }
+  function buildSummary() {
+    var sm = streakMs(), tm = totalMs(), ad = patchAdherence(), sa = sprayAvg(), tt = topTriggers();
+    var d = Math.floor(sm / DAY), h = Math.floor((sm % DAY) / HOUR), m = Math.floor((sm % HOUR) / MIN);
+    var money = (tm / WEEK) * S.weeklySpend;
+    var rows = [
+      ['Current vape-free streak', d + ' days, ' + h + ' hours, ' + m + ' minutes'],
+      ['Total vape-free time', (tm / DAY).toFixed(1) + ' days'],
+      ['Slips', String(S.slipsCount)],
+      ['Money saved', fmtGBP(money)],
+      ['Patch (' + S.patchMg + 'mg) streak', patchStreak() + (patchStreak() === 1 ? ' day' : ' days')],
+      ['Patch adherence', ad ? ad.pct + '% (' + ad.applied + ' of ' + ad.total + ' days)' : 'No data yet'],
+      ['Mouth sprays today', String(sprayToday().length)],
+      ['Average sprays per day', sa.avg.toFixed(1) + ' (last ' + sa.win + (sa.win === 1 ? ' day)' : ' days)')],
+      ['Cravings logged', String(S.cravings.length)],
+      ['Cravings defeated', String(S.cravingsDefeated)],
+      ['Top triggers', tt.length ? tt.join(', ') : 'None logged yet']
+    ];
+    var head = (S.apptLabel || 'Clinic review') + (S.apptTs ? ' · ' + fmtApptWhen(S.apptTs) : '');
+    var text = head + '\n' + rows.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n');
+    return { rows: rows, head: head, text: text };
+  }
+  var sumText = '';
+  function openSummary() {
+    var s = buildSummary();
+    sumText = s.text;
+    $('sumHead').textContent = s.head;
+    var box = $('sumBody');
+    box.textContent = '';
+    s.rows.forEach(function (r) {
+      var row = el('div', 'srow');
+      row.appendChild(el('span', null, r[0]));
+      row.appendChild(el('b', 'num', r[1]));
+      box.appendChild(row);
+    });
+    $('sumModal').hidden = false;
+  }
+  function copyText(text, ta) {
+    try {
+      navigator.clipboard.writeText(text).then(function () { toast('Copied 📋'); }, function () { toast('Copy failed, select the text manually'); if (ta) ta.select(); });
+    } catch (e) { toast('Copy failed, select the text manually'); if (ta) ta.select(); }
+  }
+
+  /* ---------- Live updates ---------- */
+  var msRefs = [], lastDay = todayKey();
+  function updateLive() {
+    var sm = streakMs(), tm = S.bankedVapeFreeMs + sm;
+    $('cD').textContent = Math.floor(sm / DAY);
+    $('cH').textContent = pad2(Math.floor((sm % DAY) / HOUR));
+    $('cM').textContent = pad2(Math.floor((sm % HOUR) / MIN));
+    $('cS').textContent = pad2(Math.floor((sm % MIN) / 1000));
+    var money = (tm / WEEK) * S.weeklySpend;
+    $('mMoney').textContent = fmtGBP(money);
+    $('mPods').textContent = ((tm / WEEK) * S.podsPerWeek).toFixed(1);
+    $('mCrav').textContent = S.cravingsDefeated;
+    $('mLife').textContent = (tm / DAY).toFixed(1);
+
+    var sub = $('streakSub');
+    if (!S.configured) sub.textContent = 'Set up your quit to start the clock';
+    else if (S.slipsCount > 0) sub.textContent = 'Fresh start #' + S.slipsCount + ' · your lifetime progress is banked 💚';
+    else sub.textContent = 'Clean run so far. Keep going 🌿';
+
+    for (var i = 0; i < MILESTONES.length; i++) {
+      var m = MILESTONES[i], r = msRefs[i];
+      if (!r) continue;
+      var p = Math.min(1, sm / m.ms), done = p >= 1;
+      r.bar.style.width = (p * 100).toFixed(1) + '%';
+      r.card.classList.toggle('done', done);
+      r.badge.textContent = done ? '✓ Unlocked' : fmtShort(m.ms - sm) + ' to go';
+    }
+
+    if (S.goalCost > 0) {
+      var gp = Math.min(1, money / S.goalCost);
+      $('goalTitle').textContent = S.goalName || 'My reward';
+      $('goalPct').textContent = Math.floor(gp * 100) + '%';
+      $('goalBar').style.width = (gp * 100).toFixed(1) + '%';
+      $('goalSub').textContent = gp >= 1
+        ? '🎉 Funded! You can buy it with your own saved cash.'
+        : fmtGBP(money) + ' of ' + fmtGBP(S.goalCost) + ' · ' + fmtGBP(S.goalCost - money) + ' to go';
+    } else {
+      $('goalTitle').textContent = 'No goal set';
+      $('goalPct').textContent = '0%';
+      $('goalBar').style.width = '0%';
+      $('goalSub').textContent = 'Name a reward and a cost above. Your savings fund it automatically.';
+    }
+
+    var tk = todayKey();
+    if (tk !== lastDay) { lastDay = tk; renderNrt(); renderAppt(); }
+    else updateReminder();
+  }
+
+  function buildMilestones() {
+    var box = $('msList');
+    box.textContent = '';
+    msRefs = MILESTONES.map(function (m) {
+      var card = el('div', 'glass ms');
+      var head = el('div', 'head');
+      head.appendChild(el('b', null, m.t));
+      var badge = el('span', 'badge', '');
+      head.appendChild(badge);
+      card.appendChild(head);
+      card.appendChild(el('p', null, m.d));
+      var bar = el('div', 'bar');
+      var fill = document.createElement('i');
+      bar.appendChild(fill);
+      card.appendChild(bar);
+      box.appendChild(card);
+      return { card: card, bar: fill, badge: badge };
+    });
+  }
+
+  /* ---------- Tabs ---------- */
+  var currentTab = 'dashboard';
+  function switchTab(name) {
+    currentTab = name;
+    var tabs = document.querySelectorAll('.tab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('active', tabs[i].id === 'tab-' + name);
+    var btns = document.querySelectorAll('nav button');
+    for (var j = 0; j < btns.length; j++) btns[j].setAttribute('aria-selected', String(btns[j].getAttribute('data-tab') === name));
+    $('main').scrollTop = 0;
+    updateFab();
+    if (name === 'dashboard') { renderNrt(); renderAppt(); }
+    updateLive();
+  }
+  function updateFab() {
+    var f = $('sosFab');
+    f.hidden = currentTab === 'setup';
+    if (currentTab === 'sos') {
+      f.className = 'fab big' + (sos.running ? ' stop' : '');
+      f.textContent = sos.running ? '■ Stop reset' : '🆘 Start 3-min craving reset';
+    } else {
+      f.className = 'fab';
+      f.textContent = '🆘 I Have a Craving';
+    }
+  }
+
+  /* ---------- Craving SOS ---------- */
+  var PH = [
+    { n: 'Inhale', s: 4, scale: 1, cls: '' },
+    { n: 'Hold', s: 7, scale: 1, cls: 'hold' },
+    { n: 'Exhale', s: 8, scale: 0.55, cls: 'out' }
+  ];
+  var CYCLE = 19, TOTAL = 180;
+  var sos = { running: false, start: 0, timer: null, lastPhase: -1, entryId: null, finished: false };
+
+  function fmtClock(sec) {
+    sec = Math.max(0, Math.ceil(sec));
+    return Math.floor(sec / 60) + ':' + pad2(sec % 60);
+  }
+  function resetOrb(msg) {
+    var o = $('orb');
+    o.style.transitionDuration = '1s';
+    o.style.transform = 'scale(.55)';
+    $('orbWrap').className = 'orb-wrap';
+    $('ringLabel').textContent = 'Ready';
+    $('ringCount').textContent = '4-7-8';
+    $('sosTimer').textContent = fmtClock(TOTAL);
+    if (msg) $('sosMsg').textContent = msg;
+  }
+  function startSos() {
+    if (sos.running) return;
+    sos.running = true;
+    sos.finished = false;
+    sos.start = Date.now();
+    sos.lastPhase = -1;
+    $('sosMsg').textContent = 'Breathe with the orb. Cravings crest and fall. Ride it out.';
+    sos.timer = setInterval(sosLoop, 100);
+    sosLoop();
+    updateFab();
+  }
+  function stopSos(silent) {
+    clearInterval(sos.timer);
+    sos.timer = null;
+    sos.running = false;
+    resetOrb(silent ? 'Hit the big button. Cravings peak and pass within a few minutes.' : 'Stopped. Hit the button whenever the next one lands.');
+    updateFab();
+  }
+  function sosLoop() {
+    var e = (Date.now() - sos.start) / 1000;
+    var remaining = TOTAL - e;
+    if (remaining <= 0) {
+      clearInterval(sos.timer);
+      sos.timer = null;
+      sos.running = false;
+      sos.finished = true;
+      resetOrb('3 minutes done. You rode it out. Tap "Craving Defeated" 💪');
+      $('ringLabel').textContent = 'Done';
+      $('ringCount').textContent = '✓';
+      $('sosTimer').textContent = '0:00';
+      updateFab();
+      return;
+    }
+    var c = e % CYCLE, idx, t;
+    if (c < 4) { idx = 0; t = c; }
+    else if (c < 11) { idx = 1; t = c - 4; }
+    else { idx = 2; t = c - 11; }
+    var ph = PH[idx], o = $('orb');
+    if (idx !== sos.lastPhase) {
+      sos.lastPhase = idx;
+      $('orbWrap').className = 'orb-wrap ' + ph.cls;
+      o.style.transitionDuration = (idx === 1 ? 0.4 : ph.s) + 's';
+      o.style.transform = 'scale(' + ph.scale + ')';
+      $('ringLabel').textContent = ph.n;
+    }
+    $('ringCount').textContent = Math.max(1, Math.ceil(ph.s - t));
+    $('sosTimer').textContent = fmtClock(remaining);
+  }
+
+  function findEntry(id) {
+    if (!id) return null;
+    for (var i = S.cravings.length - 1; i >= 0; i--) {
+      if (S.cravings[i].id === id) return S.cravings[i];
+    }
+    return null;
+  }
+  function activeEntry() {
+    var e = findEntry(sos.entryId);
+    if (e && !e.defeated && Date.now() - e.ts < 30 * MIN) return e;
+    return null;
+  }
+  function newCraving(trigger) {
+    var e = { id: Date.now() + '-' + Math.floor(Math.random() * 1e6), ts: Date.now(), trigger: trigger, defeated: false, sprayUsed: false };
+    S.cravings.push(e);
+    if (S.cravings.length > 500) S.cravings.shift();
+    sos.entryId = e.id;
+    return e;
+  }
+  function buildChips() {
+    var box = $('chips');
+    box.textContent = '';
+    TRIGGERS.forEach(function (t) {
+      var b = el('button', 'chip', TRIG_ICON[t] + ' ' + t);
+      b.type = 'button';
+      b.setAttribute('data-t', t);
+      b.addEventListener('click', function () {
+        var e = activeEntry();
+        if (e) e.trigger = t; else newCraving(t);
+        save();
+        markChips();
+        renderHistory();
+        toast('Logged: ' + t);
+      });
+      box.appendChild(b);
+    });
+  }
+  function markChips() {
+    var e = activeEntry();
+    var chips = document.querySelectorAll('.chip');
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].classList.toggle('on', !!e && chips[i].getAttribute('data-t') === e.trigger);
+    }
+    var on = !!(e && e.sprayUsed), sb = $('sosSpray');
+    sb.classList.toggle('on', on);
+    sb.textContent = on ? '✓ Mouth spray logged' : '💨 Used Mouth Spray (+1)';
+  }
+  function toggleSosSpray() {
+    var e = activeEntry();
+    if (!e) e = newCraving('Not logged');
+    if (e.sprayUsed) {
+      e.sprayUsed = false;
+      for (var i = S.sprays.length - 1; i >= 0; i--) {
+        if (S.sprays[i].cid === e.id) { S.sprays.splice(i, 1); break; }
+      }
+      toast('Spray removed');
+    } else {
+      e.sprayUsed = true;
+      addSpray(e.id);
+      toast('Spray logged 💨');
+    }
+    save();
+    markChips();
+    renderHistory();
+    renderNrt();
+  }
+  function defeat() {
+    var e = activeEntry();
+    if (!e) e = newCraving('Not logged');
+    e.defeated = true;
+    S.cravingsDefeated++;
+    sos.entryId = null;
+    if (sos.running) stopSos(true); else resetOrb('Hit the big button. Cravings peak and pass within a few minutes.');
+    save();
+    markChips();
+    renderHistory();
+    updateLive();
+    toast('Craving defeated 💪 +1');
+  }
+  function renderHistory() {
+    var list = $('cravList');
+    list.textContent = '';
+    var ids = {};
+    S.cravings.forEach(function (c) { ids[c.id] = true; });
+    var items = S.cravings.map(function (c) { return { ts: c.ts, kind: 'craving', c: c }; });
+    S.sprays.forEach(function (x) {
+      if (!x.cid || !ids[x.cid]) items.push({ ts: x.ts, kind: 'spray' });
+    });
+    items.sort(function (a, b) { return b.ts - a.ts; });
+    items = items.slice(0, 12);
+    if (!items.length) {
+      var li0 = el('li', null, '');
+      li0.appendChild(el('span', 'muted', 'Nothing logged yet.'));
+      list.appendChild(li0);
+    }
+    items.forEach(function (it) {
+      var li = document.createElement('li');
+      if (it.kind === 'craving') {
+        var c = it.c;
+        li.appendChild(el('span', null, (TRIG_ICON[c.trigger] || '📝') + ' ' + c.trigger + (c.sprayUsed ? ' · 💨' : '')));
+        li.appendChild(el('span', 'muted num', (c.defeated ? '✅ ' : '⏳ ') + fmtWhen(c.ts)));
+      } else {
+        li.appendChild(el('span', null, '💨 Mouth spray'));
+        li.appendChild(el('span', 'muted num', fmtWhen(it.ts)));
+      }
+      list.appendChild(li);
+    });
+
+    var counts = {}, max = 0;
+    S.cravings.forEach(function (c) { counts[c.trigger] = (counts[c.trigger] || 0) + 1; });
+    var keys = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+    keys.forEach(function (k) { if (counts[k] > max) max = counts[k]; });
+    var fb = $('freq');
+    fb.textContent = '';
+    if (!keys.length) fb.appendChild(el('div', 'muted small', 'Log a few cravings and your patterns show up here.'));
+    keys.slice(0, 7).forEach(function (k) {
+      var row = el('div', 'freq');
+      var t = el('div', 't');
+      t.appendChild(el('span', null, (TRIG_ICON[k] || '📝') + ' ' + k));
+      t.appendChild(el('b', 'num', String(counts[k])));
+      row.appendChild(t);
+      var bar = el('div', 'bar'), fill = document.createElement('i');
+      fill.style.width = (counts[k] / max * 100) + '%';
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      fb.appendChild(row);
+    });
+  }
+
+  /* ---------- Setup / Onboarding / Slip / Why / Goal ---------- */
+  var onbSkip = false;
+  function fillForm() {
+    $('inQuit').value = toLocalInput(S.quitDate);
+    $('inSpend').value = S.weeklySpend;
+    $('inPods').value = S.podsPerWeek;
+    $('inMg').value = S.patchMg;
+    $('inRem').value = S.reminderTime;
+    $('inAppt').value = S.apptLabel;
+    $('inApptWhen').value = S.apptTs ? toLocalInput(S.apptTs) : '';
+    $('inWhy').value = S.why;
+    $('goalName').value = S.goalName;
+    $('goalCost').value = S.goalCost || '';
+    $('onbQuit').value = toLocalInput(S.quitDate);
+    $('onbSpend').value = S.weeklySpend;
+    $('onbPods').value = S.podsPerWeek;
+    $('onbMg').value = S.patchMg;
+    $('onbRem').value = S.reminderTime;
+    $('onbWhy').value = S.why;
+    $('onbAppt').textContent = (S.apptLabel || 'None') + (S.apptTs ? ' · ' + fmtApptWhen(S.apptTs) : '');
+  }
+  function renderWhy() {
+    $('whyText').textContent = S.why ? '“' + S.why + '”' : 'Tap below and add the reason you’re doing this.';
+  }
+  function renderSlips() {
+    $('slipInfo').textContent = S.slipsCount > 0
+      ? S.slipsCount + (S.slipsCount === 1 ? ' slip' : ' slips') + ' so far. Total vape-free time still banked.'
+      : 'No slips logged.';
+    var list = $('slipList');
+    list.textContent = '';
+    S.slips.slice(-5).reverse().forEach(function (s) {
+      var li = document.createElement('li');
+      li.appendChild(el('span', null, s.trigger));
+      li.appendChild(el('span', 'muted num', fmtWhen(s.ts)));
+      list.appendChild(li);
+    });
+  }
+  function renderOnboarding() {
+    $('onboardCard').hidden = S.configured;
+    $('onbModal').hidden = S.configured || onbSkip;
+    $('setupTitle').textContent = S.configured ? '⚙️ Setup & Backup' : '🚀 Start your quit';
+    $('saveCfg').textContent = S.configured ? 'Save' : 'Start my quit';
+  }
+  function renderAll() {
+    fillForm(); renderWhy(); renderSlips(); renderHistory(); renderNrt(); renderAppt(); renderOnboarding(); markChips(); updateLive();
+  }
+
+  function applyConfig(o) {
+    if (!isFinite(o.q)) { toast('Pick a valid quit date & time'); return false; }
+    if (!isFinite(o.spend) || o.spend < 0) { toast('Enter a weekly spend in £'); return false; }
+    if (!isFinite(o.pods) || o.pods < 0) { toast('Enter pods per week'); return false; }
+    if (!isFinite(o.mg) || o.mg < 0) { toast('Enter a patch strength in mg'); return false; }
+    var first = !S.configured, changed = Math.abs(o.q - S.quitDate) >= MIN;
+    S.quitDate = o.q;
+    if (first || (changed && S.slipsCount === 0)) S.currentStreakStart = o.q;
+    S.weeklySpend = o.spend;
+    S.podsPerWeek = o.pods;
+    S.patchMg = Math.min(100, o.mg);
+    S.reminderTime = /^\d{2}:\d{2}$/.test(o.rem) ? o.rem : '08:00';
+    S.why = String(o.why || '').trim().slice(0, 120);
+    if (o.apptLabel !== undefined) {
+      S.apptLabel = String(o.apptLabel).trim().slice(0, 120);
+      S.apptTs = isFinite(o.apptTs) ? o.apptTs : 0;
+    }
+    S.configured = true;
+    save();
+    renderAll();
+    toast(first ? 'Clock started 🌿' : 'Saved');
+    return true;
+  }
+  function saveConfig() {
+    var first = !S.configured;
+    var aw = $('inApptWhen').value;
+    var ok = applyConfig({
+      q: new Date($('inQuit').value).getTime(),
+      spend: parseFloat($('inSpend').value),
+      pods: parseFloat($('inPods').value),
+      mg: parseFloat($('inMg').value),
+      rem: $('inRem').value,
+      why: $('inWhy').value,
+      apptLabel: $('inAppt').value,
+      apptTs: aw ? new Date(aw).getTime() : 0
+    });
+    if (ok && first) switchTab('dashboard');
+  }
+  function saveOnboarding() {
+    var ok = applyConfig({
+      q: new Date($('onbQuit').value).getTime(),
+      spend: parseFloat($('onbSpend').value),
+      pods: parseFloat($('onbPods').value),
+      mg: parseFloat($('onbMg').value),
+      rem: $('onbRem').value,
+      why: $('onbWhy').value
+    });
+    if (ok) switchTab('dashboard');
+  }
+  function confirmSlip() {
+    if (!S.configured) { $('slipModal').hidden = true; toast('Set up your quit first'); return; }
+    var now = Date.now();
+    S.bankedVapeFreeMs += streakMs();
+    S.slipsCount++;
+    S.slips.push({ ts: now, trigger: $('slipTrigger').value });
+    if (S.slips.length > 200) S.slips.shift();
+    S.currentStreakStart = now;
+    save();
+    $('slipModal').hidden = true;
+    renderSlips();
+    updateLive();
+    toast('Logged. Fresh start, progress banked 💚');
+  }
+
+  /* ---------- Backup ---------- */
+  function backupText() {
+    return JSON.stringify({ app: 'CloudClear', version: 2, exportedAt: new Date().toISOString(), data: S }, null, 2);
+  }
+  function openBackup(mode) {
+    $('bkTitle').textContent = mode === 'export' ? 'Export backup' : 'Restore backup';
+    $('bkText').value = mode === 'export' ? backupText() : '';
+    $('bkHint').textContent = mode === 'export'
+      ? 'Copy this text and keep it somewhere safe, like Notes or an email to yourself. Paste it back here to restore. It includes patch logs, sprays and appointment details.'
+      : 'Paste a backup, or pick a .json file. Restoring replaces your current data.';
+    $('bkDl').hidden = mode !== 'export';
+    $('bkModal').hidden = false;
+  }
+  function downloadBackup() {
+    try {
+      var name = 'cloudclear-backup-' + dayKey(Date.now()) + '.json';
+      var blob = new Blob([backupText()], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      toast('Backup downloaded');
+    } catch (e) { toast('Download failed, use Copy instead'); }
+  }
+  function restoreFrom(text) {
+    var parsed = null;
+    try { parsed = JSON.parse(text); } catch (e) { parsed = null; }
+    var obj = parsed && parsed.data && typeof parsed.data === 'object' ? parsed.data : parsed;
+    var clean = sanitize(obj);
+    if (!clean) { toast('That isn’t a valid CloudClear backup'); return; }
+    S = clean;
+    sos.entryId = null;
+    save();
+    renderAll();
+    $('bkModal').hidden = true;
+    toast('Backup restored ✅');
+  }
+  function importBackup(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () { restoreFrom(String(reader.result)); };
+    reader.onerror = function () { toast('Couldn’t read that file'); };
+    reader.readAsText(file);
+  }
+
+  /* ---------- Wire up ---------- */
+  function closeOnBackdrop(id) {
+    $(id).addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
+  }
+  function wire() {
+    var navBtns = document.querySelectorAll('nav button');
+    for (var i = 0; i < navBtns.length; i++) {
+      navBtns[i].addEventListener('click', function () { switchTab(this.getAttribute('data-tab')); });
+    }
+    $('goSetup').addEventListener('click', function () { switchTab('setup'); });
+    $('sosFab').addEventListener('click', function () {
+      if (currentTab === 'sos') {
+        if (sos.running) stopSos(false); else startSos();
+      } else {
+        switchTab('sos');
+        startSos();
+      }
+    });
+    $('defeatBtn').addEventListener('click', defeat);
+    $('sosSpray').addEventListener('click', toggleSosSpray);
+
+    $('patchBtn').addEventListener('click', togglePatch);
+    $('sprayAdd').addEventListener('click', function () {
+      addSpray('');
+      save();
+      renderNrt();
+      renderHistory();
+      toast('Spray +1 💨');
+    });
+    $('sprayUndo').addEventListener('click', undoSpray);
+    $('sumBtn').addEventListener('click', openSummary);
+    $('sumCopy').addEventListener('click', function () { copyText(sumText, null); });
+    $('sumClose').addEventListener('click', function () { $('sumModal').hidden = true; });
+    closeOnBackdrop('sumModal');
+
+    $('whyEdit').addEventListener('click', function () {
+      $('whyInput').value = S.why;
+      $('whyView').hidden = true;
+      $('whyBox').hidden = false;
+      $('whyInput').focus();
+    });
+    $('whyCancel').addEventListener('click', function () {
+      $('whyBox').hidden = true;
+      $('whyView').hidden = false;
+    });
+    $('whySave').addEventListener('click', function () {
+      S.why = $('whyInput').value.trim().slice(0, 120);
+      save();
+      $('inWhy').value = S.why;
+      $('onbWhy').value = S.why;
+      renderWhy();
+      $('whyBox').hidden = true;
+      $('whyView').hidden = false;
+      toast('Why updated 💚');
+    });
+
+    $('goalSave').addEventListener('click', function () {
+      var c = parseFloat($('goalCost').value);
+      S.goalName = $('goalName').value.trim().slice(0, 60);
+      S.goalCost = isFinite(c) && c > 0 ? c : 0;
+      save();
+      updateLive();
+      toast(S.goalCost > 0 ? 'Goal saved 🎯' : 'Goal cleared');
+    });
+
+    $('saveCfg').addEventListener('click', saveConfig);
+    $('onbSave').addEventListener('click', saveOnboarding);
+    $('onbLater').addEventListener('click', function () { onbSkip = true; renderOnboarding(); });
+    $('slipBtn').addEventListener('click', function () { $('slipModal').hidden = false; });
+    $('slipCancel').addEventListener('click', function () { $('slipModal').hidden = true; });
+    $('slipConfirm').addEventListener('click', confirmSlip);
+    closeOnBackdrop('slipModal');
+
+    $('expBtn').addEventListener('click', function () { openBackup('export'); });
+    $('impBtn').addEventListener('click', function () { openBackup('import'); });
+    $('bkFile').addEventListener('click', function () { $('impFile').click(); });
+    $('bkCopy').addEventListener('click', function () { var ta = $('bkText'); ta.focus(); ta.select(); copyText(ta.value, ta); });
+    $('bkRestore').addEventListener('click', function () { restoreFrom($('bkText').value); });
+    $('bkDl').addEventListener('click', downloadBackup);
+    $('bkClose').addEventListener('click', function () { $('bkModal').hidden = true; });
+    closeOnBackdrop('bkModal');
+    $('impFile').addEventListener('change', function () {
+      importBackup(this.files && this.files[0]);
+      this.value = '';
+    });
+  }
+
+  buildMilestones();
+  buildChips();
+  wire();
+  renderAll();
+  resetOrb();
+  updateFab();
+  setInterval(updateLive, 1000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { renderNrt(); renderAppt(); updateLive(); } });
+})();
+</script>
+</body>
+</html>
