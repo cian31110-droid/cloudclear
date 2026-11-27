@@ -193,6 +193,8 @@ details summary{font-weight:700; cursor:pointer; min-height:32px}
     </div>
     <p class="tiny" id="m-lifetime" style="margin-top:10px">Lifetime vape free: 0.0 days</p>
     <p class="tiny" id="m-net-note">NRT is free on your Yorkshire Smokefree voucher, so net savings equal gross savings unless you add a cost in Settings.</p>
+    <button class="btn block" id="btn-slip-home" type="button" style="margin-top:14px">I slipped</button>
+    <p class="tiny" style="text-align:center; margin-top:8px">One slip does not erase you. Log it honestly and carry on, your lifetime total stays.</p>
   </div>
 
   <div class="card">
@@ -895,6 +897,7 @@ function openRelapse(){
  $('modal-relapse').classList.add('open');
 }
 $('btn-open-relapse').addEventListener('click', openRelapse);
+$('btn-slip-home').addEventListener('click', openRelapse);
 $('btn-cancel-relapse').addEventListener('click', function(){ $('modal-relapse').classList.remove('open'); });
 $('btn-confirm-relapse').addEventListener('click', function(){
  var useFreeze=$('slip-use-freeze').checked && (state.streakFreezes-state.freezeUsed)>0;
