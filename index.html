@@ -371,6 +371,7 @@ details summary{font-weight:700; cursor:pointer; min-height:32px}
       <div class="field"><label for="cfg-nrt-cost">NRT cost per week (£, 0 if free on voucher)</label><input class="glass-input" id="cfg-nrt-cost" type="number" min="0" step="0.5" value="0"></div>
       <div class="field"><label for="cfg-clinic">Clinic appointment</label><input class="glass-input" id="cfg-clinic" value="Ashville Medical Practice - Dec 2 at 2:40 PM (Telephone Review)"></div>
       <div class="field"><label for="cfg-why">My why</label><textarea class="glass-input" id="cfg-why">Clear lungs, steady energy, and keeping my money in my pocket.</textarea></div>
+      <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px; margin-bottom:12px"><input type="checkbox" id="cfg-sounds" checked style="width:22px; height:22px; accent-color:#7FFFD4; margin-top:2px"> Fun sounds on, a little pop and chime when I tap buttons and move around the app</label>
       <button class="btn teal block" type="submit">Save settings</button>
     </form>
   </div>
@@ -569,7 +570,7 @@ function createDefaultState(){return{
  myWhy:'Clear lungs, steady energy, and keeping my money in my pocket.',
  selectedTheme:'auto', unlockedThemes:['auto'], cravingsDefeated:0, xp:0, slipsCount:0,
  slipLogs:[], patchLogs:[], sprayLogs:[], cravingLogs:[],
- goal:{name:'New Wireless Earbuds', cost:120},
+ goal:{name:'New Wireless Earbuds', cost:120}, soundsOn:true,
  nrtWeeklyCostGbp:0, sprayStrength:'1mg', taperStage:0, streakFreezes:1, freezeUsed:0,
  missionsDone:{}, journalEntries:[], reasons:['For Tyler','For Maegan','Clear lungs','Keep my money'], plans:[{trigger:'Stress',action:'Step outside for air and breathe 4-7-8'}],
  lastCheckin:'', weeklyReviewDone:''
@@ -587,6 +588,7 @@ function loadState(){
   if(typeof s.freezeUsed!=='number') s.freezeUsed=0;
   if(typeof s.taperStage!=='number') s.taperStage=0;
   if(typeof s.nrtWeeklyCostGbp!=='number') s.nrtWeeklyCostGbp=0;
+  if(typeof s.soundsOn!=='boolean') s.soundsOn=true;
   return s;
  }catch(e){ return d; }
 }
@@ -599,6 +601,40 @@ function ago(ts){ var diff=Math.max(0,Date.now()-ts), m=Math.floor(diff/MS_MIN);
 function shortTime(ts){ var d=new Date(ts); return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+', '+d.toLocaleDateString([],{month:'short',day:'numeric'}); }
 function toast(msg){ var s=$('toast-stack'), el=document.createElement('div'); el.className='toast'; el.textContent=msg; s.appendChild(el); setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(function(){ el.remove(); },320); },2600); }
 function haptic(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||25); }catch(e){} }
+/* Fun satisfying sounds, all made in the browser, no audio files needed. */
+var audioCtx=null;
+function playTone(freq, dur, type, vol, delay, slideTo){
+ try{
+  if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  var t=audioCtx.currentTime+(delay||0);
+  var o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.type=type||'sine'; o.frequency.setValueAtTime(freq, t);
+  if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t+dur);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol||0.12, t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t+dur+0.05);
+ }catch(e){}
+}
+function playSound(name){
+ if(!state || state.soundsOn===false) return;
+ if(name==='pop'){ playTone(520, 0.09, 'sine', 0.14, 0, 880); }
+ else if(name==='whoosh'){ playTone(300, 0.16, 'sine', 0.08, 0, 720); }
+ else if(name==='chime'){ playTone(523, 0.18, 'sine', 0.12); playTone(659, 0.18, 'sine', 0.12, 0.09); playTone(784, 0.28, 'sine', 0.12, 0.18); }
+ else if(name==='soft'){ playTone(392, 0.25, 'sine', 0.08); playTone(330, 0.35, 'sine', 0.08, 0.14); }
+ else if(name==='calm'){ playTone(440, 0.2, 'sine', 0.09); playTone(554, 0.3, 'sine', 0.09, 0.12); }
+}
+document.addEventListener('click', function(e){
+ var el=e.target && e.target.closest ? e.target.closest('button, [data-tab], summary, input, select, textarea') : null;
+ if(!el) return;
+ var id=el.id||'';
+ if(el.hasAttribute('data-tab')) playSound('whoosh');
+ else if(id==='btn-floating-sos' || id==='btn-sos-launch') playSound('calm');
+ else if(id==='tile-patch' || id==='tile-spray' || id==='btn-save-journal' || id==='btn-add-reason' || id==='btn-save-goal') playSound('chime');
+ else if(id==='btn-slip-home' || id==='btn-open-relapse' || id==='btn-confirm-relapse') playSound('soft');
+ else if(el.tagName==='BUTTON') playSound('pop');
+ haptic(12);
+});
 function elapsedMs(){ return Math.max(0, Date.now()-state.currentStreakStart); }
 function totalMs(){ return Math.max(0, state.bankedVapeFreeMs + elapsedMs()); }
 function grossMoney(){ return (totalMs()/MS_WEEK)*(Number(state.weeklySpendGbp)||0); }
@@ -938,6 +974,7 @@ function fillSettings(){
  $('cfg-weekly-spend').value=state.weeklySpendGbp; $('cfg-weekly-pods').value=state.weeklyPods;
  $('cfg-patch-strength').value=state.patchStrength; $('cfg-patch-time').value=state.patchReminderTime;
  $('cfg-nrt-cost').value=state.nrtWeeklyCostGbp||0; $('cfg-clinic').value=state.clinicAppointment; $('cfg-why').value=state.myWhy;
+ $('cfg-sounds').checked=state.soundsOn!==false;
  $('taper-stage').value=String(state.taperStage||0);
 }
 $('setup-form').addEventListener('submit', function(e){
@@ -950,6 +987,7 @@ $('setup-form').addEventListener('submit', function(e){
  state.nrtWeeklyCostGbp=Math.max(0, Number($('cfg-nrt-cost').value)||0);
  state.clinicAppointment=$('cfg-clinic').value.trim()||state.clinicAppointment;
  state.myWhy=$('cfg-why').value.trim()||state.myWhy;
+ state.soundsOn=$('cfg-sounds').checked;
  saveState(); renderAll(); fillSettings(); toast('Settings saved.');
 });
 $('btn-export-json').addEventListener('click', function(){
