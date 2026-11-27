@@ -149,6 +149,27 @@ select.glass-input option{background:#01332e}
 .warn-note{background:rgba(255,138,122,.09); border:1px solid rgba(255,138,122,.3); border-radius:14px; padding:12px 13px; font-size:13.5px; margin-top:10px}
 details{border:1px solid var(--line); border-radius:14px; padding:12px 13px; margin-top:10px; background:rgba(0,24,1,.25)}
 details summary{font-weight:700; cursor:pointer; min-height:32px}
+/* Tap Titans style battle arena */
+.arena{background:linear-gradient(180deg, #0a2a3a 0%, #062a22 55%, #04160f 100%); border:1px solid rgba(127,255,212,.3); border-radius:20px; padding:16px; overflow:hidden; position:relative}
+.arena-stage{display:flex; align-items:flex-end; justify-content:space-between; gap:8px; min-height:150px; padding:8px 4px 0; position:relative}
+.arena-ground{position:absolute; left:0; right:0; bottom:0; height:34px; background:radial-gradient(ellipse at center, rgba(127,255,212,.18), transparent 70%); border-top:2px solid rgba(127,255,212,.2)}
+.fighter{width:88px; text-align:center; position:relative; z-index:2; animation:hero-bob 1.6s ease-in-out infinite}
+.fighter svg{width:84px; height:96px; filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+.fighter.attacking{animation:hero-lunge .35s ease-in-out}
+.enemy{width:104px; text-align:center; position:relative; z-index:2; animation:enemy-float 2.2s ease-in-out infinite; cursor:pointer}
+.enemy svg{width:100px; height:104px; filter:drop-shadow(0 8px 10px rgba(0,0,0,.55))}
+.enemy.hit{animation:enemy-hit .3s ease-in-out}
+.enemy.defeated{animation:enemy-faint .6s ease-in forwards}
+@keyframes hero-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes hero-lunge{0%{transform:translateX(0)}40%{transform:translateX(28px) rotate(6deg)}100%{transform:translateX(0)}}
+@keyframes enemy-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes enemy-hit{0%{transform:translateX(0)}25%{transform:translateX(-8px) rotate(-4deg)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}
+@keyframes enemy-faint{to{transform:translateY(14px) rotate(90deg); opacity:0}}
+.dmg{position:absolute; top:6px; right:18px; font-size:22px; font-weight:900; color:#FFD166; text-shadow:0 2px 0 rgba(0,0,0,.5); animation:dmg-float .8s ease-out forwards; pointer-events:none; z-index:3}
+@keyframes dmg-float{0%{opacity:1; transform:translateY(0) scale(1)}100%{opacity:0; transform:translateY(-44px) scale(1.3)}}
+.hp-bar{height:14px; border-radius:99px; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.2); overflow:hidden; margin-top:10px}
+.hp-bar i{display:block; height:100%; background:linear-gradient(90deg,#FF5A5A,#FF8A7A); transition:width .25s ease}
+.arena-name{font-size:13px; color:var(--muted); text-align:center; margin-top:6px}
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important}
   .orb{transition:none}
@@ -194,6 +215,7 @@ details summary{font-weight:700; cursor:pointer; min-height:32px}
     <p class="tiny" id="m-lifetime" style="margin-top:10px">Lifetime vape free: 0.0 days</p>
     <p class="tiny" id="m-net-note">NRT is free on your Yorkshire Smokefree voucher, so net savings equal gross savings unless you add a cost in Settings.</p>
     <button class="btn block" id="btn-slip-home" type="button" style="margin-top:14px">I slipped</button>
+    <button class="btn teal block" id="btn-fight-boss" type="button" style="margin-top:8px">Fight today's boss</button>
     <p class="tiny" style="text-align:center; margin-top:8px">One slip does not erase you. Log it honestly and carry on, your lifetime total stays.</p>
   </div>
 
@@ -295,6 +317,25 @@ details summary{font-weight:700; cursor:pointer; min-height:32px}
 
 <!-- HEALTH -->
 <section class="tabpane" id="tab-health" aria-label="Health">
+  <div class="card arena">
+    <h2 style="color:#D4FAFD">Battle arena <span class="sub" style="color:#9fd8cf">Tap the boss to fight it. Every tap is a craving you beat.</span></h2>
+    <p class="small" style="color:#D4FAFD"><b id="arena-boss-name">The Crave Imp</b> &nbsp;|&nbsp; Level <span id="arena-level">1</span> &nbsp;|&nbsp; Bosses beaten: <span id="arena-defeats">0</span></p>
+    <div class="arena-stage" id="arena-stage">
+      <div class="arena-ground"></div>
+      <div class="fighter" id="arena-hero" aria-label="Your little fighter">
+        <svg viewBox="0 0 84 96" aria-hidden="true"><circle cx="42" cy="22" r="14" fill="#F2C89B"/><path d="M28 22 a14 14 0 0 1 28 0 v-4 h-28 z" fill="#2b3a55"/><rect x="30" y="38" width="24" height="28" rx="8" fill="#11747A"/><rect x="26" y="40" width="6" height="22" rx="3" fill="#F2C89B"/><rect x="52" y="40" width="6" height="22" rx="3" fill="#F2C89B"/><path d="M54 44 L74 24" stroke="#D4FAFD" stroke-width="5" stroke-linecap="round"/><path d="M68 18 L78 28" stroke="#FFD166" stroke-width="5" stroke-linecap="round"/><rect x="34" y="66" width="7" height="20" rx="3" fill="#1e2a3a"/><rect x="43" y="66" width="7" height="20" rx="3" fill="#1e2a3a"/><circle cx="37" cy="20" r="2" fill="#111"/><circle cx="47" cy="20" r="2" fill="#111"/></svg>
+        <div class="arena-name">You</div>
+      </div>
+      <div class="enemy" id="arena-enemy" role="button" tabindex="0" aria-label="Tap the boss to attack">
+        <svg viewBox="0 0 100 104" aria-hidden="true"><ellipse cx="50" cy="58" rx="34" ry="36" fill="#7C3AED"/><ellipse cx="50" cy="58" rx="24" ry="26" fill="#9D5CFF"/><circle cx="38" cy="50" r="7" fill="#fff"/><circle cx="62" cy="50" r="7" fill="#fff"/><circle cx="39" cy="51" r="3.5" fill="#111"/><circle cx="63" cy="51" r="3.5" fill="#111"/><path d="M38 72 Q50 80 62 72" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M22 30 L30 48 L16 44 Z" fill="#7C3AED"/><path d="M78 30 L70 48 L84 44 Z" fill="#7C3AED"/><rect x="44" y="92" width="12" height="8" rx="3" fill="#5b21b6"/></svg>
+        <div class="arena-name" id="arena-enemy-name">The Crave Imp</div>
+      </div>
+    </div>
+    <div class="hp-bar"><i id="arena-hp-fill" style="width:100%"></i></div>
+    <p class="tiny" style="color:#D4FAFD; margin-top:6px">Boss HP: <span id="arena-hp-text">100 / 100</span></p>
+    <button class="btn primary block" id="btn-attack" type="button" style="margin-top:12px">Attack!</button>
+    <p class="tiny" style="color:#9fd8cf; text-align:center; margin-top:8px">Beat a boss for +25 XP. It comes back stronger, you come back stronger too.</p>
+  </div>
   <div class="card">
     <h2>Boss fights <span class="sub">Each wave you clear makes the next one easier. A slip feeds the boss, it does not end the game.</span></h2>
     <p><span class="pill mint" id="health-mult-badge">1.0x Rookie</span></p>
@@ -573,6 +614,7 @@ function createDefaultState(){return{
  goal:{name:'New Wireless Earbuds', cost:120}, soundsOn:true,
  nrtWeeklyCostGbp:0, sprayStrength:'1mg', taperStage:0, streakFreezes:1, freezeUsed:0,
  missionsDone:{}, journalEntries:[], reasons:['For Tyler','For Maegan','Clear lungs','Keep my money'], plans:[{trigger:'Stress',action:'Step outside for air and breathe 4-7-8'}],
+ battle:{hp:100, max:100, level:1, defeats:0},
  lastCheckin:'', weeklyReviewDone:''
 };}
 function loadState(){
@@ -589,6 +631,7 @@ function loadState(){
   if(typeof s.taperStage!=='number') s.taperStage=0;
   if(typeof s.nrtWeeklyCostGbp!=='number') s.nrtWeeklyCostGbp=0;
   if(typeof s.soundsOn!=='boolean') s.soundsOn=true;
+  if(!s.battle || typeof s.battle!=='object') s.battle={hp:100, max:100, level:1, defeats:0};
   return s;
  }catch(e){ return d; }
 }
@@ -775,7 +818,42 @@ function renderTriggers(){
  var prev7=state.cravingLogs.filter(function(c){ return Date.now()-c.ts >= 7*MS_DAY && Date.now()-c.ts < 14*MS_DAY; }).length;
  $('weekly-review').innerHTML='<div class="kv"><span>Cravings this week</span><b>'+last7+'</b></div><div class="kv"><span>Cravings the week before</span><b>'+prev7+'</b></div><div class="kv"><span>Cravings beaten in total</span><b>'+state.cravingsDefeated+'</b></div><div class="kv"><span>Patch adherence</span><b>'+patchAdherence()+'%</b></div><div class="kv"><span>Money saved (net)</span><b>£'+netMoney().toFixed(2)+'</b></div>'+(last7<prev7 && prev7>0 ? '<div class="calm-note">Cravings are falling compared with last week. That is real progress, even if it does not feel like it yet.</div>' : '<div class="calm-note">Keep logging. Patterns only show up once there is a week or two of data, and then you can plan around them.</div>');
 }
+/* Tap Titans style battle arena */
+var ARENA_ENEMIES=['The Crave Imp','Nicotine Phantom','Stress Gremlin','The Vape Cloud','Craving King','The Midnight Urge'];
+function arenaEnemyName(){ return ARENA_ENEMIES[(state.battle.level-1)%ARENA_ENEMIES.length]; }
+function renderArena(){
+ if(!state.battle) state.battle={hp:100, max:100, level:1, defeats:0};
+ $('arena-boss-name').textContent=arenaEnemyName();
+ $('arena-enemy-name').textContent=arenaEnemyName();
+ $('arena-level').textContent=state.battle.level;
+ $('arena-defeats').textContent=state.battle.defeats;
+ $('arena-hp-fill').style.width=Math.max(0, Math.round(state.battle.hp/state.battle.max*100))+'%';
+ $('arena-hp-text').textContent=Math.max(0, state.battle.hp)+' / '+state.battle.max;
+}
+function attackBoss(){
+ var hero=$('arena-hero'), enemy=$('arena-enemy'), stage=$('arena-stage');
+ var dmg=8+Math.floor(Math.random()*8);
+ state.battle.hp=Math.max(0, state.battle.hp-dmg);
+ hero.classList.remove('attacking'); void hero.offsetWidth; hero.classList.add('attacking');
+ enemy.classList.remove('hit'); void enemy.offsetWidth; enemy.classList.add('hit');
+ playTone(700, 0.08, 'square', 0.06, 0, 300);
+ var num=document.createElement('div'); num.className='dmg'; num.textContent='-'+dmg; stage.appendChild(num);
+ setTimeout(function(){ num.remove(); }, 850);
+ haptic(20);
+ if(state.battle.hp<=0){
+  enemy.classList.add('defeated');
+  state.xp=(state.xp||0)+25; state.battle.defeats++;
+  toast('Boss beaten! +25 XP. The next one is stronger, so are you.');
+  playSound('chime');
+  setTimeout(function(){
+   state.battle.level++; state.battle.max=100+(state.battle.level-1)*25; state.battle.hp=state.battle.max;
+   enemy.classList.remove('defeated'); saveState(); renderAll();
+  }, 650);
+ }
+ saveState(); renderArena(); renderLive();
+}
 function renderHealth(){
+ renderArena();
  var el=elapsedMs();
  $('boss-list').innerHTML=BOSS_FIGHTS.map(function(b){
   var done=el>=b.hours*MS_HOUR;
@@ -821,6 +899,9 @@ document.querySelectorAll('nav.tabs button').forEach(function(btn){
  });
 });
 function showTab(id){ document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab')===id); }); document.querySelectorAll('.tabpane').forEach(function(p){ p.classList.toggle('on', p.id===id); }); window.scrollTo({top:0, behavior:'smooth'}); }
+$('btn-attack').addEventListener('click', attackBoss);
+$('arena-enemy').addEventListener('click', attackBoss);
+$('btn-fight-boss').addEventListener('click', function(){ showTab('tab-health'); });
 
 /* SOS */
 var sosTimer=null, sosLeft=180, breathTimer=null, breathStep=0, selectedTrigger='', sosSpray=false, distractCount=0;
