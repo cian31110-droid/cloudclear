@@ -1,2856 +1,1007 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#060911" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="CloudClear" />
-  <title>CloudClear — Vape-Free &amp; NRT Companion</title>
-
-  <!-- Inline SVG App Icon & Apple Touch Icon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230B1324'/%3E%3Cstop offset='100%25' stop-color='%23060911'/%3E%3C/linearGradient%3E%3ClinearGradient id='orb' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2310B981'/%3E%3Cstop offset='100%25' stop-color='%2306B6D4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='118' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='160' fill='url(%23orb)' opacity='0.22'/%3E%3Cpath d='M168 308c-34 0-62-26-62-59 0-29 21-53 49-58 10-44 49-77 97-77 54 0 99 43 101 97 30 6 53 32 53 64 0 36-29 65-65 65H168z' fill='none' stroke='url(%23orb)' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M214 256l28 28 58-64' fill='none' stroke='%23ffffff' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230B1324'/%3E%3Cstop offset='100%25' stop-color='%23060911'/%3E%3C/linearGradient%3E%3ClinearGradient id='orb' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2310B981'/%3E%3Cstop offset='100%25' stop-color='%2306B6D4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='118' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='160' fill='url(%23orb)' opacity='0.22'/%3E%3Cpath d='M168 308c-34 0-62-26-62-59 0-29 21-53 49-58 10-44 49-77 97-77 54 0 99 43 101 97 30 6 53 32 53 64 0 36-29 65-65 65H168z' fill='none' stroke='url(%23orb)' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M214 256l28 28 58-64' fill='none' stroke='%23ffffff' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-
-  <!-- Inline Standalone PWA Manifest -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CloudClear%20%E2%80%94%20Quit%20Vaping%22%2C%22short_name%22%3A%22CloudClear%22%2C%22description%22%3A%22Dark%20Liquid%20Glass%20vape%20cessation%20and%20NRT%20companion%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%23060911%22%2C%22theme_color%22%3A%22%23060911%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%27118%27%2520fill%3D%27%2523060911%27%2F%253E%253Ccircle%2520cx%3D%27256%27%2520cy%3D%27256%27%2520r%3D%27160%27%2520fill%3D%27%252310B981%27%2520opacity%3D%270.25%27%2F%253E%253Cpath%2520d%3D%27M168%2520308c-34%25200-62-26-62-59%25200-29%252021-53%252049-58%252010-44%252049-77%252097-77%252054%25200%252099%252043%2520101%252097%252030%25206%252053%252032%252053%252064%25200%252036-29%252065-65%252065H168z%27%2520fill%3D%27none%27%2520stroke%3D%27%252310B981%27%2520stroke-width%3D%2726%27%2520stroke-linecap%3D%27round%27%2520stroke-linejoin%3D%27round%27%2F%253E%253Cpath%2520d%3D%27M214%2520256l28%252028%252058-64%27%2520fill%3D%27none%27%2520stroke%3D%27%2523ffffff%27%2520stroke-width%3D%2726%27%2520stroke-linecap%3D%27round%27%2520stroke-linejoin%3D%27round%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D" />
-
-  <style>
-    /* =========================================================================
-       CLOUDCLEAR — DARK LIQUID GLASS & REACTIVE AMBIENT PLASMA DESIGN SYSTEM
-       ========================================================================= */
-    :root {
-      --bg-base: #060911;
-      --text-primary: #F8FAFC;
-      --text-secondary: rgba(226, 232, 240, 0.72);
-      --text-muted: rgba(148, 163, 184, 0.72);
-
-      /* Reactive Ambient Plasma Tokens (Dynamically updated by JS) */
-      --plasma-1: #EF4444;
-      --plasma-2: #F59E0B;
-      --plasma-3: #DC2626;
-      --accent: #F59E0B;
-      --accent-soft: rgba(245, 158, 11, 0.18);
-      --accent-border: rgba(245, 158, 11, 0.42);
-
-      /* Semantic Colors */
-      --emerald: #10B981;
-      --emerald-soft: rgba(16, 185, 129, 0.16);
-      --cyan: #06B6D4;
-      --violet: #8B5CF6;
-      --crimson: #EF4444;
-      --amber: #F59E0B;
-
-      /* Liquid Glass Material */
-      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.02));
-      --glass-bg-strong: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035));
-      --glass-border: 1px solid rgba(255, 255, 255, 0.14);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      --glass-blur: blur(20px) saturate(160%);
-      --radius-card: 24px;
-      --radius-pill: 999px;
-      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100dvh;
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      user-select: none;
-    }
-
-    input, select, textarea {
-      user-select: text;
-      font-family: inherit;
-      font-size: 16px; /* Prevents iOS/Android auto-zoom */
-    }
-
-    .tabular {
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* =========================================================================
-       REACTIVE AMBIENT PLASMA BACKGROUND
-       ========================================================================= */
-    .ambient-plasma {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03), transparent 60%), var(--bg-base);
-    }
-
-    .plasma-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(72px);
-      opacity: 0.48;
-      will-change: transform, background-color;
-      transition: background 1.4s ease, opacity 1.4s ease;
-    }
-
-    .orb-1 {
-      width: 340px;
-      height: 340px;
-      top: -90px;
-      left: -80px;
-      background: radial-gradient(circle, var(--plasma-1) 0%, transparent 72%);
-      animation: driftOne 16s ease-in-out infinite alternate;
-    }
-
-    .orb-2 {
-      width: 360px;
-      height: 360px;
-      top: 34%;
-      right: -110px;
-      background: radial-gradient(circle, var(--plasma-2) 0%, transparent 72%);
-      animation: driftTwo 20s ease-in-out infinite alternate;
-    }
-
-    .orb-3 {
-      width: 320px;
-      height: 320px;
-      bottom: -80px;
-      left: 12%;
-      background: radial-gradient(circle, var(--plasma-3) 0%, transparent 72%);
-      opacity: 0.38;
-      animation: driftThree 18s ease-in-out infinite alternate;
-    }
-
-    @keyframes driftOne {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(55px, 65px) scale(1.16); }
-    }
-    @keyframes driftTwo {
-      0% { transform: translate(0, 0) scale(1.05); }
-      100% { transform: translate(-65px, -45px) scale(0.92); }
-    }
-    @keyframes driftThree {
-      0% { transform: translate(0, 0) scale(0.95); }
-      100% { transform: translate(40px, -60px) scale(1.12); }
-    }
-
-    /* =========================================================================
-       MOBILE SHELL (SAMSUNG GALAXY Z FLIP 7 ERGONOMICS)
-       ========================================================================= */
-    .app-shell {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 480px;
-      height: 100dvh;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      padding-top: env(safe-area-inset-top);
-      overflow: hidden;
-    }
-
-    /* Top Minimal Header */
-    .app-header {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 18px 8px 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: var(--glass-bg-strong);
-      border: var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      display: grid;
-      place-items: center;
-      color: var(--accent);
-    }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .phase-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: var(--radius-pill);
-      background: var(--glass-bg);
-      border: var(--glass-border);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      transition: all 0.4s var(--ease-spring);
-    }
-
-    .phase-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    /* Main Scrollable Viewport */
-    .app-main {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      padding: 8px 16px calc(164px + env(safe-area-inset-bottom)) 16px;
-      scrollbar-width: none;
-    }
-    .app-main::-webkit-scrollbar {
-      display: none;
-    }
-
-    .tab-panel {
-      display: none;
-      flex-direction: column;
-      gap: 14px;
-      animation: tabFadeIn 0.35s var(--ease-spring);
-    }
-    .tab-panel.active {
-      display: flex;
-    }
-
-    @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* =========================================================================
-       LIQUID GLASS SURFACES & INTERACTIVE ELEMENTS
-       ========================================================================= */
-    .glass-card {
-      position: relative;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border-radius: var(--radius-card);
-      border: var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      padding: 18px;
-      overflow: hidden;
-    }
-
-    .glass-card-warm {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.13), rgba(255, 255, 255, 0.03));
-      border-color: rgba(245, 158, 11, 0.25);
-    }
-
-    .glass-card-accent {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.14), rgba(139, 92, 246, 0.05));
-      border-color: rgba(6, 182, 212, 0.28);
-    }
-
-    .glass-btn {
-      position: relative;
-      overflow: hidden;
-      min-height: 48px;
-      padding: 12px 18px;
-      border-radius: var(--radius-pill);
-      border: var(--glass-border);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04));
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.24);
-      color: var(--text-primary);
-      font-size: 15px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: transform 0.22s var(--ease-spring), background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-
-    .glass-btn:active {
-      transform: scale(0.97);
-    }
-
-    .glass-btn:disabled {
-      opacity: 0.48;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .glass-btn-emerald {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.34), rgba(13, 148, 136, 0.18));
-      border-color: rgba(16, 185, 129, 0.5);
-      box-shadow: 0 8px 26px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-
-    .glass-btn-crimson {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.32), rgba(185, 28, 28, 0.16));
-      border-color: rgba(239, 68, 68, 0.5);
-      box-shadow: 0 8px 26px rgba(239, 68, 68, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-
-    .glass-btn-cyan {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.32), rgba(139, 92, 246, 0.18));
-      border-color: rgba(6, 182, 212, 0.48);
-      box-shadow: 0 8px 26px rgba(6, 182, 212, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.28);
-    }
-
-    /* Liquid Tap Ripple */
-    .ripple-circle {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.05) 70%);
-      transform: scale(0);
-      animation: liquidRipple 0.65s var(--ease-spring) forwards;
-      pointer-events: none;
-    }
-
-    @keyframes liquidRipple {
-      to {
-        transform: scale(3.5);
-        opacity: 0;
-      }
-    }
-
-    /* =========================================================================
-       TAB 1: DASHBOARD COMPONENTS
-       ========================================================================= */
-    .hero-card {
-      text-align: center;
-      padding: 22px 18px;
-    }
-
-    .hero-halo {
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      top: -90px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-      opacity: 0.26;
-      filter: blur(28px);
-      pointer-events: none;
-      transition: background 1.2s ease;
-    }
-
-    .rank-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .rank-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 13px;
-      border-radius: var(--radius-pill);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: var(--text-primary);
-    }
-
-    .timer-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .timer-cell {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 12px 4px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-    }
-
-    .timer-val {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
-
-    .timer-lbl {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .hero-sub {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Clinic Review Banner */
-    .clinic-banner {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 16px;
-    }
-
-    .clinic-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .clinic-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: rgba(6, 182, 212, 0.18);
-      border: 1px solid rgba(6, 182, 212, 0.36);
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      color: #67E8F9;
-    }
-
-    .clinic-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #67E8F9;
-    }
-
-    .clinic-detail {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-top: 2px;
-      line-height: 1.35;
-    }
-
-    /* 2x2 Key Metrics Grid */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .metric-tile {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .metric-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .metric-value {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .metric-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Personal Anchor ("My Why") */
-    .why-card {
-      padding: 16px 18px;
-    }
-
-    .why-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .why-label {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #FCD34D;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .why-text {
-      font-size: 15px;
-      line-height: 1.48;
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    .mini-icon-btn {
-      min-width: 38px;
-      min-height: 38px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text-secondary);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-    }
-
-    /* Instant Zero-Click Quick-Log Dock (#3) — Lower Thumb Zone */
-    .section-kicker {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      padding: 2px 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .quick-log-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .quick-tile {
-      position: relative;
-      overflow: hidden;
-      min-height: 136px;
-      border-radius: 24px;
-      border: var(--glass-border);
-      background: var(--glass-bg-strong);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      box-shadow: var(--glass-shadow);
-      padding: 16px;
-      text-align: left;
-      color: var(--text-primary);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: transform 0.22s var(--ease-spring), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    }
-
-    .quick-tile:active {
-      transform: scale(0.96);
-    }
-
-    .quick-tile.patch-done {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(13, 148, 136, 0.08));
-      border-color: rgba(16, 185, 129, 0.55);
-      box-shadow: 0 10px 28px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.28);
-    }
-
-    .quick-tile.patch-reminder {
-      border-color: rgba(245, 158, 11, 0.72);
-      animation: reminderPulse 2.2s ease-in-out infinite;
-    }
-
-    @keyframes reminderPulse {
-      0%, 100% { box-shadow: 0 8px 26px rgba(245, 158, 11, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24); }
-      50% { box-shadow: 0 8px 34px rgba(245, 158, 11, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.32); }
-    }
-
-    .quick-tile.spray-tile {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.08));
-      border-color: rgba(6, 182, 212, 0.4);
-    }
-
-    .quick-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .quick-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      display: grid;
-      place-items: center;
-    }
-
-    .quick-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .quick-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 10px;
-    }
-
-    .quick-meta {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 3px;
-    }
-
-    /* =========================================================================
-       TAB 2: CRAVING SOS & 4-7-8 BREATHING ORB
-       ========================================================================= */
-    .sos-stage {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 22px 18px;
-      gap: 16px;
-    }
-
-    .orb-wrapper {
-      position: relative;
-      width: 210px;
-      height: 210px;
-      display: grid;
-      place-items: center;
-      margin: 6px 0;
-    }
-
-    .breath-ring {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.16) 0%, transparent 68%);
-      transition: transform 0.35s ease, opacity 0.35s ease;
-    }
-
-    .breath-orb-outer {
-      position: absolute;
-      width: 156px;
-      height: 156px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 30%, rgba(103, 232, 249, 0.55), rgba(16, 185, 129, 0.22) 60%, rgba(139, 92, 246, 0.15) 100%);
-      filter: blur(10px);
-      transform: scale(0.75);
-      transition: transform 0.25s linear, background 0.8s ease;
-    }
-
-    .breath-orb-core {
-      position: relative;
-      z-index: 2;
-      width: 136px;
-      height: 136px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.05));
-      border: 1.5px solid rgba(255, 255, 255, 0.32);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 2px 10px rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transform: scale(0.78);
-      transition: transform 0.25s linear, border-color 0.6s ease;
-    }
-
-    .breath-phase-label {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .breath-phase-sec {
-      font-size: 28px;
-      font-weight: 800;
-      margin-top: 2px;
-    }
-
-    .sos-countdown-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .chip-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .trigger-chip {
-      min-height: 44px;
-      padding: 10px 14px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.22s var(--ease-spring);
-    }
-
-    .trigger-chip.selected {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.34), rgba(139, 92, 246, 0.24));
-      border-color: rgba(103, 232, 249, 0.65);
-      color: #ffffff;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
-    }
-
-    .trigger-chip:active {
-      transform: scale(0.96);
-    }
-
-    .sos-actions-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .spray-toggle-btn.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.36), rgba(16, 185, 129, 0.22));
-      border-color: rgba(103, 232, 249, 0.65);
-    }
-
-    /* History & Breakdown */
-    .breakdown-list, .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .bar-row {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .bar-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 10px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: var(--radius-pill);
-      background: linear-gradient(90deg, var(--cyan), var(--emerald));
-      transition: width 0.6s var(--ease-spring);
-    }
-
-    .history-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.045);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      gap: 10px;
-    }
-
-    .history-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .history-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .history-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .history-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .history-time {
-      font-size: 12px;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* =========================================================================
-       TAB 3: BOSS FIGHTS, THEMES, HEALTH & SAVINGS GOAL
-       ========================================================================= */
-    .boss-card {
-      padding: 14px 16px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.045);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .boss-card.defeated {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.06));
-      border-color: rgba(16, 185, 129, 0.48);
-    }
-
-    .boss-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .boss-title {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .boss-status {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.09);
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-
-    .boss-card.defeated .boss-status {
-      background: rgba(16, 185, 129, 0.25);
-      color: #6EE7B7;
-      border: 1px solid rgba(16, 185, 129, 0.45);
-    }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .theme-btn {
-      min-height: 54px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.22s var(--ease-spring);
-    }
-
-    .theme-btn.active {
-      border-color: rgba(255, 255, 255, 0.55);
-      background: rgba(255, 255, 255, 0.13);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    }
-
-    .theme-btn.locked {
-      opacity: 0.55;
-    }
-
-    .theme-swatch {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-    }
-
-    .theme-name {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .theme-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Liquid Shimmer Progress Bar */
-    .shimmer-fill {
-      background: linear-gradient(90deg, #10B981, #34D399, #06B6D4, #10B981);
-      background-size: 220% 100%;
-      animation: liquidShimmer 3s linear infinite;
-    }
-
-    @keyframes liquidShimmer {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 220% 50%; }
-    }
-
-    /* =========================================================================
-       TAB 4: SETUP FORM & BACKUP
-       ========================================================================= */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    .glass-input {
-      width: 100%;
-      min-height: 48px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(10, 15, 28, 0.65);
-      color: var(--text-primary);
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .glass-input:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
-    }
-
-    .form-row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    /* =========================================================================
-       BOTTOM THUMB-ZONE CHROME (EMERGENCY BUTTON + 4-TAB FLOATING DOCK)
-       ========================================================================= */
-    .bottom-chrome {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      z-index: 40;
-      padding: 0 14px calc(12px + env(safe-area-inset-bottom)) 14px;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .floating-sos-btn {
-      pointer-events: auto;
-      width: 100%;
-      min-height: 52px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(239, 68, 68, 0.55);
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.36), rgba(245, 158, 11, 0.22));
-      backdrop-filter: blur(22px) saturate(180%);
-      -webkit-backdrop-filter: blur(22px) saturate(180%);
-      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      cursor: pointer;
-      transition: transform 0.22s var(--ease-spring), opacity 0.25s ease;
-    }
-
-    .floating-sos-btn:active {
-      transform: scale(0.97);
-    }
-
-    .floating-sos-btn.hidden {
-      display: none;
-    }
-
-    .nav-dock {
-      pointer-events: auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      padding: 6px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, rgba(16, 22, 36, 0.82), rgba(8, 12, 22, 0.72));
-      backdrop-filter: blur(26px) saturate(180%);
-      -webkit-backdrop-filter: blur(26px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .nav-tab {
-      min-height: 54px;
-      border-radius: 22px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.26s var(--ease-spring);
-    }
-
-    .nav-tab.active {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-
-    .nav-tab:active {
-      transform: scale(0.95);
-    }
-
-    /* =========================================================================
-       MODALS & TOASTS
-       ========================================================================= */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(3, 6, 12, 0.76);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-      animation: fadeBackdrop 0.24s ease;
-    }
-
-    @keyframes fadeBackdrop {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-sheet {
-      width: 100%;
-      max-width: 440px;
-      max-height: 88dvh;
-      overflow-y: auto;
-      border-radius: 28px;
-      background: linear-gradient(145deg, rgba(20, 27, 44, 0.92), rgba(9, 13, 24, 0.94));
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.24);
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .modal-sheet.crimson-modal {
-      background: linear-gradient(145deg, rgba(64, 14, 22, 0.94), rgba(18, 8, 14, 0.96));
-      border-color: rgba(239, 68, 68, 0.55);
-      box-shadow: 0 24px 64px rgba(239, 68, 68, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .relapse-flash-box {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(239, 68, 68, 0.16);
-      border: 1px solid rgba(239, 68, 68, 0.45);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      animation: crimsonPulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes crimsonPulse {
-      0%, 100% { border-color: rgba(239, 68, 68, 0.42); }
-      50% { border-color: rgba(248, 113, 113, 0.9); }
-    }
-
-    .summary-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 14px;
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--text-primary);
-      white-space: pre-line;
-    }
-
-    .toast-stack {
-      position: fixed;
-      top: calc(14px + env(safe-area-inset-top));
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 32px);
-      max-width: 440px;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      pointer-events: none;
-    }
-
-    .toast {
-      padding: 12px 16px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(16, 24, 40, 0.94), rgba(10, 15, 28, 0.92));
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 600;
-      text-align: center;
-      animation: toastSlide 0.32s var(--ease-spring);
-    }
-
-    @keyframes toastSlide {
-      from { opacity: 0; transform: translateY(-12px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .muted-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    h2.card-title {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#024340">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CloudClear">
+<meta name="description" content="CloudClear: a calm, private vape-free tracker. Live timer, craving SOS, NRT log, health timeline and savings goal. All data stays on your phone.">
+<title>CloudClear: Vape-Free Tracker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='118' fill='%23024340'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%2311747A' opacity='0.35'/%3E%3Cpath d='M170 310c-34 0-62-26-62-59 0-29 21-53 49-58 10-44 49-77 97-77 54 0 99 43 101 97 30 6 53 32 53 64 0 36-29 65-65 65H170z' fill='none' stroke='%23D4FAFD' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M214 258l28 28 58-64' fill='none' stroke='%237FFFD4' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='118' fill='%23024340'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%2311747A' opacity='0.35'/%3E%3Cpath d='M170 310c-34 0-62-26-62-59 0-29 21-53 49-58 10-44 49-77 97-77 54 0 99 43 101 97 30 6 53 32 53 64 0 36-29 65-65 65H170z' fill='none' stroke='%23D4FAFD' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M214 258l28 28 58-64' fill='none' stroke='%237FFFD4' stroke-width='26' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CloudClear%20Vape-Free%20Tracker%22%2C%22short_name%22%3A%22CloudClear%22%2C%22description%22%3A%22Calm%20vape-free%20tracker%20with%20craving%20SOS%20and%20NRT%20log%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%23001801%22%2C%22theme_color%22%3A%22%23024340%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%27118%27%2520fill%3D%27%2523024340%27%2F%253E%253Ccircle%2520cx%3D%27256%27%2520cy%3D%27256%27%2520r%3D%27150%27%2520fill%3D%27%252311747A%27%2520opacity%3D%270.35%27%2F%253E%253Cpath%2520d%3D%27M170%2520310c-34%25200-62-26-62-59%25200-29%252021-53%252049-58%252010-44%252049-77%252097-77%252054%25200%252099%252043%2520101%252097%252030%25206%252053%252032%252053%252064%25200%252036-29%252065-65%252065H170z%27%2520fill%3D%27none%27%2520stroke%3D%27%2523D4FAFD%27%2520stroke-width%3D%2726%27%2520stroke-linecap%3D%27round%27%2520stroke-linejoin%3D%27round%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<style>
+:root{
+  --bg0:#001801; --bg1:#024340; --bg2:#01332e;
+  --teal:#11747A; --teal2:#157988; --mint:#7FFFD4; --ink:#D4FAFD; --muted:#9fd8dc;
+  --coral:#FF8A7A; --gold:#F5C86B; --card:rgba(7,70,55,.55); --card2:rgba(8,93,87,.45);
+  --line:rgba(212,250,253,.16); --line2:rgba(212,250,253,.28);
+  --accent:#11747A; --accent-soft:rgba(17,116,122,.28); --accent-border:rgba(17,116,122,.5);
+  --radius:22px; --tap:52px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink);
+  background:radial-gradient(120% 60% at 50% -10%, #0a5a52 0%, var(--bg1) 32%, var(--bg0) 78%); background-attachment:fixed; min-height:100vh; line-height:1.5}
+a{color:var(--mint)}
+button{font:inherit; color:inherit; cursor:pointer}
+input,select,textarea{font:inherit; color:var(--ink)}
+h1{font-size:26px; line-height:1.2; margin:0}
+h2{font-size:19px; margin:0 0 6px}
+h3{font-size:16px; margin:0 0 4px}
+p{margin:0 0 10px}
+.small{font-size:13px; color:var(--muted)}
+.tiny{font-size:12px; color:var(--muted); line-height:1.45}
+.wrap{max-width:560px; margin:0 auto; padding:14px 14px 130px}
+header.top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 4px 14px}
+.logo{display:flex; align-items:center; gap:10px}
+.logo-mark{width:42px; height:42px; border-radius:13px; background:linear-gradient(135deg,#11747A,#0a5a52); display:grid; place-items:center; font-size:22px; border:1px solid var(--line2)}
+.logo small{display:block; color:var(--muted); font-size:12px}
+.pill{display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px; background:rgba(212,250,253,.08); border:1px solid var(--line); font-size:12.5px; font-weight:700}
+.pill.mint{background:rgba(127,255,212,.14); border-color:rgba(127,255,212,.35); color:var(--mint)}
+.card{background:linear-gradient(160deg, var(--card), var(--card2)); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px; margin-bottom:14px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 12px 32px rgba(0,0,0,.28)}
+.card h2 .sub{display:block; font-size:13px; color:var(--muted); font-weight:400; margin-top:3px}
+.hero{text-align:center; padding:22px 16px 18px; position:relative; overflow:hidden}
+.hero::before{content:""; position:absolute; inset:-40% -20% auto; height:70%; background:radial-gradient(50% 100% at 50% 0%, rgba(127,255,212,.22), transparent 70%); pointer-events:none}
+.ring-wrap{position:relative; width:218px; height:218px; margin:6px auto 4px}
+.ring-wrap svg{transform:rotate(-90deg); width:100%; height:100%}
+.ring-bg{fill:none; stroke:rgba(212,250,253,.12); stroke-width:13}
+.ring-fg{fill:none; stroke:url(#ringGrad); stroke-width:13; stroke-linecap:round; transition:stroke-dashoffset .8s ease}
+.ring-centre{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px}
+.ring-centre .big{font-size:44px; font-weight:800; letter-spacing:-1px; line-height:1}
+.ring-centre .lbl{font-size:13px; color:var(--muted)}
+.timer{display:flex; justify-content:center; gap:8px; margin-top:12px}
+.tcell{background:rgba(0,24,1,.45); border:1px solid var(--line); border-radius:14px; padding:9px 0 7px; min-width:64px}
+.tcell b{display:block; font-size:23px; line-height:1}
+.tcell span{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
+.rank-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:12px}
+.xp-bar{height:9px; background:rgba(212,250,253,.12); border-radius:99px; overflow:hidden; margin-top:12px}
+.xp-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--mint),var(--teal2)); border-radius:99px; transition:width .6s ease}
+.chips{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px}
+.chip{background:rgba(0,24,1,.4); border:1px solid var(--line); border-radius:16px; padding:12px 8px; text-align:center}
+.chip b{display:block; font-size:19px}
+.chip span{font-size:11.5px; color:var(--muted); line-height:1.3; display:block}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:var(--tap); padding:12px 18px; border-radius:16px; border:1px solid var(--line2); background:rgba(212,250,253,.09); font-weight:700; font-size:15.5px; text-align:center; text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(135deg,#FF9A86,#FF6B57); border-color:transparent; color:#2b0a06}
+.btn.teal{background:linear-gradient(135deg,#1a8a90,#11747A); border-color:transparent; color:#fff}
+.btn.gold{background:linear-gradient(135deg,#F5C86B,#e8a93c); border-color:transparent; color:#2b1d05}
+.btn.ghost{background:transparent}
+.btn.small{min-height:44px; padding:9px 13px; font-size:14px; border-radius:13px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.55; cursor:not-allowed}
+.sos-fab{position:fixed; left:50%; transform:translateX(-50%); bottom:86px; z-index:40; width:min(92vw,480px); padding:0 14px; pointer-events:none}
+.sos-fab .btn{pointer-events:auto; width:100%; min-height:60px; font-size:18px; border-radius:20px; box-shadow:0 14px 34px rgba(255,107,87,.35)}
+nav.tabs{position:fixed; left:50%; transform:translateX(-50%); bottom:12px; z-index:41; width:min(94vw,520px); display:flex; gap:4px; padding:6px;
+  background:rgba(1,40,38,.78); border:1px solid var(--line2); border-radius:22px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 10px 30px rgba(0,0,0,.4)}
+nav.tabs button{flex:1; min-height:48px; border:0; background:transparent; border-radius:16px; font-size:12px; font-weight:700; color:var(--muted); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px}
+nav.tabs button span{font-size:17px; line-height:1}
+nav.tabs button.on{background:rgba(127,255,212,.16); color:var(--mint)}
+.tabpane{display:none}
+.tabpane.on{display:block; animation:fade .25s ease}
+@keyframes fade{from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none}}
+.mission{display:flex; gap:11px; align-items:flex-start; padding:12px; border:1px solid var(--line); border-radius:16px; margin-top:10px; background:rgba(0,24,1,.28)}
+.mission input{width:24px; height:24px; margin-top:2px; accent-color:#7FFFD4; flex:none}
+.mission.done{opacity:.72}
+.mission.done b{text-decoration:line-through}
+.quicklog{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+.tile{border:1px solid var(--line); border-radius:18px; padding:14px; background:rgba(0,24,1,.32); text-align:left; min-height:96px}
+.tile b{font-size:15px; display:block}
+.tile .meta{font-size:13px; color:var(--muted); margin-top:4px}
+.tile .badge{display:inline-block; margin-top:8px; font-size:12px; font-weight:700; padding:4px 9px; border-radius:99px; background:rgba(127,255,212,.14); color:var(--mint)}
+.tile .badge.off{background:rgba(212,250,253,.08); color:var(--muted)}
+.bar{height:12px; background:rgba(212,250,253,.12); border-radius:99px; overflow:hidden}
+.bar i{display:block; height:100%; background:linear-gradient(90deg,var(--mint),var(--gold)); border-radius:99px; transition:width .6s ease}
+.list-row{display:flex; justify-content:space-between; gap:10px; padding:11px 2px; border-bottom:1px solid rgba(212,250,253,.08); font-size:14.5px}
+.list-row:last-child{border-bottom:0}
+.badge-dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:7px; vertical-align:1px}
+.timeline{position:relative; margin:14px 0 4px; padding-left:22px}
+.timeline::before{content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:rgba(212,250,253,.18)}
+.tl{position:relative; padding:0 0 16px 10px}
+.tl::before{content:""; position:absolute; left:-19px; top:5px; width:12px; height:12px; border-radius:50%; background:#0a5a52; border:2px solid var(--muted)}
+.tl.done::before{background:var(--mint); border-color:var(--mint)}
+.tl b{display:block; font-size:14.5px}
+.tl span{font-size:13px; color:var(--muted)}
+.tl .tag{font-size:11px; font-weight:700; color:var(--mint); text-transform:uppercase; letter-spacing:.05em}
+.chipset{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+.tchip{padding:10px 14px; min-height:44px; border-radius:999px; border:1px solid var(--line2); background:rgba(212,250,253,.07); font-size:14px; font-weight:600}
+.tchip.on{background:rgba(255,138,122,.2); border-color:var(--coral); color:#fff}
+.field{margin-bottom:12px}
+.field label{display:block; font-size:13px; font-weight:700; color:var(--muted); margin-bottom:5px}
+.glass-input, select.glass-input, textarea.glass-input{width:100%; min-height:48px; padding:11px 13px; border-radius:14px; border:1px solid var(--line2); background:rgba(0,24,1,.45); outline:none}
+.glass-input:focus{border-color:var(--mint); box-shadow:0 0 0 3px rgba(127,255,212,.18)}
+textarea.glass-input{min-height:84px; resize:vertical}
+select.glass-input option{background:#01332e}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.sheet{position:fixed; inset:0; z-index:60; background:rgba(0,12,8,.72); backdrop-filter:blur(8px); display:none; align-items:flex-end; justify-content:center}
+.sheet.open{display:flex}
+.sheet-card{width:100%; max-width:560px; max-height:94vh; overflow:auto; background:linear-gradient(180deg,#053f3a,#001801); border:1px solid var(--line2); border-bottom:0; border-radius:26px 26px 0 0; padding:20px 18px 34px; animation:slideup .28s ease}
+@keyframes slideup{from{transform:translateY(30px); opacity:0} to{transform:none; opacity:1}}
+.modal{position:fixed; inset:0; z-index:70; background:rgba(0,12,8,.78); display:none; align-items:center; justify-content:center; padding:16px}
+.modal.open{display:flex}
+.modal-card{width:100%; max-width:520px; max-height:92vh; overflow:auto; background:#02332d; border:1px solid var(--line2); border-radius:22px; padding:20px}
+.orb-wrap{text-align:center; padding:10px 0 4px}
+.orb{width:148px; height:148px; margin:10px auto; border-radius:50%; background:radial-gradient(circle at 35% 30%, #bfffe9, #7FFFD4 32%, #11747A 68%, #024340); display:grid; place-items:center; font-weight:800; font-size:15px; color:#012a26; transition:transform 1s ease-in-out; box-shadow:0 0 0 14px rgba(127,255,212,.08), 0 0 44px rgba(127,255,212,.28)}
+.orb.in{transform:scale(1.22)}
+.orb.out{transform:scale(.86)}
+.sos-ring{width:150px; height:150px; margin:0 auto; position:relative}
+.sos-ring svg{transform:rotate(-90deg); width:100%; height:100%}
+.sos-ring .c{position:absolute; inset:0; display:grid; place-items:center; text-align:center}
+.sos-ring .c b{font-size:34px}
+.four-d{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+.fd{border:1px solid var(--line); border-radius:16px; padding:13px; background:rgba(0,24,1,.32)}
+.fd b{display:block; font-size:14.5px}
+.fd span{font-size:13px; color:var(--muted)}
+.toast-stack{position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:90; width:min(92vw,480px); display:flex; flex-direction:column; gap:8px; pointer-events:none}
+.toast{background:#0a5a52; border:1px solid rgba(127,255,212,.4); color:var(--ink); border-radius:14px; padding:12px 14px; font-weight:600; box-shadow:0 10px 26px rgba(0,0,0,.4)}
+.theme-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px}
+.theme{border:1px solid var(--line); border-radius:16px; padding:12px; text-align:left; background:rgba(0,24,1,.3)}
+.theme.on{border-color:var(--mint); background:rgba(127,255,212,.1)}
+.swatch{height:34px; border-radius:10px; margin-bottom:8px}
+.kv{display:flex; justify-content:space-between; gap:10px; font-size:14px; padding:8px 0; border-bottom:1px solid rgba(212,250,253,.07)}
+.kv:last-child{border:0}
+.kv b{text-align:right}
+.progress-note{background:rgba(245,200,107,.1); border:1px solid rgba(245,200,107,.35); border-radius:14px; padding:12px 13px; font-size:13.5px; margin-top:10px}
+.calm-note{background:rgba(127,255,212,.08); border:1px solid rgba(127,255,212,.25); border-radius:14px; padding:12px 13px; font-size:13.5px; margin-top:10px}
+.warn-note{background:rgba(255,138,122,.09); border:1px solid rgba(255,138,122,.3); border-radius:14px; padding:12px 13px; font-size:13.5px; margin-top:10px}
+details{border:1px solid var(--line); border-radius:14px; padding:12px 13px; margin-top:10px; background:rgba(0,24,1,.25)}
+details summary{font-weight:700; cursor:pointer; min-height:32px}
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important}
+  .orb{transition:none}
+}
+@media (max-width:380px){ .chips{grid-template-columns:1fr 1fr 1fr} .chip b{font-size:16px} .ring-wrap{width:196px; height:196px} }
+</style>
 </head>
 <body>
-  <!-- Reactive Ambient Plasma Background -->
-  <div class="ambient-plasma" aria-hidden="true">
-    <div class="plasma-orb orb-1"></div>
-    <div class="plasma-orb orb-2"></div>
-    <div class="plasma-orb orb-3"></div>
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+<div class="wrap">
+<header class="top">
+  <div class="logo"><div class="logo-mark" aria-hidden="true">☁</div><div><h1>CloudClear</h1><small>Calm quit, one day at a time</small></div></div>
+  <span class="pill" id="header-phase-pill">● <span id="header-phase-text">Starting out</span></span>
+</header>
+<main id="app-main">
+
+<!-- TODAY -->
+<section class="tabpane on" id="tab-dashboard" aria-label="Today">
+  <div class="card hero">
+    <div class="rank-row"><span class="pill mint" id="hero-rank-badge">1.0x Rookie</span><span class="pill" id="hero-xp-badge">0 XP</span><span class="pill" id="hero-level-badge">Level 1</span></div>
+    <div class="ring-wrap" role="img" aria-label="Progress to next milestone">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7FFFD4"/><stop offset="100%" stop-color="#11747A"/></linearGradient></defs>
+        <circle class="ring-bg" cx="100" cy="100" r="86"></circle>
+        <circle class="ring-fg" id="hero-ring" cx="100" cy="100" r="86" stroke-dasharray="540.4" stroke-dashoffset="540.4"></circle>
+      </svg>
+      <div class="ring-centre"><div class="big" id="ring-days">0</div><div class="lbl" id="ring-label">days vape free</div><div class="lbl" id="ring-pct">0% to next milestone</div></div>
+    </div>
+    <div class="timer" aria-label="Live quit timer">
+      <div class="tcell"><b id="t-days">00</b><span>Days</span></div>
+      <div class="tcell"><b id="t-hours">00</b><span>Hours</span></div>
+      <div class="tcell"><b id="t-mins">00</b><span>Mins</span></div>
+      <div class="tcell"><b id="t-secs">00</b><span>Secs</span></div>
+    </div>
+    <p class="small" id="hero-next-boss" style="margin-top:12px">Next milestone: 24 hours</p>
+    <div class="xp-bar" aria-hidden="true"><i id="xp-fill" style="width:0%"></i></div>
+    <p class="tiny" id="xp-text" style="margin-top:6px">0 XP to Level 2</p>
+    <div class="chips">
+      <div class="chip"><b id="m-money">£0.00</b><span>Money saved (net of NRT)</span></div>
+      <div class="chip"><b id="m-pods">0.0</b><span>Pods avoided</span></div>
+      <div class="chip"><b id="m-cravings">0</b><span>Cravings beaten</span></div>
+    </div>
+    <p class="tiny" id="m-lifetime" style="margin-top:10px">Lifetime vape free: 0.0 days</p>
+    <p class="tiny" id="m-net-note">NRT is free on your Yorkshire Smokefree voucher, so net savings equal gross savings unless you add a cost in Settings.</p>
   </div>
 
-  <!-- Toast Notifications -->
-  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <div class="card">
+    <h2>My why <span class="sub">Read this when a craving hits. It is yours, in your words.</span></h2>
+    <p id="dash-why-text" style="font-size:16px; font-weight:600">Clear lungs, steady energy, and keeping my money in my pocket.</p>
+    <button class="btn small ghost" id="btn-edit-why" type="button">Edit my why</button>
+    <div class="calm-note" id="dash-clinic-box">Clinic review: <b id="dash-clinic-text">Ashville Medical Practice, Wed 2 Dec, 2:40pm, telephone call with Claire</b>. Worth mentioning if the spray still hurts a bit.</div>
+  </div>
 
-  <!-- Centered Z Flip 7 Mobile Shell -->
-  <div class="app-shell">
-    <!-- Top Header -->
-    <header class="app-header">
-      <div class="brand">
-        <div class="brand-mark">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
-          </svg>
-        </div>
-        <span class="brand-name">CloudClear</span>
+  <div class="card">
+    <h2>Today's missions <span class="sub">Three small wins. Tick them off, earn XP, no pressure if you miss one.</span></h2>
+    <div id="missions-list"></div>
+    <p class="tiny" id="missions-note"></p>
+  </div>
+
+  <div class="card">
+    <h2>NRT quick log <span class="sub">One tap. Patch in the morning, spray only when you need it.</span></h2>
+    <div class="quicklog">
+      <button class="tile" id="tile-patch" type="button"><b id="patch-tile-title">Patch today</b><div class="meta" id="patch-tile-meta">Nicotinell 14mg</div><span class="badge off" id="patch-status-badge">Not logged yet</span></button>
+      <button class="tile" id="tile-spray" type="button"><b>Log mouth spray</b><div class="meta" id="spray-last-meta">1mg spray, as needed</div><span class="badge" id="spray-today-badge">0 today</span></button>
+    </div>
+    <div class="kv"><span>Patch streak</span><b id="patch-streak">0 days</b></div>
+    <div class="kv"><span>Patch adherence</span><b id="patch-adherence">0%</b></div>
+    <div class="kv"><span>Sprays today / average</span><b id="spray-avg">0 today</b></div>
+    <p class="tiny">Patch reminder is set for <b id="patch-reminder-label">08:00</b>. Change it in Settings. If a patch comes off early, log it again tomorrow, do not double up.</p>
+  </div>
+
+  <div class="card">
+    <h2>Savings treat goal <span class="sub">Your vape money, working for something you actually want.</span></h2>
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline"><b id="goal-name-display">New Wireless Earbuds</b><span id="goal-amount-display">£0.00 / £120.00</span></div>
+    <div class="bar" style="margin:12px 0 8px"><i id="goal-progress-bar" style="width:0%"></i></div>
+    <p class="small" id="goal-eta-text"></p>
+    <button class="btn small" id="btn-toggle-goal-edit" type="button">Edit goal</button>
+    <div id="goal-edit-box" hidden style="margin-top:12px">
+      <div class="grid2">
+        <div class="field"><label for="input-goal-name">Treat</label><input class="glass-input" id="input-goal-name" value="New Wireless Earbuds"></div>
+        <div class="field"><label for="input-goal-cost">Target (£)</label><input class="glass-input" id="input-goal-cost" type="number" min="1" step="1" value="120"></div>
       </div>
-      <div class="phase-pill" id="header-phase-pill">
-        <span class="phase-dot"></span>
-        <span id="header-phase-text">Withdrawal Storm</span>
-      </div>
-    </header>
-
-    <!-- Scrollable Main Area -->
-    <main class="app-main" id="app-main">
-      <!-- ===============================================================
-           TAB 1: DASHBOARD
-           =============================================================== -->
-      <section id="tab-dashboard" class="tab-panel active" aria-label="Dashboard">
-        <!-- Live Ticking Sobriety Hero Card -->
-        <div class="glass-card hero-card">
-          <div class="hero-halo"></div>
-          <div class="rank-row">
-            <span class="rank-badge" id="hero-rank-badge">1.0x Rookie</span>
-            <span class="rank-badge" id="hero-xp-badge" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.16);">0 XP</span>
-          </div>
-          <div class="timer-grid tabular">
-            <div class="timer-cell">
-              <div class="timer-val" id="t-days">00</div>
-              <div class="timer-lbl">Days</div>
-            </div>
-            <div class="timer-cell">
-              <div class="timer-val" id="t-hours">00</div>
-              <div class="timer-lbl">Hours</div>
-            </div>
-            <div class="timer-cell">
-              <div class="timer-val" id="t-mins">00</div>
-              <div class="timer-lbl">Mins</div>
-            </div>
-            <div class="timer-cell">
-              <div class="timer-val" id="t-secs">00</div>
-              <div class="timer-lbl">Secs</div>
-            </div>
-          </div>
-          <div class="hero-sub" id="hero-next-boss">Next Boss: The 24-Hour Wall</div>
-        </div>
-
-        <!-- Upcoming Clinic Review Banner -->
-        <div class="glass-card glass-card-accent clinic-banner">
-          <div class="clinic-top">
-            <div class="clinic-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="clinic-title">Smoking Cessation Review</div>
-              <div class="clinic-detail" id="dash-clinic-text">Ashville Medical Practice — Dec 2 at 2:40 PM (Telephone Review)</div>
-            </div>
-          </div>
-          <button type="button" class="glass-btn glass-btn-cyan" id="btn-open-review-summary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-            </svg>
-            Prepare Review Summary
-          </button>
-        </div>
-
-        <!-- 2x2 Key Metrics Grid -->
-        <div class="metrics-grid">
-          <div class="glass-card metric-tile">
-            <div class="metric-head">
-              <span>Money Saved</span>
-              <span style="color: #34D399;">£</span>
-            </div>
-            <div class="metric-value tabular" id="m-money" style="color: #6EE7B7;">£0.00</div>
-            <div class="metric-sub" id="m-money-sub">£25/wk saved</div>
-          </div>
-          <div class="glass-card metric-tile">
-            <div class="metric-head">
-              <span>Vapes Avoided</span>
-              <span style="color: #67E8F9;">✦</span>
-            </div>
-            <div class="metric-value tabular" id="m-pods">0.0</div>
-            <div class="metric-sub" id="m-pods-sub">3 pods/wk</div>
-          </div>
-          <div class="glass-card metric-tile">
-            <div class="metric-head">
-              <span>Cravings Beat</span>
-              <span style="color: #C4B5FD;">⚡</span>
-            </div>
-            <div class="metric-value tabular" id="m-cravings">0</div>
-            <div class="metric-sub">SOS &amp; resisted</div>
-          </div>
-          <div class="glass-card metric-tile">
-            <div class="metric-head">
-              <span>Lifetime Free</span>
-              <span style="color: #FCD34D;">★</span>
-            </div>
-            <div class="metric-value tabular" id="m-lifetime">0.0d</div>
-            <div class="metric-sub" id="m-lifetime-sub">Never erased</div>
-          </div>
-        </div>
-
-        <!-- Personal Anchor Card ("My Why") -->
-        <div class="glass-card glass-card-warm why-card">
-          <div class="why-header">
-            <span class="why-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-              </svg>
-              My Why
-            </span>
-            <button type="button" class="mini-icon-btn" id="btn-edit-why" aria-label="Edit My Why">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-              </svg>
-            </button>
-          </div>
-          <div class="why-text" id="dash-why-text">Clear lungs, steady energy, and keeping my money in my pocket.</div>
-        </div>
-
-        <!-- Instant Zero-Click Quick-Log Dock (#3) in Lower Thumb Zone -->
-        <div class="section-kicker">
-          <span>Zero-Click NRT Quick-Log</span>
-          <span id="quick-log-hint">1-Tap Logging</span>
-        </div>
-        <div class="quick-log-grid">
-          <!-- 14mg Patch Tile -->
-          <button type="button" class="quick-tile" id="tile-patch">
-            <div class="quick-top">
-              <div class="quick-icon" id="patch-icon-wrap">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/>
-                </svg>
-              </div>
-              <span class="quick-badge" id="patch-status-badge">Pending</span>
-            </div>
-            <div>
-              <div class="quick-title" id="patch-tile-title">14mg Patch</div>
-              <div class="quick-meta" id="patch-tile-meta">0 day streak · Tap to apply</div>
-            </div>
-          </button>
-
-          <!-- Mouth Spray Tile -->
-          <button type="button" class="quick-tile spray-tile" id="tile-spray">
-            <div class="quick-top">
-              <div class="quick-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                </svg>
-              </div>
-              <span class="quick-badge tabular" id="spray-today-badge">0 today</span>
-            </div>
-            <div>
-              <div class="quick-title">+1 Mouth Spray</div>
-              <div class="quick-meta tabular" id="spray-last-meta">No sprays today</div>
-            </div>
-          </button>
-        </div>
-      </section>
-
-      <!-- ===============================================================
-           TAB 2: CRAVING SOS
-           =============================================================== -->
-      <section id="tab-sos" class="tab-panel" aria-label="Craving SOS">
-        <!-- 4-7-8 Liquid Breathing Orb Stage -->
-        <div class="glass-card sos-stage">
-          <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-            <span class="section-kicker" style="padding:0;">4-7-8 Liquid Breathing</span>
-            <span class="sos-countdown-pill tabular" id="sos-timer-pill">03:00</span>
-          </div>
-
-          <div class="orb-wrapper">
-            <div class="breath-ring" id="breath-ring"></div>
-            <div class="breath-orb-outer" id="breath-orb-outer"></div>
-            <div class="breath-orb-core" id="breath-orb-core">
-              <div class="breath-phase-label" id="breath-phase-label">READY</div>
-              <div class="breath-phase-sec tabular" id="breath-phase-sec">4-7-8</div>
-            </div>
-          </div>
-
-          <p class="muted-note" id="sos-guidance" style="margin:0;">
-            Most nicotine cravings peak and fade within 3 minutes. Tap below to ride the wave.
-          </p>
-
-          <button type="button" class="glass-btn glass-btn-cyan" id="btn-sos-launch" style="width:100%; min-height:54px; font-size:16px;">
-            Start 3-Min Craving SOS
-          </button>
-        </div>
-
-        <!-- NRT & Trigger Logger -->
-        <div class="glass-card">
-          <h2 class="card-title">Log Trigger &amp; Defeat Craving</h2>
-          <p class="muted-note" style="margin: 6px 0 0 0;">Select what triggered this craving, optionally toggle mouth spray, and claim XP.</p>
-
-          <div class="chip-grid" id="trigger-chips">
-            <button type="button" class="trigger-chip" data-trigger="Stress">Stress</button>
-            <button type="button" class="trigger-chip" data-trigger="Work Break">Work Break</button>
-            <button type="button" class="trigger-chip" data-trigger="Driving">Driving</button>
-            <button type="button" class="trigger-chip" data-trigger="After Meal">After Meal</button>
-            <button type="button" class="trigger-chip" data-trigger="Social / Alcohol">Social / Alcohol</button>
-            <button type="button" class="trigger-chip" data-trigger="Boredom">Boredom</button>
-          </div>
-
-          <div class="sos-actions-row">
-            <button type="button" class="glass-btn spray-toggle-btn" id="btn-sos-spray-toggle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-              </svg>
-              <span id="sos-spray-toggle-label">Used Mouth Spray (+1)</span>
-            </button>
-            <button type="button" class="glass-btn glass-btn-emerald" id="btn-defeat-craving">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              Craving Defeated (+1 · +25 XP)
-            </button>
-          </div>
-        </div>
-
-        <!-- Trigger Breakdown -->
-        <div class="glass-card">
-          <h2 class="card-title">Trigger Breakdown</h2>
-          <div class="breakdown-list" id="trigger-breakdown"></div>
-        </div>
-
-        <!-- Recent Craving & Spray History -->
-        <div class="glass-card">
-          <h2 class="card-title">Recent Craving &amp; Spray Log</h2>
-          <div class="history-list" id="sos-history-list"></div>
-        </div>
-      </section>
-
-      <!-- ===============================================================
-           TAB 3: BOSS FIGHTS, HEALTH & GOALS
-           =============================================================== -->
-      <section id="tab-health" class="tab-panel" aria-label="Boss Fights, Health & Goals">
-        <!-- Boss Fight Progression -->
-        <div class="glass-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h2 class="card-title">Boss-Fight Milestones</h2>
-            <span class="rank-badge" id="health-mult-badge">1.0x</span>
-          </div>
-          <p class="muted-note" style="margin:0 0 12px 0;">
-            Clear withdrawal waves to boost your Streak Multiplier and unlock Liquid Glass Accent Themes.
-          </p>
-          <div id="boss-list" style="display:flex; flex-direction:column; gap:10px;"></div>
-        </div>
-
-        <!-- Liquid Glass Accent Themes -->
-        <div class="glass-card">
-          <h2 class="card-title">Liquid Glass Accent Themes</h2>
-          <p class="muted-note" style="margin:6px 0 0 0;">
-            Auto reacts to your live streak phase. Defeat Boss Fights to unlock custom plasma palettes.
-          </p>
-          <div class="theme-grid" id="theme-grid"></div>
-        </div>
-
-        <!-- Custom Savings Goal Tracker -->
-        <div class="glass-card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 class="card-title">Savings Reward Goal</h2>
-            <button type="button" class="mini-icon-btn" id="btn-toggle-goal-edit" aria-label="Edit Savings Goal">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-              </svg>
-            </button>
-          </div>
-
-          <div style="margin-top:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;">
-              <span style="font-size:16px; font-weight:700;" id="goal-name-display">New Wireless Earbuds</span>
-              <span class="tabular" style="font-size:14px; font-weight:700; color:#6EE7B7;" id="goal-amount-display">£0.00 / £120.00</span>
-            </div>
-            <div class="progress-track" style="height:14px;">
-              <div class="progress-fill shimmer-fill" id="goal-progress-bar" style="width:0%;"></div>
-            </div>
-            <div class="muted-note tabular" id="goal-eta-text" style="margin-top:8px;">Funded automatically by your vape-free savings.</div>
-          </div>
-
-          <!-- Inline Goal Editor -->
-          <div id="goal-edit-box" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.1);">
-            <div class="form-row-2">
-              <div class="form-group" style="margin-bottom:10px;">
-                <label class="form-label" for="input-goal-name">Reward Name</label>
-                <input type="text" id="input-goal-name" class="glass-input" placeholder="e.g. Weekend Trip" />
-              </div>
-              <div class="form-group" style="margin-bottom:10px;">
-                <label class="form-label" for="input-goal-cost">Target (£ GBP)</label>
-                <input type="number" id="input-goal-cost" class="glass-input" min="1" step="1" />
-              </div>
-            </div>
-            <button type="button" class="glass-btn glass-btn-emerald" id="btn-save-goal" style="width:100%;">Save Reward Goal</button>
-          </div>
-        </div>
-
-        <!-- Physiological Recovery Milestones -->
-        <div class="glass-card">
-          <h2 class="card-title">Physiological Recovery</h2>
-          <div id="health-milestones-list" style="display:flex; flex-direction:column; gap:12px; margin-top:12px;"></div>
-        </div>
-      </section>
-
-      <!-- ===============================================================
-           TAB 4: SETUP & BACKUP
-           =============================================================== -->
-      <section id="tab-setup" class="tab-panel" aria-label="Setup & Backup">
-        <!-- Quit & NRT Config Form -->
-        <div class="glass-card">
-          <h2 class="card-title" style="margin-bottom:14px;">Quit &amp; NRT Plan Setup</h2>
-          <form id="setup-form">
-            <div class="form-group">
-              <label class="form-label" for="cfg-quit-date">Quit Date &amp; Time</label>
-              <input type="datetime-local" id="cfg-quit-date" class="glass-input" required />
-            </div>
-
-            <div class="form-row-2">
-              <div class="form-group">
-                <label class="form-label" for="cfg-weekly-spend">Weekly Spend (£)</label>
-                <input type="number" id="cfg-weekly-spend" class="glass-input" min="0" step="0.5" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-weekly-pods">Pods / Disposables / wk</label>
-                <input type="number" id="cfg-weekly-pods" class="glass-input" min="0" step="0.5" required />
-              </div>
-            </div>
-
-            <div class="form-row-2">
-              <div class="form-group">
-                <label class="form-label" for="cfg-patch-strength">Patch Strength</label>
-                <input type="text" id="cfg-patch-strength" class="glass-input" placeholder="14mg" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-patch-time">Patch Reminder</label>
-                <input type="time" id="cfg-patch-time" class="glass-input" required />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="cfg-clinic">Clinic Follow-Up Appointment</label>
-              <input type="text" id="cfg-clinic" class="glass-input" placeholder="Ashville Medical Practice — Dec 2, 2:40 PM (Telephone Review)" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="cfg-why">Personal Motivation ("My Why")</label>
-              <textarea id="cfg-why" class="glass-input" rows="3" style="min-height:86px; resize:vertical;"></textarea>
-            </div>
-
-            <button type="submit" class="glass-btn glass-btn-emerald" style="width:100%;">
-              Save Plan Settings
-            </button>
-          </form>
-        </div>
-
-        <!-- Cost-of-Relapse Circuit Breaker (#8) -->
-        <div class="glass-card" style="border-color: rgba(239, 68, 68, 0.34); background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(255, 255, 255, 0.02));">
-          <h2 class="card-title" style="color: #FCA5A5;">Relapse Circuit Breaker</h2>
-          <p class="muted-note" style="margin:6px 0 12px 0;">
-            Had a slip? Logging a slip resets your current streak timer while preserving your lifetime vape-free hours and total money saved.
-          </p>
-          <button type="button" class="glass-btn glass-btn-crimson" id="btn-open-relapse" style="width:100%;">
-            I Slipped / Reset Streak
-          </button>
-        </div>
-
-        <!-- JSON Data Portability -->
-        <div class="glass-card">
-          <h2 class="card-title">JSON Data Backup &amp; Restore</h2>
-          <p class="muted-note" style="margin:6px 0 12px 0;">
-            Export all NRT patch/spray logs, Boss Fight unlocks, and appointment settings to a portable JSON file.
-          </p>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <button type="button" class="glass-btn" id="btn-export-json">Export .json</button>
-            <button type="button" class="glass-btn" id="btn-import-json">Import .json</button>
-          </div>
-          <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;" />
-        </div>
-      </section>
-    </main>
-
-    <!-- Bottom Thumb-Zone Chrome: Emergency Craving Pill + 4-Tab Dock -->
-    <div class="bottom-chrome">
-      <button type="button" class="floating-sos-btn" id="btn-floating-sos">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        I Have a Craving
-      </button>
-
-      <nav class="nav-dock" aria-label="Main Navigation">
-        <button type="button" class="nav-tab active" data-tab="tab-dashboard">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>
-          </svg>
-          <span>Home</span>
-        </button>
-        <button type="button" class="nav-tab" data-tab="tab-sos">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/>
-          </svg>
-          <span>SOS</span>
-        </button>
-        <button type="button" class="nav-tab" data-tab="tab-health">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-          <span>Bosses</span>
-        </button>
-        <button type="button" class="nav-tab" data-tab="tab-setup">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-          <span>Setup</span>
-        </button>
-      </nav>
+      <button class="btn teal small" id="btn-save-goal" type="button">Save goal</button>
     </div>
   </div>
 
-  <!-- =========================================================================
-       MODAL 1: CLINIC REVIEW SUMMARY
-       ========================================================================= -->
-  <div class="modal-backdrop" id="modal-review" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
-    <div class="modal-sheet">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 class="card-title" id="review-modal-title">Clinic Review Summary</h2>
-        <button type="button" class="mini-icon-btn" data-close-modal="modal-review" aria-label="Close">✕</button>
-      </div>
-      <div class="summary-box tabular" id="review-summary-content"></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-        <button type="button" class="glass-btn glass-btn-cyan" id="btn-copy-summary">Copy Summary</button>
-        <button type="button" class="glass-btn" data-close-modal="modal-review">Done</button>
-      </div>
+  <div class="card">
+    <h2>Journal <span class="sub">A line a day is enough. Honest, private, only on your phone.</span></h2>
+    <div class="field"><label for="journal-text">How is today going?</label><textarea class="glass-input" id="journal-text" placeholder="One honest line is enough."></textarea></div>
+    <div class="field"><label for="journal-mood">Mood</label><select class="glass-input" id="journal-mood"><option>Steady</option><option>Good</option><option>Struggling</option><option>Proud</option><option>Tired</option><option>Stressed</option></select></div>
+    <button class="btn teal" id="btn-save-journal" type="button">Save journal entry</button>
+    <div id="journal-list" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card">
+    <h2>My reasons <span class="sub">Add your own. These show up in SOS when you need them most.</span></h2>
+    <div id="reasons-list"></div>
+    <div style="display:flex; gap:8px; margin-top:10px"><input class="glass-input" id="reason-input" placeholder="Add a reason, e.g. Tyler"><button class="btn teal small" id="btn-add-reason" type="button">Add</button></div>
+  </div>
+</section>
+
+<!-- CRAVINGS -->
+<section class="tabpane" id="tab-sos" aria-label="Cravings">
+  <div class="card">
+    <h2>Craving SOS <span class="sub">Most cravings peak and fade in about 3 minutes. You only have to ride this one wave.</span></h2>
+    <p>Tap the big button below any time. It opens a full screen timer, breathing and your reasons. Nothing else will compete with it.</p>
+    <button class="btn primary block" id="btn-sos-launch" type="button">I am craving right now</button>
+    <div class="four-d">
+      <div class="fd"><b>Delay</b><span>Wait 3 minutes. The urge will peak, then fade.</span></div>
+      <div class="fd"><b>Deep breathe</b><span>Slow 4-7-8 breathing calms the rush.</span></div>
+      <div class="fd"><b>Drink water</b><span>Cold water, slow sips. It gives your hands something to do.</span></div>
+      <div class="fd"><b>Do something else</b><span>Walk, stretch, text Maegan, play with Tyler.</span></div>
+    </div>
+    <p class="tiny" style="margin-top:12px">Your vape is still in the house, and that makes this harder. That is not a failure, it is a fact. If you can, put it somewhere out of sight, or ask Maegan to hold it for tonight.</p>
+  </div>
+
+  <div class="card">
+    <h2>Your trigger patterns <span class="sub">Logged cravings, turned into a map you can plan around.</span></h2>
+    <div id="trigger-breakdown"><p class="small">No cravings logged yet. When you log one, your patterns will show here.</p></div>
+    <div id="peak-insight" style="margin-top:10px"></div>
+    <h3 style="margin-top:16px">If-then plans</h3>
+    <p class="small">Pick a trigger, decide your move in advance. Then it is a plan, not a battle.</p>
+    <div id="plans-list"></div>
+    <div class="grid2" style="margin-top:10px">
+      <select class="glass-input" id="plan-trigger"><option>Stress</option><option>Coffee</option><option>Alcohol</option><option>Social</option><option>Driving</option><option>After a meal</option><option>Bedtime</option><option>Boredom</option><option>Work</option><option>Seeing my vape</option></select>
+      <input class="glass-input" id="plan-action" placeholder="I will... e.g. step outside for air">
+    </div>
+    <button class="btn teal small" id="btn-add-plan" type="button" style="margin-top:10px">Save this plan</button>
+  </div>
+
+  <div class="card">
+    <h2>Recent cravings <span class="sub">Every one you beat is XP and proof. Every one you log teaches you something.</span></h2>
+    <div id="sos-history-list"><p class="small">Nothing logged yet.</p></div>
+  </div>
+
+  <div class="card">
+    <h2>Weekly review <span class="sub">A quick look back, no judgement. Just what worked.</span></h2>
+    <div id="weekly-review"></div>
+    <p class="tiny">Tip: cravings usually get fewer and weaker after the first week. If yours are not, tell Claire at your clinic review on 2 Dec, that is exactly what it is for.</p>
+  </div>
+</section>
+
+<!-- HEALTH -->
+<section class="tabpane" id="tab-health" aria-label="Health">
+  <div class="card">
+    <h2>Boss fights <span class="sub">Each wave you clear makes the next one easier. A slip feeds the boss, it does not end the game.</span></h2>
+    <p><span class="pill mint" id="health-mult-badge">1.0x Rookie</span></p>
+    <div id="boss-list" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card">
+    <h2>Health timeline <span class="sub">Small wins, in order. Each one unlocks as time passes.</span></h2>
+    <p class="tiny">Honest note: this timeline is smoking-derived, from NHS smoking research. Vaping recovery is similar in some ways, but there is no authoritative vaping-only timeline yet, so do not read these as vaping-specific proof. Your lungs, taste and energy improving is still real.</p>
+    <div class="timeline" id="health-milestones-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Badges <span class="sub">Warm, brief celebrations. No red failure states here.</span></h2>
+    <div id="badges-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Accent themes <span class="sub">Unlocked by clearing boss fights. Your face, your streak, your colours.</span></h2>
+    <div class="theme-grid" id="theme-grid"></div>
+  </div>
+</section>
+
+<!-- NRT -->
+<section class="tabpane" id="tab-nrt" aria-label="NRT">
+  <div class="card">
+    <h2>NRT tracker <span class="sub">Patches and spray, logged in seconds. This is medicine, not a test.</span></h2>
+    <div class="kv"><span>Patch strength</span><b id="nrt-patch-strength">Nicotinell 14mg</b></div>
+    <div class="kv"><span>Spray</span><b>1mg mouth spray, as needed</b></div>
+    <div class="kv"><span>Voucher</span><b>Yorkshire Smokefree</b></div>
+    <div class="kv"><span>Patch reminder</span><b id="nrt-patch-time">08:00</b></div>
+    <div class="kv"><span>Sprays total</span><b id="nrt-spray-total">0</b></div>
+    <div class="kv"><span>Net money saved</span><b id="nrt-net">£0.00</b></div>
+    <p class="tiny">Net savings are money saved minus NRT cost. Your patches and spray are free on your voucher, so your net is the full amount unless you add a cost in Settings.</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px">
+      <button class="btn teal" id="btn-nrt-patch" type="button">Log patch today</button>
+      <button class="btn" id="btn-nrt-spray" type="button">Log spray</button>
     </div>
   </div>
 
-  <!-- =========================================================================
-       MODAL 2: COST-OF-RELAPSE CIRCUIT BREAKER (#8)
-       ========================================================================= -->
-  <div class="modal-backdrop" id="modal-relapse" role="dialog" aria-modal="true" aria-labelledby="relapse-modal-title">
-    <div class="modal-sheet crimson-modal">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 class="card-title" id="relapse-modal-title" style="color:#FCA5A5;">⚠ Cost-of-Relapse Warning</h2>
-        <button type="button" class="mini-icon-btn" data-close-modal="modal-relapse" aria-label="Close">✕</button>
-      </div>
-
-      <div class="relapse-flash-box tabular">
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#FCA5A5;">Streak About to Reset to 00:00:00</div>
-        <div style="font-size:24px; font-weight:800; color:#ffffff;" id="relapse-streak-loss">0d 0h 0m</div>
-        <div style="font-size:13px; color:#FECACA;" id="relapse-cash-burn">Cash burn restarting: £25.00/wk (£108.33/mo)</div>
-        <div style="font-size:13px; color:#FDE68A;" id="relapse-rank-warning">Streak Multiplier &amp; active Boss-Fight wave will reset to 1.0x Rookie.</div>
-      </div>
-
-      <p class="muted-note" style="margin:0; color:rgba(254, 226, 226, 0.85);">
-        Your completed hours will be safely banked into Lifetime Vape-Free Days, and your total £ saved will not be erased. Pause for 5 seconds before deciding.
-      </p>
-
-      <button type="button" class="glass-btn glass-btn-emerald" data-close-modal="modal-relapse" style="width:100%; min-height:54px; font-size:16px;">
-        Cancel — Keep My Streak Alive
-      </button>
-
-      <button type="button" class="glass-btn glass-btn-crimson" id="btn-confirm-relapse" disabled style="width:100%;">
-        Wait 5s...
-      </button>
+  <div class="card">
+    <h2>Taper schedule <span class="sub">A gentle step down, only when you and Claire agree it is time.</span></h2>
+    <div class="list-row"><span><span class="badge-dot" style="background:#7FFFD4"></span>Weeks 1 to 6: 14mg patch daily</span><b>Now</b></div>
+    <div class="list-row"><span><span class="badge-dot" style="background:#F5C86B"></span>Weeks 7 to 8: 7mg patch daily</span><b>Next</b></div>
+    <div class="list-row"><span><span class="badge-dot" style="background:#11747A"></span>After week 8: stop patches, spray only if needed</span><b>Goal</b></div>
+    <p class="tiny">Do not taper early because you feel guilty about using NRT. Using it properly is what makes quitting work. Ask Claire on 2 Dec before changing strength.</p>
+    <div class="field" style="margin-top:12px"><label for="taper-stage">Where are you in the taper?</label>
+      <select class="glass-input" id="taper-stage"><option value="0">Weeks 1 to 6: 14mg</option><option value="1">Weeks 7 to 8: 7mg</option><option value="2">Finished patches</option></select>
     </div>
   </div>
 
-  <!-- =========================================================================
-       MODAL 3: FIRST-RUN ONBOARDING
-       ========================================================================= -->
-  <div class="modal-backdrop" id="modal-onboarding" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-    <div class="modal-sheet">
-      <h2 class="card-title" id="onboard-title">Welcome to CloudClear</h2>
-      <p class="muted-note" style="margin:0;">
-        Your vape-free &amp; NRT companion is pre-configured with UK smoking cessation defaults. Adjust anything below to begin.
-      </p>
-      <form id="onboarding-form">
-        <div class="form-group">
-          <label class="form-label" for="ob-quit-date">Quit Date &amp; Time</label>
-          <input type="datetime-local" id="ob-quit-date" class="glass-input" required />
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label" for="ob-spend">Weekly Spend (£)</label>
-            <input type="number" id="ob-spend" class="glass-input" value="25" min="0" step="0.5" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="ob-pods">Pods / wk</label>
-            <input type="number" id="ob-pods" class="glass-input" value="3" min="0" step="0.5" required />
-          </div>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label" for="ob-patch">Patch Strength</label>
-            <input type="text" id="ob-patch" class="glass-input" value="14mg" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="ob-time">Daily Reminder</label>
-            <input type="time" id="ob-time" class="glass-input" value="08:00" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="ob-clinic">Clinic Review</label>
-          <input type="text" id="ob-clinic" class="glass-input" value="Ashville Medical Practice — Dec 2 at 2:40 PM (Telephone Review)" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="ob-why">My Why</label>
-          <input type="text" id="ob-why" class="glass-input" value="Clear lungs, steady energy, and keeping my money in my pocket." />
-        </div>
-        <button type="submit" class="glass-btn glass-btn-emerald" style="width:100%; min-height:52px; font-size:16px;">
-          Launch CloudClear
-        </button>
-      </form>
-    </div>
+  <div class="card">
+    <h2>Spray log <span class="sub">If the spray hurts a bit, that is worth logging, and worth telling Claire.</span></h2>
+    <div id="spray-log-list"><p class="small">No sprays logged yet.</p></div>
+    <div class="field" style="margin-top:12px"><label for="spray-note">Spray note (optional)</label><input class="glass-input" id="spray-note" placeholder="e.g. hurt a bit this time"></div>
+    <button class="btn" id="btn-nrt-spray-note" type="button">Log spray with note</button>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="tabpane" id="tab-setup" aria-label="Settings">
+  <div class="card">
+    <h2>Quit and NRT setup <span class="sub">Change anything here. Your lifetime total is never touched by these edits.</span></h2>
+    <form id="setup-form">
+      <div class="field"><label for="cfg-quit-date">Quit date and time</label><input class="glass-input" id="cfg-quit-date" type="datetime-local"></div>
+      <div class="grid2">
+        <div class="field"><label for="cfg-weekly-spend">Weekly vape spend (£)</label><input class="glass-input" id="cfg-weekly-spend" type="number" min="0" step="1" value="25"></div>
+        <div class="field"><label for="cfg-weekly-pods">Pods per week</label><input class="glass-input" id="cfg-weekly-pods" type="number" min="0" step="1" value="3"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="cfg-patch-strength">Patch strength</label><select class="glass-input" id="cfg-patch-strength"><option>21mg</option><option selected>14mg</option><option>7mg</option></select></div>
+        <div class="field"><label for="cfg-patch-time">Patch reminder time</label><input class="glass-input" id="cfg-patch-time" type="time" value="08:00"></div>
+      </div>
+      <div class="field"><label for="cfg-nrt-cost">NRT cost per week (£, 0 if free on voucher)</label><input class="glass-input" id="cfg-nrt-cost" type="number" min="0" step="0.5" value="0"></div>
+      <div class="field"><label for="cfg-clinic">Clinic appointment</label><input class="glass-input" id="cfg-clinic" value="Ashville Medical Practice - Dec 2 at 2:40 PM (Telephone Review)"></div>
+      <div class="field"><label for="cfg-why">My why</label><textarea class="glass-input" id="cfg-why">Clear lungs, steady energy, and keeping my money in my pocket.</textarea></div>
+      <button class="btn teal block" type="submit">Save settings</button>
+    </form>
   </div>
 
-  <script>
-    (function () {
-      'use strict';
-
-      /* =======================================================================
-         CONSTANTS & DEFINITIONS
-         ======================================================================= */
-      const STORAGE_KEY = 'cloudclear_pwa_v1';
-      const MS_PER_MIN = 60 * 1000;
-      const MS_PER_HOUR = 60 * MS_PER_MIN;
-      const MS_PER_DAY = 24 * MS_PER_HOUR;
-      const MS_PER_WEEK = 7 * MS_PER_DAY;
-
-      const BOSS_FIGHTS = [
-        {
-          id: 'wave1',
-          name: 'Wave 1: The 24-Hour Wall',
-          hours: 24,
-          multiplier: 1.25,
-          rank: 'Daybreaker',
-          unlockTheme: 'cyberpunk',
-          rewardText: 'Unlocks 1.25x Multiplier & Cyberpunk Cyan Theme'
-        },
-        {
-          id: 'wave2',
-          name: 'Wave 2: 72-Hour Peak Nicotine Purge',
-          hours: 72,
-          multiplier: 1.5,
-          rank: 'Iron Lungs',
-          unlockTheme: 'emerald',
-          rewardText: 'Unlocks 1.5x Multiplier & Bioluminescent Emerald Theme'
-        },
-        {
-          id: 'wave3',
-          name: 'Wave 3: First Smoke-Free Weekend',
-          hours: 168,
-          multiplier: 1.75,
-          rank: 'Weekend Warrior',
-          unlockTheme: 'amethyst',
-          rewardText: 'Unlocks 1.75x Multiplier & Royal Amethyst Theme'
-        },
-        {
-          id: 'wave4',
-          name: 'Wave 4: 14-Day Habit Breaker',
-          hours: 336,
-          multiplier: 2.0,
-          rank: 'Habit Breaker',
-          unlockTheme: null,
-          rewardText: 'Unlocks 2.0x Multiplier & Habit Mastery Badge'
-        },
-        {
-          id: 'wave5',
-          name: 'Wave 5: 30-Day Full System Reset',
-          hours: 720,
-          multiplier: 2.5,
-          rank: 'Unbreakable',
-          unlockTheme: null,
-          rewardText: 'Unlocks 2.5x Multiplier & Unbreakable Rank'
-        }
-      ];
-
-      const THEMES = {
-        auto: {
-          id: 'auto',
-          name: 'Reactive Auto',
-          sub: 'Shifts with streak',
-          swatch: 'linear-gradient(135deg, #EF4444, #06B6D4, #10B981)',
-          reqBoss: null
-        },
-        cyberpunk: {
-          id: 'cyberpunk',
-          name: 'Cyberpunk Cyan',
-          sub: 'Wave 1 Unlock',
-          swatch: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
-          reqBoss: 'wave1',
-          p1: '#06B6D4', p2: '#3B82F6', p3: '#8B5CF6', accent: '#06B6D4',
-          soft: 'rgba(6, 182, 212, 0.2)', border: 'rgba(6, 182, 212, 0.48)'
-        },
-        emerald: {
-          id: 'emerald',
-          name: 'Bioluminescent',
-          sub: 'Wave 2 Unlock',
-          swatch: 'linear-gradient(135deg, #10B981, #0D9488)',
-          reqBoss: 'wave2',
-          p1: '#10B981', p2: '#0D9488', p3: '#059669', accent: '#10B981',
-          soft: 'rgba(16, 185, 129, 0.2)', border: 'rgba(16, 185, 129, 0.48)'
-        },
-        amethyst: {
-          id: 'amethyst',
-          name: 'Royal Amethyst',
-          sub: 'Wave 3 Unlock',
-          swatch: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
-          reqBoss: 'wave3',
-          p1: '#8B5CF6', p2: '#D946EF', p3: '#6366F1', accent: '#A78BFA',
-          soft: 'rgba(139, 92, 246, 0.22)', border: 'rgba(167, 139, 250, 0.5)'
-        }
-      };
-
-      const HEALTH_MILESTONES = [
-        { label: 'Heart rate & blood pressure drop', ms: 20 * MS_PER_MIN },
-        { label: 'Carbon monoxide levels halved', ms: 8 * MS_PER_HOUR },
-        { label: 'Nicotine fully eliminated from body', ms: 48 * MS_PER_HOUR },
-        { label: 'Bronchial tubes relax, breathing eases', ms: 72 * MS_PER_HOUR },
-        { label: 'Circulation & lung function improve', ms: 14 * MS_PER_DAY },
-        { label: 'Lung cilia regenerate & clear airways', ms: 30 * MS_PER_DAY },
-        { label: 'Lung capacity increases significantly', ms: 90 * MS_PER_DAY }
-      ];
-
-      /* =======================================================================
-         SAFE STORAGE & DEFAULT STATE
-         ======================================================================= */
-      function createDefaultState() {
-        return {
-          onboarded: false,
-          currentStreakStart: Date.now(),
-          bankedVapeFreeMs: 0,
-          weeklySpendGbp: 25,
-          weeklyPods: 3,
-          patchStrength: '14mg',
-          patchReminderTime: '08:00',
-          clinicAppointment: 'Ashville Medical Practice — Dec 2 at 2:40 PM (Telephone Review)',
-          myWhy: 'Clear lungs, steady energy, and keeping my money in my pocket.',
-          selectedTheme: 'auto',
-          unlockedThemes: ['auto'],
-          cravingsDefeated: 0,
-          xp: 0,
-          slipsCount: 0,
-          slipLogs: [],
-          patchLogs: [], // Array of YYYY-MM-DD strings
-          sprayLogs: [], // Array of { ts: number, note?: string }
-          cravingLogs: [], // Array of { ts: number, trigger: string, usedSpray: boolean }
-          goal: {
-            name: 'New Wireless Earbuds',
-            cost: 120
-          }
-        };
-      }
-
-      function loadState() {
-        const defaults = createDefaultState();
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return defaults;
-          const parsed = JSON.parse(raw);
-          if (!parsed || typeof parsed !== 'object') return defaults;
-          return {
-            ...defaults,
-            ...parsed,
-            goal: { ...defaults.goal, ...(parsed.goal || {}) },
-            patchLogs: Array.isArray(parsed.patchLogs) ? parsed.patchLogs : [],
-            sprayLogs: Array.isArray(parsed.sprayLogs) ? parsed.sprayLogs : [],
-            cravingLogs: Array.isArray(parsed.cravingLogs) ? parsed.cravingLogs : [],
-            slipLogs: Array.isArray(parsed.slipLogs) ? parsed.slipLogs : [],
-            unlockedThemes: Array.isArray(parsed.unlockedThemes) ? parsed.unlockedThemes : ['auto']
-          };
-        } catch (err) {
-          console.warn('CloudClear storage read fallback:', err);
-          return defaults;
-        }
-      }
-
-      function saveState() {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        } catch (err) {
-          console.warn('CloudClear storage write error:', err);
-        }
-      }
-
-      let state = loadState();
-
-      /* =======================================================================
-         UTILITY HELPERS
-         ======================================================================= */
-      function getTodayKey(dateObj = new Date()) {
-        const y = dateObj.getFullYear();
-        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const d = String(dateObj.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-      }
-
-      function toDatetimeLocalValue(ts) {
-        const d = new Date(ts);
-        const pad = (n) => String(n).padStart(2, '0');
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-      }
-
-      function formatTimeAgo(ts) {
-        const diff = Math.max(0, Date.now() - ts);
-        const mins = Math.floor(diff / MS_PER_MIN);
-        if (mins < 1) return 'Just now';
-        if (mins < 60) return `${mins}m ago`;
-        const hrs = Math.floor(mins / 60);
-        if (hrs < 24) return `${hrs}h ${mins % 60}m ago`;
-        const days = Math.floor(hrs / 24);
-        return `${days}d ago`;
-      }
-
-      function formatShortTime(ts) {
-        const d = new Date(ts);
-        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) +
-          ' · ' + d.toLocaleDateString([], { month: 'short', day: 'numeric' });
-      }
-
-      function showToast(msg) {
-        const stack = document.getElementById('toast-stack');
-        const el = document.createElement('div');
-        el.className = 'toast';
-        el.textContent = msg;
-        stack.appendChild(el);
-        setTimeout(() => {
-          el.style.opacity = '0';
-          el.style.transform = 'translateY(-8px)';
-          el.style.transition = 'all 0.25s ease';
-          setTimeout(() => el.remove(), 260);
-        }, 2600);
-      }
-
-      function spawnRipple(e, target) {
-        if (!target) return;
-        const rect = target.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 0.65;
-        const circle = document.createElement('span');
-        circle.className = 'ripple-circle';
-        circle.style.width = `${size}px`;
-        circle.style.height = `${size}px`;
-        const clientX = (e && e.clientX) ? e.clientX : rect.left + rect.width / 2;
-        const clientY = (e && e.clientY) ? e.clientY : rect.top + rect.height / 2;
-        circle.style.left = `${clientX - rect.left - size / 2}px`;
-        circle.style.top = `${clientY - rect.top - size / 2}px`;
-        target.appendChild(circle);
-        setTimeout(() => circle.remove(), 660);
-      }
-
-      function haptic(ms = 30) {
-        try {
-          if (navigator.vibrate) navigator.vibrate(ms);
-        } catch (_) {}
-      }
-
-      /* =======================================================================
-         CORE CALCULATIONS
-         ======================================================================= */
-      function getCurrentElapsedMs() {
-        return Math.max(0, Date.now() - state.currentStreakStart);
-      }
-
-      function getTotalVapeFreeMs() {
-        return Math.max(0, state.bankedVapeFreeMs + getCurrentElapsedMs());
-      }
-
-      function getMoneySavedGbp() {
-        return (getTotalVapeFreeMs() / MS_PER_WEEK) * (Number(state.weeklySpendGbp) || 0);
-      }
-
-      function getPodsAvoided() {
-        return (getTotalVapeFreeMs() / MS_PER_WEEK) * (Number(state.weeklyPods) || 0);
-      }
-
-      function getBossStatus() {
-        const elapsedHrs = getCurrentElapsedMs() / MS_PER_HOUR;
-        let currentMult = 1.0;
-        let currentRank = 'Rookie';
-        let nextBoss = null;
-        let themeUnlockedChanged = false;
-
-        BOSS_FIGHTS.forEach((b) => {
-          if (elapsedHrs >= b.hours) {
-            currentMult = b.multiplier;
-            currentRank = b.rank;
-            if (b.unlockTheme && !state.unlockedThemes.includes(b.unlockTheme)) {
-              state.unlockedThemes.push(b.unlockTheme);
-              themeUnlockedChanged = true;
-            }
-          } else if (!nextBoss) {
-            nextBoss = b;
-          }
-        });
-
-        if (themeUnlockedChanged) saveState();
-        return { currentMult, currentRank, nextBoss, elapsedHrs };
-      }
-
-      function getConsecutivePatchDays() {
-        const set = new Set(state.patchLogs);
-        let count = 0;
-        const cursor = new Date();
-        // If not logged today, check starting from yesterday so streak doesn't look broken before morning patch
-        if (!set.has(getTodayKey(cursor))) {
-          cursor.setDate(cursor.getDate() - 1);
-        }
-        while (set.has(getTodayKey(cursor))) {
-          count++;
-          cursor.setDate(cursor.getDate() - 1);
-        }
-        return count;
-      }
-
-      function getPatchAdherenceRate() {
-        const daysSinceStart = Math.max(1, Math.ceil(getTotalVapeFreeMs() / MS_PER_DAY));
-        const uniqueDays = new Set(state.patchLogs).size;
-        return Math.min(100, Math.round((uniqueDays / daysSinceStart) * 100));
-      }
-
-      function getTodaySprays() {
-        const today = getTodayKey();
-        return state.sprayLogs.filter((s) => getTodayKey(new Date(s.ts)) === today);
-      }
-
-      function getAvgDailySprays() {
-        if (!state.sprayLogs.length) return 0;
-        const days = Math.max(1, getTotalVapeFreeMs() / MS_PER_DAY);
-        return (state.sprayLogs.length / days);
-      }
-
-      /* =======================================================================
-         REACTIVE AMBIENT PLASMA & THEME ENGINE
-         ======================================================================= */
-      function applyAmbientTheme() {
-        const root = document.documentElement;
-        const elapsedHrs = getCurrentElapsedMs() / MS_PER_HOUR;
-        const phaseTextEl = document.getElementById('header-phase-text');
-
-        let phaseLabel = 'Withdrawal Storm';
-        let p1 = '#EF4444', p2 = '#F59E0B', p3 = '#DC2626', accent = '#F59E0B';
-        let soft = 'rgba(245, 158, 11, 0.2)', border = 'rgba(245, 158, 11, 0.44)';
-
-        if (elapsedHrs >= 168) {
-          phaseLabel = 'Clear System';
-          p1 = '#10B981'; p2 = '#0D9488'; p3 = '#059669'; accent = '#10B981';
-          soft = 'rgba(16, 185, 129, 0.2)'; border = 'rgba(16, 185, 129, 0.45)';
-        } else if (elapsedHrs >= 48) {
-          phaseLabel = 'Breaking Through';
-          p1 = '#06B6D4'; p2 = '#8B5CF6'; p3 = '#3B82F6'; accent = '#06B6D4';
-          soft = 'rgba(6, 182, 212, 0.2)'; border = 'rgba(6, 182, 212, 0.45)';
-        }
-
-        const custom = THEMES[state.selectedTheme];
-        if (state.selectedTheme !== 'auto' && custom) {
-          p1 = custom.p1; p2 = custom.p2; p3 = custom.p3;
-          accent = custom.accent; soft = custom.soft; border = custom.border;
-        }
-
-        root.style.setProperty('--plasma-1', p1);
-        root.style.setProperty('--plasma-2', p2);
-        root.style.setProperty('--plasma-3', p3);
-        root.style.setProperty('--accent', accent);
-        root.style.setProperty('--accent-soft', soft);
-        root.style.setProperty('--accent-border', border);
-        phaseTextEl.textContent = phaseLabel;
-      }
-
-      /* =======================================================================
-         LIVE TICK & UI RENDERERS
-         ======================================================================= */
-      function renderLiveTick() {
-        const elapsed = getCurrentElapsedMs();
-        const days = Math.floor(elapsed / MS_PER_DAY);
-        const hours = Math.floor((elapsed % MS_PER_DAY) / MS_PER_HOUR);
-        const mins = Math.floor((elapsed % MS_PER_HOUR) / MS_PER_MIN);
-        const secs = Math.floor((elapsed % MS_PER_MIN) / 1000);
-
-        document.getElementById('t-days').textContent = String(days).padStart(2, '0');
-        document.getElementById('t-hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('t-mins').textContent = String(mins).padStart(2, '0');
-        document.getElementById('t-secs').textContent = String(secs).padStart(2, '0');
-
-        const { currentMult, currentRank, nextBoss } = getBossStatus();
-        document.getElementById('hero-rank-badge').textContent = `${currentMult.toFixed(2).replace(/\.00$/, '.0')}x ${currentRank}`;
-        document.getElementById('hero-xp-badge').textContent = `${state.xp} XP`;
-        document.getElementById('health-mult-badge').textContent = `${currentMult.toFixed(2).replace(/\.00$/, '.0')}x ${currentRank}`;
-
-        if (nextBoss) {
-          const remHrs = Math.max(0, nextBoss.hours - elapsed / MS_PER_HOUR);
-          const remStr = remHrs >= 24 ? `${(remHrs / 24).toFixed(1)}d left` : `${remHrs.toFixed(1)}h left`;
-          document.getElementById('hero-next-boss').textContent = `Next Boss: ${nextBoss.name.replace(/^Wave \d+:\s*/, '')} (${remStr})`;
-        } else {
-          document.getElementById('hero-next-boss').textContent = 'All Withdrawal Bosses Defeated — System Clear';
-        }
-
-        // Live metrics
-        const money = getMoneySavedGbp();
-        const pods = getPodsAvoided();
-        const lifetimeDays = getTotalVapeFreeMs() / MS_PER_DAY;
-
-        document.getElementById('m-money').textContent = `£${money.toFixed(2)}`;
-        document.getElementById('m-money-sub').textContent = `£${Number(state.weeklySpendGbp).toFixed(0)}/wk saved`;
-        document.getElementById('m-pods').textContent = pods.toFixed(1);
-        document.getElementById('m-pods-sub').textContent = `${state.weeklyPods} pods/wk`;
-        document.getElementById('m-cravings').textContent = String(state.cravingsDefeated);
-        document.getElementById('m-lifetime').textContent = `${lifetimeDays.toFixed(1)}d`;
-        document.getElementById('m-lifetime-sub').textContent = state.slipsCount > 0 ? `${state.slipsCount} slip(s) banked` : 'Cumulative total';
-
-        // Update Spray elapsed time & Patch reminder glow
-        renderQuickLogTiles();
-        // Update Goal bar live
-        renderSavingsGoal(money);
-        applyAmbientTheme();
-      }
-
-      function renderQuickLogTiles() {
-        const today = getTodayKey();
-        const appliedToday = state.patchLogs.includes(today);
-        const patchTile = document.getElementById('tile-patch');
-        const patchBadge = document.getElementById('patch-status-badge');
-        const patchTitle = document.getElementById('patch-tile-title');
-        const patchMeta = document.getElementById('patch-tile-meta');
-
-        patchTitle.textContent = `${state.patchStrength} Patch`;
-        const streakDays = getConsecutivePatchDays();
-
-        // Check reminder time (default 08:00)
-        const now = new Date();
-        const [remH, remM] = (state.patchReminderTime || '08:00').split(':').map(Number);
-        const pastReminder = now.getHours() > remH || (now.getHours() === remH && now.getMinutes() >= remM);
-
-        patchTile.classList.toggle('patch-done', appliedToday);
-        patchTile.classList.toggle('patch-reminder', !appliedToday && pastReminder);
-
-        if (appliedToday) {
-          patchBadge.textContent = 'Applied ✓';
-          patchMeta.textContent = `${streakDays}d streak · Tap to undo`;
-        } else {
-          patchBadge.textContent = pastReminder ? `Due ${state.patchReminderTime}` : 'Pending';
-          patchMeta.textContent = `${streakDays}d streak · Tap to apply`;
-        }
-
-        // Spray tile
-        const todaySprays = getTodaySprays();
-        document.getElementById('spray-today-badge').textContent = `${todaySprays.length} today`;
-        const lastSpray = state.sprayLogs.length ? state.sprayLogs[state.sprayLogs.length - 1] : null;
-        document.getElementById('spray-last-meta').textContent = lastSpray
-          ? `Last spray: ${formatTimeAgo(lastSpray.ts)}`
-          : 'No sprays logged yet';
-      }
-
-      function renderStaticDashboard() {
-        document.getElementById('dash-clinic-text').textContent = state.clinicAppointment || 'No appointment set';
-        document.getElementById('dash-why-text').textContent = state.myWhy || 'Tap edit to set your personal motivation.';
-      }
-
-      function renderSavingsGoal(liveMoney) {
-        const money = typeof liveMoney === 'number' ? liveMoney : getMoneySavedGbp();
-        const cost = Math.max(1, Number(state.goal.cost) || 100);
-        const pct = Math.min(100, (money / cost) * 100);
-
-        document.getElementById('goal-name-display').textContent = state.goal.name || 'Custom Reward';
-        document.getElementById('goal-amount-display').textContent = `£${money.toFixed(2)} / £${cost.toFixed(2)}`;
-        document.getElementById('goal-progress-bar').style.width = `${pct.toFixed(1)}%`;
-
-        if (money >= cost) {
-          document.getElementById('goal-eta-text').textContent = 'Reward Unlocked! You earned this with your vape-free savings.';
-        } else {
-          const rem = cost - money;
-          const perDay = (Number(state.weeklySpendGbp) || 0) / 7;
-          const daysLeft = perDay > 0 ? Math.ceil(rem / perDay) : null;
-          document.getElementById('goal-eta-text').textContent = daysLeft
-            ? `${pct.toFixed(0)}% funded · Approx. ${daysLeft} day(s) remaining`
-            : `${pct.toFixed(0)}% funded`;
-        }
-      }
-
-      function renderBossesAndHealth() {
-        const elapsed = getCurrentElapsedMs();
-        const elapsedHrs = elapsed / MS_PER_HOUR;
-
-        // Boss Fights
-        const bossContainer = document.getElementById('boss-list');
-        bossContainer.innerHTML = '';
-        BOSS_FIGHTS.forEach((b) => {
-          const defeated = elapsedHrs >= b.hours;
-          const pct = Math.min(100, (elapsedHrs / b.hours) * 100);
-          const card = document.createElement('div');
-          card.className = `boss-card${defeated ? ' defeated' : ''}`;
-          card.innerHTML = `
-            <div class="boss-top">
-              <div class="boss-title">${b.name}</div>
-              <span class="boss-status">${defeated ? 'DEFEATED ✓' : `${pct.toFixed(0)}%`}</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:${pct.toFixed(1)}%; ${defeated ? 'background:linear-gradient(90deg,#10B981,#34D399);' : ''}"></div>
-            </div>
-            <div class="muted-note">${b.rewardText}</div>
-          `;
-          bossContainer.appendChild(card);
-        });
-
-        // Themes Grid
-        const themeGrid = document.getElementById('theme-grid');
-        themeGrid.innerHTML = '';
-        Object.values(THEMES).forEach((t) => {
-          const unlocked = !t.reqBoss || state.unlockedThemes.includes(t.id);
-          const active = state.selectedTheme === t.id;
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = `theme-btn${active ? ' active' : ''}${unlocked ? '' : ' locked'}`;
-          btn.innerHTML = `
-            <span class="theme-swatch" style="background:${t.swatch};"></span>
-            <div>
-              <div class="theme-name">${t.name}</div>
-              <div class="theme-sub">${unlocked ? (active ? 'Active' : 'Unlocked') : `Locked · ${t.sub}`}</div>
-            </div>
-          `;
-          btn.addEventListener('click', (e) => {
-            spawnRipple(e, btn);
-            if (!unlocked) {
-              // Allow a quick 3-second preview of locked theme
-              showToast(`Defeat ${t.sub.replace(' Unlock', '')} to permanently unlock ${t.name}`);
-              return;
-            }
-            state.selectedTheme = t.id;
-            saveState();
-            applyAmbientTheme();
-            renderBossesAndHealth();
-            showToast(`Theme switched to ${t.name}`);
-          });
-          themeGrid.appendChild(btn);
-        });
-
-        // Physiological Recovery Milestones
-        const healthList = document.getElementById('health-milestones-list');
-        healthList.innerHTML = '';
-        HEALTH_MILESTONES.forEach((m) => {
-          const pct = Math.min(100, (elapsed / m.ms) * 100);
-          const done = pct >= 100;
-          const row = document.createElement('div');
-          row.className = 'bar-row';
-          row.innerHTML = `
-            <div class="bar-meta">
-              <span>${m.label}</span>
-              <span class="tabular" style="color:${done ? '#6EE7B7' : 'var(--text-muted)'};">${done ? '100% ✓' : `${pct.toFixed(0)}%`}</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:${pct.toFixed(1)}%;"></div>
-            </div>
-          `;
-          healthList.appendChild(row);
-        });
-      }
-
-      function renderSOSHistory() {
-        // Trigger breakdown
-        const breakdownEl = document.getElementById('trigger-breakdown');
-        const counts = {};
-        state.cravingLogs.forEach((c) => {
-          const k = c.trigger || 'Unspecified';
-          counts[k] = (counts[k] || 0) + 1;
-        });
-        const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-        const total = state.cravingLogs.length;
-
-        if (!entries.length) {
-          breakdownEl.innerHTML = '<div class="muted-note">No cravings logged yet. Your trigger patterns will appear here.</div>';
-        } else {
-          breakdownEl.innerHTML = entries.map(([name, cnt]) => {
-            const pct = Math.round((cnt / total) * 100);
-            return `
-              <div class="bar-row">
-                <div class="bar-meta">
-                  <span>${name}</span>
-                  <span class="tabular">${cnt} (${pct}%)</span>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill" style="width:${pct}%;"></div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Combined chronological history of cravings and sprays
-        const historyEl = document.getElementById('sos-history-list');
-        const combined = [
-          ...state.cravingLogs.map((c) => ({
-            ts: c.ts,
-            type: 'craving',
-            title: `Craving Defeated: ${c.trigger || 'General'}`,
-            sub: c.usedSpray ? 'Used NRT Mouth Spray (+1)' : 'Breathing & Willpower'
-          })),
-          ...state.sprayLogs.map((s) => ({
-            ts: s.ts,
-            type: 'spray',
-            title: 'NRT Mouth Spray (+1)',
-            sub: s.note || 'Quick-log dose'
-          }))
-        ].sort((a, b) => b.ts - a.ts).slice(0, 14);
-
-        if (!combined.length) {
-          historyEl.innerHTML = '<div class="muted-note">No recent craving or spray entries yet.</div>';
-        } else {
-          historyEl.innerHTML = combined.map((item) => `
-            <div class="history-item">
-              <div class="history-left">
-                <span class="history-dot" style="background:${item.type === 'craving' ? '#10B981' : '#06B6D4'}; box-shadow:0 0 8px ${item.type === 'craving' ? '#10B981' : '#06B6D4'};"></span>
-                <div>
-                  <div class="history-title">${item.title}</div>
-                  <div class="history-sub">${item.sub}</div>
-                </div>
-              </div>
-              <div class="history-time tabular">${formatShortTime(item.ts)}</div>
-            </div>
-          `).join('');
-        }
-      }
-
-      function populateSetupForm() {
-        document.getElementById('cfg-quit-date').value = toDatetimeLocalValue(state.currentStreakStart);
-        document.getElementById('cfg-weekly-spend').value = state.weeklySpendGbp;
-        document.getElementById('cfg-weekly-pods').value = state.weeklyPods;
-        document.getElementById('cfg-patch-strength').value = state.patchStrength;
-        document.getElementById('cfg-patch-time').value = state.patchReminderTime;
-        document.getElementById('cfg-clinic').value = state.clinicAppointment;
-        document.getElementById('cfg-why').value = state.myWhy;
-      }
-
-      /* =======================================================================
-         4-7-8 LIQUID BREATHING & 180s DISTRACTION TIMER
-         ======================================================================= */
-      let sosActive = false;
-      let sosInterval = null;
-      let sosStartMs = 0;
-      let sosDurationSec = 180;
-      let selectedTrigger = 'Stress';
-      let sosUsedSpray = false;
-
-      function updateBreathingUI() {
-        if (!sosActive) return;
-        const elapsedMs = Date.now() - sosStartMs;
-        const elapsedSec = elapsedMs / 1000;
-        const remaining = Math.max(0, Math.ceil(sosDurationSec - elapsedSec));
-
-        const mm = String(Math.floor(remaining / 60)).padStart(2, '0');
-        const ss = String(remaining % 60).padStart(2, '0');
-        document.getElementById('sos-timer-pill').textContent = `${mm}:${ss}`;
-
-        // 4-7-8 cycle = 19 seconds
-        const cyclePos = elapsedSec % 19;
-        const core = document.getElementById('breath-orb-core');
-        const outer = document.getElementById('breath-orb-outer');
-        const phaseLbl = document.getElementById('breath-phase-label');
-        const phaseSec = document.getElementById('breath-phase-sec');
-
-        if (cyclePos < 4) {
-          const p = cyclePos / 4;
-          const scale = 0.78 + p * 0.4;
-          core.style.transform = `scale(${scale.toFixed(3)})`;
-          outer.style.transform = `scale(${(scale * 1.12).toFixed(3)})`;
-          core.style.borderColor = 'rgba(103, 232, 249, 0.7)';
-          phaseLbl.textContent = 'INHALE';
-          phaseSec.textContent = String(Math.ceil(4 - cyclePos));
-        } else if (cyclePos < 11) {
-          const pulse = 1.18 + Math.sin((cyclePos - 4) * 2.2) * 0.03;
-          core.style.transform = `scale(${pulse.toFixed(3)})`;
-          outer.style.transform = `scale(${(pulse * 1.14).toFixed(3)})`;
-          core.style.borderColor = 'rgba(167, 139, 250, 0.75)';
-          phaseLbl.textContent = 'HOLD';
-          phaseSec.textContent = String(Math.ceil(11 - cyclePos));
-        } else {
-          const p = (cyclePos - 11) / 8;
-          const scale = 1.18 - p * 0.4;
-          core.style.transform = `scale(${scale.toFixed(3)})`;
-          outer.style.transform = `scale(${(scale * 1.12).toFixed(3)})`;
-          core.style.borderColor = 'rgba(16, 185, 129, 0.7)';
-          phaseLbl.textContent = 'EXHALE';
-          phaseSec.textContent = String(Math.ceil(19 - cyclePos));
-        }
-
-        if (remaining <= 0) {
-          stopSOSSession(true);
-        }
-      }
-
-      function startSOSSession() {
-        sosActive = true;
-        sosStartMs = Date.now();
-        document.getElementById('btn-sos-launch').textContent = 'Stop / Reset Breathing';
-        document.getElementById('sos-guidance').textContent = 'Breathe slowly through your nose, hold gently, and let the urge dissolve.';
-        clearInterval(sosInterval);
-        sosInterval = setInterval(updateBreathingUI, 100);
-        updateBreathingUI();
-      }
-
-      function stopSOSSession(completed = false) {
-        sosActive = false;
-        clearInterval(sosInterval);
-        document.getElementById('btn-sos-launch').textContent = 'Start 3-Min Craving SOS';
-        document.getElementById('breath-orb-core').style.transform = 'scale(0.78)';
-        document.getElementById('breath-orb-outer').style.transform = 'scale(0.78)';
-        document.getElementById('breath-phase-label').textContent = completed ? 'DONE' : 'READY';
-        document.getElementById('breath-phase-sec').textContent = completed ? '✓' : '4-7-8';
-        if (!completed) {
-          document.getElementById('sos-timer-pill').textContent = '03:00';
-        } else {
-          haptic(50);
-          showToast('3-Minute Wave Cleared! Tap "Craving Defeated" to claim +25 XP.');
-        }
-      }
-
-      /* =======================================================================
-         NAVIGATION & MODAL HELPERS
-         ======================================================================= */
-      function switchTab(tabId) {
-        document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
-        document.querySelectorAll('.nav-tab').forEach((b) => b.classList.remove('active'));
-
-        const panel = document.getElementById(tabId);
-        if (panel) panel.classList.add('active');
-        const navBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
-        if (navBtn) navBtn.classList.add('active');
-
-        // Hide floating emergency button when already on SOS tab
-        const floatingSos = document.getElementById('btn-floating-sos');
-        floatingSos.classList.toggle('hidden', tabId === 'tab-sos');
-
-        document.getElementById('app-main').scrollTo({ top: 0, behavior: 'smooth' });
-
-        if (tabId === 'tab-health') renderBossesAndHealth();
-        if (tabId === 'tab-sos') renderSOSHistory();
-        if (tabId === 'tab-setup') populateSetupForm();
-      }
-
-      function openModal(id) {
-        document.getElementById(id).classList.add('open');
-      }
-
-      function closeModal(id) {
-        document.getElementById(id).classList.remove('open');
-      }
-
-      /* =======================================================================
-         CLINIC REVIEW SUMMARY GENERATOR
-         ======================================================================= */
-      function buildClinicSummaryText() {
-        const elapsed = getCurrentElapsedMs();
-        const days = Math.floor(elapsed / MS_PER_DAY);
-        const hrs = Math.floor((elapsed % MS_PER_DAY) / MS_PER_HOUR);
-        const lifetimeDays = (getTotalVapeFreeMs() / MS_PER_DAY).toFixed(1);
-        const adherence = getPatchAdherenceRate();
-        const patchStreak = getConsecutivePatchDays();
-        const avgSprays = getAvgDailySprays().toFixed(1);
-        const todaySprays = getTodaySprays().length;
-
-        const counts = {};
-        state.cravingLogs.forEach((c) => {
-          counts[c.trigger] = (counts[c.trigger] || 0) + 1;
-        });
-        const topTriggers = Object.entries(counts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 3)
-          .map(([t, n]) => `${t} (${n})`)
-          .join(', ') || 'None logged yet';
-
-        return [
-          `CLOUDCLEAR — SMOKING CESSATION REVIEW`,
-          `Appointment: ${state.clinicAppointment}`,
-          `----------------------------------------`,
-          `• Current Vape-Free Streak: ${days} days, ${hrs} hours`,
-          `• Lifetime Vape-Free Total: ${lifetimeDays} days (${state.slipsCount} slip/s logged)`,
-          `• Money Saved: £${getMoneySavedGbp().toFixed(2)} (${getPodsAvoided().toFixed(1)} vapes avoided)`,
-          `• NRT Patch (${state.patchStrength}): ${adherence}% adherence (${patchStreak}-day streak)`,
-          `• NRT Mouth Spray: ${avgSprays}/day avg (${todaySprays} today, ${state.sprayLogs.length} total)`,
-          `• Cravings Defeated: ${state.cravingsDefeated}`,
-          `• Top Craving Triggers: ${topTriggers}`
-        ].join('\n');
-      }
-
-      /* =======================================================================
-         RELAPSE CIRCUIT BREAKER (#8)
-         ======================================================================= */
-      let relapseCooldownTimer = null;
-
-      function openRelapseModal() {
-        const elapsed = getCurrentElapsedMs();
-        const d = Math.floor(elapsed / MS_PER_DAY);
-        const h = Math.floor((elapsed % MS_PER_DAY) / MS_PER_HOUR);
-        const m = Math.floor((elapsed % MS_PER_HOUR) / MS_PER_MIN);
-        const wk = Number(state.weeklySpendGbp) || 0;
-        const mo = (wk * 52) / 12;
-        const { currentMult, currentRank } = getBossStatus();
-
-        document.getElementById('relapse-streak-loss').textContent = `${d}d ${h}h ${m}m`;
-        document.getElementById('relapse-cash-burn').textContent = `Cash burn restarting: £${wk.toFixed(2)}/wk (£${mo.toFixed(2)}/mo)`;
-        document.getElementById('relapse-rank-warning').textContent = `Active Rank (${currentMult}x ${currentRank}) resets to 1.0x Rookie.`;
-
-        const confirmBtn = document.getElementById('btn-confirm-relapse');
-        confirmBtn.disabled = true;
-        let secsLeft = 5;
-        confirmBtn.textContent = `Pause & Breathe (${secsLeft}s)...`;
-
-        clearInterval(relapseCooldownTimer);
-        relapseCooldownTimer = setInterval(() => {
-          secsLeft--;
-          if (secsLeft <= 0) {
-            clearInterval(relapseCooldownTimer);
-            confirmBtn.disabled = false;
-            confirmBtn.textContent = 'I Still Need to Log a Slip';
-          } else {
-            confirmBtn.textContent = `Pause & Breathe (${secsLeft}s)...`;
-          }
-        }, 1000);
-
-        openModal('modal-relapse');
-      }
-
-      /* =======================================================================
-         EVENT LISTENERS
-         ======================================================================= */
-      function bindEvents() {
-        // Bottom 4-Tab Navigation
-        document.querySelectorAll('.nav-tab').forEach((btn) => {
-          btn.addEventListener('click', (e) => {
-            spawnRipple(e, btn);
-            switchTab(btn.dataset.tab);
-          });
-        });
-
-        // Floating Emergency Craving Button
-        document.getElementById('btn-floating-sos').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          haptic(35);
-          switchTab('tab-sos');
-          if (!sosActive) startSOSSession();
-        });
-
-        // Quick-Log: 14mg Patch Toggle
-        document.getElementById('tile-patch').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          haptic(30);
-          const today = getTodayKey();
-          const idx = state.patchLogs.indexOf(today);
-          if (idx === -1) {
-            state.patchLogs.push(today);
-            state.xp += 15;
-            showToast(`${state.patchStrength} Patch applied today! (+15 XP)`);
-          } else {
-            state.patchLogs.splice(idx, 1);
-            showToast('Patch entry removed for today.');
-          }
-          saveState();
-          renderQuickLogTiles();
-          renderLiveTick();
-        });
-
-        // Quick-Log: +1 Mouth Spray
-        document.getElementById('tile-spray').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          haptic(30);
-          state.sprayLogs.push({ ts: Date.now(), note: 'Quick-log dose' });
-          saveState();
-          renderQuickLogTiles();
-          renderSOSHistory();
-          showToast(`+1 Mouth Spray logged (${getTodaySprays().length} today)`);
-        });
-
-        // Edit "My Why" shortcut
-        document.getElementById('btn-edit-why').addEventListener('click', () => {
-          switchTab('tab-setup');
-          setTimeout(() => document.getElementById('cfg-why').focus(), 200);
-        });
-
-        // Clinic Review Summary Modal
-        document.getElementById('btn-open-review-summary').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          document.getElementById('review-summary-content').textContent = buildClinicSummaryText();
-          openModal('modal-review');
-        });
-
-        document.getElementById('btn-copy-summary').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          const text = document.getElementById('review-summary-content').textContent;
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.select();
-          try {
-            document.execCommand('copy');
-            showToast('Review summary copied to clipboard');
-          } catch (_) {
-            showToast('Copy failed — you can read it right here');
-          }
-          ta.remove();
-        });
-
-        // SOS Controls
-        document.getElementById('btn-sos-launch').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          if (sosActive) {
-            stopSOSSession(false);
-          } else {
-            startSOSSession();
-          }
-        });
-
-        // Trigger Chips
-        const chips = document.querySelectorAll('.trigger-chip');
-        chips[0].classList.add('selected');
-        chips.forEach((chip) => {
-          chip.addEventListener('click', () => {
-            chips.forEach((c) => c.classList.remove('selected'));
-            chip.classList.add('selected');
-            selectedTrigger = chip.dataset.trigger;
-          });
-        });
-
-        // SOS Mouth Spray Toggle
-        document.getElementById('btn-sos-spray-toggle').addEventListener('click', (e) => {
-          const btn = e.currentTarget;
-          spawnRipple(e, btn);
-          haptic(25);
-          sosUsedSpray = !sosUsedSpray;
-          btn.classList.toggle('active', sosUsedSpray);
-          document.getElementById('sos-spray-toggle-label').textContent = sosUsedSpray
-            ? 'Mouth Spray Selected ✓ (+1 on Save)'
-            : 'Used Mouth Spray (+1)';
-        });
-
-        // Defeat Craving Button
-        document.getElementById('btn-defeat-craving').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          haptic(45);
-          const nowTs = Date.now();
-          state.cravingsDefeated += 1;
-          state.xp += 25;
-          state.cravingLogs.push({
-            ts: nowTs,
-            trigger: selectedTrigger,
-            usedSpray: sosUsedSpray
-          });
-          if (sosUsedSpray) {
-            state.sprayLogs.push({ ts: nowTs, note: `SOS (${selectedTrigger})` });
-          }
-          // Reset SOS toggle
-          sosUsedSpray = false;
-          document.getElementById('btn-sos-spray-toggle').classList.remove('active');
-          document.getElementById('sos-spray-toggle-label').textContent = 'Used Mouth Spray (+1)';
-          if (sosActive) stopSOSSession(false);
-
-          saveState();
-          renderSOSHistory();
-          renderLiveTick();
-          showToast(`Craving defeated! +25 XP (${selectedTrigger})`);
-        });
-
-        // Savings Goal Editor
-        document.getElementById('btn-toggle-goal-edit').addEventListener('click', () => {
-          const box = document.getElementById('goal-edit-box');
-          const showing = box.style.display !== 'none';
-          box.style.display = showing ? 'none' : 'block';
-          if (!showing) {
-            document.getElementById('input-goal-name').value = state.goal.name;
-            document.getElementById('input-goal-cost').value = state.goal.cost;
-          }
-        });
-
-        document.getElementById('btn-save-goal').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          const name = document.getElementById('input-goal-name').value.trim() || 'Custom Reward';
-          const cost = Math.max(1, Number(document.getElementById('input-goal-cost').value) || 50);
-          state.goal = { name, cost };
-          saveState();
-          renderSavingsGoal();
-          document.getElementById('goal-edit-box').style.display = 'none';
-          showToast('Savings reward goal updated');
-        });
-
-        // Setup Form Save
-        document.getElementById('setup-form').addEventListener('submit', (e) => {
-          e.preventDefault();
-          const dtVal = document.getElementById('cfg-quit-date').value;
-          const parsedTs = new Date(dtVal).getTime();
-          if (!isNaN(parsedTs)) {
-            state.currentStreakStart = Math.min(parsedTs, Date.now());
-          }
-          state.weeklySpendGbp = Math.max(0, Number(document.getElementById('cfg-weekly-spend').value) || 0);
-          state.weeklyPods = Math.max(0, Number(document.getElementById('cfg-weekly-pods').value) || 0);
-          state.patchStrength = document.getElementById('cfg-patch-strength').value.trim() || '14mg';
-          state.patchReminderTime = document.getElementById('cfg-patch-time').value || '08:00';
-          state.clinicAppointment = document.getElementById('cfg-clinic').value.trim();
-          state.myWhy = document.getElementById('cfg-why').value.trim();
-
-          saveState();
-          renderStaticDashboard();
-          renderLiveTick();
-          renderBossesAndHealth();
-          showToast('Plan settings saved');
-        });
-
-        // Relapse Circuit Breaker
-        document.getElementById('btn-open-relapse').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          openRelapseModal();
-        });
-
-        document.getElementById('btn-confirm-relapse').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          const elapsed = getCurrentElapsedMs();
-          state.bankedVapeFreeMs += elapsed;
-          state.slipsCount += 1;
-          state.slipLogs.push({ ts: Date.now(), bankedMs: elapsed });
-          state.currentStreakStart = Date.now();
-          saveState();
-          closeModal('modal-relapse');
-          renderLiveTick();
-          renderBossesAndHealth();
-          populateSetupForm();
-          showToast('Slip logged. Lifetime progress banked — fresh streak started.');
-        });
-
-        // Export JSON Backup
-        document.getElementById('btn-export-json').addEventListener('click', (e) => {
-          spawnRipple(e, e.currentTarget);
-          const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `cloudclear-backup-${getTodayKey()}.json`;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          URL.revokeObjectURL(url);
-          showToast('Backup downloaded (.json)');
-        });
-
-        // Import JSON Backup
-        const fileInput = document.getElementById('import-file-input');
-        document.getElementById('btn-import-json').addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', (e) => {
-          const file = e.target.files && e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = () => {
-            try {
-              const imported = JSON.parse(reader.result);
-              if (!imported || typeof imported !== 'object' || typeof imported.currentStreakStart !== 'number') {
-                throw new Error('Invalid backup structure');
-              }
-              state = { ...createDefaultState(), ...imported, onboarded: true };
-              saveState();
-              renderStaticDashboard();
-              renderLiveTick();
-              renderBossesAndHealth();
-              renderSOSHistory();
-              populateSetupForm();
-              showToast('Backup restored successfully');
-            } catch (_) {
-              showToast('Invalid CloudClear JSON backup file');
-            }
-          };
-          reader.readAsText(file);
-          fileInput.value = '';
-        });
-
-        // Modal Close Buttons
-        document.querySelectorAll('[data-close-modal]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const targetId = btn.getAttribute('data-close-modal');
-            if (targetId === 'modal-relapse') clearInterval(relapseCooldownTimer);
-            closeModal(targetId);
-          });
-        });
-
-        // First-Run Onboarding Submit
-        document.getElementById('onboarding-form').addEventListener('submit', (e) => {
-          e.preventDefault();
-          const dtVal = document.getElementById('ob-quit-date').value;
-          const ts = new Date(dtVal).getTime();
-          state.currentStreakStart = isNaN(ts) ? Date.now() : Math.min(ts, Date.now());
-          state.weeklySpendGbp = Math.max(0, Number(document.getElementById('ob-spend').value) || 25);
-          state.weeklyPods = Math.max(0, Number(document.getElementById('ob-pods').value) || 3);
-          state.patchStrength = document.getElementById('ob-patch').value.trim() || '14mg';
-          state.patchReminderTime = document.getElementById('ob-time').value || '08:00';
-          state.clinicAppointment = document.getElementById('ob-clinic').value.trim();
-          state.myWhy = document.getElementById('ob-why').value.trim();
-          state.onboarded = true;
-
-          saveState();
-          closeModal('modal-onboarding');
-          renderStaticDashboard();
-          renderLiveTick();
-          renderBossesAndHealth();
-          populateSetupForm();
-          showToast('Welcome to CloudClear — You have got this!');
-        });
-      }
-
-      /* =======================================================================
-         INITIALIZATION
-         ======================================================================= */
-      function init() {
-        bindEvents();
-        renderStaticDashboard();
-        renderLiveTick();
-        renderBossesAndHealth();
-        renderSOSHistory();
-        populateSetupForm();
-
-        if (!state.onboarded) {
-          document.getElementById('ob-quit-date').value = toDatetimeLocalValue(Date.now());
-          openModal('modal-onboarding');
-        }
-
-        // Live 1-second ticker for sobriety clock & money saved
-        setInterval(renderLiveTick, 1000);
-      }
-
-      window.addEventListener('DOMContentLoaded', init);
-    })();
-  </script>
+  <div class="card">
+    <h2>Streak freeze <span class="sub">One slip does not erase you. Use a freeze, keep your streak, and patch the hole.</span></h2>
+    <p id="freeze-text">You have 1 streak freeze available. A freeze keeps your current streak going after a slip, while still logging what happened.</p>
+    <button class="btn gold" id="btn-use-freeze" type="button">Use my streak freeze</button>
+    <p class="tiny">If you have no freeze left, a slip still keeps your lifetime total and your original quit date. Only the current streak restarts, and only from the slip.</p>
+  </div>
+
+  <div class="card">
+    <h2>Slip, not relapse <span class="sub">A slip is one moment. A relapse is going back to vaping every day. They are not the same.</span></h2>
+    <p>Had a slip? Log it honestly, work out what led to it, and carry on. Your lifetime vape-free time stays exactly as it was.</p>
+    <button class="btn" id="btn-open-relapse" type="button">Log a slip</button>
+  </div>
+
+  <div class="card">
+    <h2>Backup and restore <span class="sub">Your data lives only on this phone. Export it now and then, just in case.</span></h2>
+    <p class="small">Export downloads a JSON file with your logs, settings and lifetime total. Keep it somewhere safe.</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap">
+      <button class="btn teal" id="btn-export-json" type="button">Export backup</button>
+      <button class="btn" id="btn-import-json" type="button">Import backup</button>
+      <input type="file" id="import-file-input" accept="application/json,.json" hidden>
+    </div>
+    <p class="tiny" id="pwa-note" style="margin-top:12px">Offline mode: this page works without internet once opened. Add it to your home screen to install it like an app.</p>
+  </div>
+
+  <div class="card">
+    <h2>Clinic review <span class="sub">Wednesday 2 December 2026, 2:40 to 3:00pm, telephone call with Claire, Ashville Medical Practice.</span></h2>
+    <button class="btn" id="btn-open-review-summary" type="button">Copy a summary for Claire</button>
+    <p class="tiny" style="margin-top:10px">The summary includes your patch adherence, spray use, cravings and slips. It is copied to your clipboard, nothing is sent anywhere.</p>
+    <details><summary>Need help right now?</summary><p class="small" style="margin-top:8px">If cravings feel unmanageable, call Yorkshire Smokefree or your GP, Ashville Medical Practice. If you feel unsafe, call NHS 111. You do not have to do this alone.</p></details>
+  </div>
+
+  <div class="card">
+    <h2>Start over <span class="sub">Only if you really mean it. This deletes everything on this phone.</span></h2>
+    <button class="btn" id="btn-reset-all" type="button">Reset all CloudClear data</button>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="sos-fab"><button class="btn primary" id="btn-floating-sos" type="button">I need help right now: SOS</button></div>
+<nav class="tabs" aria-label="Sections">
+  <button type="button" data-tab="tab-dashboard" class="on"><span>◉</span>Today</button>
+  <button type="button" data-tab="tab-sos"><span>⚡</span>Cravings</button>
+  <button type="button" data-tab="tab-health"><span>♥</span>Health</button>
+  <button type="button" data-tab="tab-nrt"><span>+</span>NRT</button>
+  <button type="button" data-tab="tab-setup"><span>⚙</span>Settings</button>
+</nav>
+
+<!-- SOS SHEET -->
+<div class="sheet" id="sos-sheet" role="dialog" aria-modal="true" aria-label="Craving SOS">
+  <div class="sheet-card">
+    <div style="display:flex; justify-content:space-between; align-items:center"><h2 style="font-size:21px">Ride this wave</h2><button class="btn small ghost" id="btn-close-sos" type="button">Close</button></div>
+    <p class="small">Three minutes. That is all this craving needs to peak and fade.</p>
+    <div class="sos-ring">
+      <svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="64" fill="none" stroke="rgba(212,250,253,.14)" stroke-width="10"/><circle id="sos-ring-fg" cx="75" cy="75" r="64" fill="none" stroke="#7FFFD4" stroke-width="10" stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="0"/></svg>
+      <div class="c"><div><b id="sos-timer-pill">3:00</b><div class="tiny">left in this wave</div></div></div>
+    </div>
+    <div class="orb-wrap">
+      <div class="orb" id="breath-orb-core">Breathe</div>
+      <p style="font-weight:700; margin:6px 0 2px"><span id="breath-phase-label">Inhale</span> <span id="breath-phase-sec">4s</span></p>
+      <p class="tiny" id="sos-guidance">Breathe in for 4, hold for 7, breathe out for 8. Slow is strong.</p>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:10px 0">
+      <button class="btn teal small" id="btn-breath-start" type="button">Start breathing</button>
+      <button class="btn small" id="btn-breath-stop" type="button">Pause breathing</button>
+      <button class="btn gold small" id="btn-distract" type="button">Distract me</button>
+    </div>
+    <div class="calm-note" id="distract-box" hidden><b id="distract-title">Try this</b><p id="distract-text" style="margin:6px 0 0"></p><p class="tiny" id="distract-count" style="margin-top:8px"></p></div>
+    <div class="card" style="margin-top:14px">
+      <h3>What triggered this?</h3>
+      <div class="chipset" id="trigger-chips"></div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:12px; flex-wrap:wrap">
+        <button class="btn small" id="btn-sos-spray-toggle" type="button" aria-pressed="false"><span id="sos-spray-toggle-label">Use spray: off</span></button>
+        <span class="tiny">Spray is fine to use. It is not cheating.</span>
+      </div>
+      <button class="btn primary block" id="btn-defeat-craving" type="button" style="margin-top:12px">I beat this craving (+10 XP)</button>
+      <p class="tiny" style="text-align:center; margin-top:8px">Pick a trigger first if you can. If not, just tap beat it. That still counts.</p>
+    </div>
+    <div class="calm-note"><b>Remember why:</b> <span id="sos-why-text"></span></div>
+  </div>
+</div>
+
+<!-- RELAPSE / SLIP MODAL -->
+<div class="modal" id="modal-relapse" role="dialog" aria-modal="true" aria-label="Log a slip">
+  <div class="modal-card">
+    <h2 id="relapse-modal-title">A slip, not a reset</h2>
+    <p>Your lifetime vape-free time is safe. It stays banked, and your original quit date stays too. Only the current streak restarts, and only if you do not use a freeze.</p>
+    <div class="warn-note" id="relapse-streak-loss"></div>
+    <div class="field" style="margin-top:12px"><label for="slip-trigger">What happened just before?</label><select class="glass-input" id="slip-trigger"><option>Stress</option><option>Coffee</option><option>Alcohol</option><option>Social</option><option>Driving</option><option>After a meal</option><option>Bedtime</option><option>Boredom</option><option>Work</option><option>Seeing my vape</option><option>Something else</option></select></div>
+    <div class="field"><label for="slip-note">What will you do differently next time? (your patch for this hole)</label><textarea class="glass-input" id="slip-note" placeholder="e.g. Next time I feel stressed I will step outside and breathe first."></textarea></div>
+    <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px"><input type="checkbox" id="slip-use-freeze" style="width:22px; height:22px; accent-color:#F5C86B; margin-top:2px"> Use my streak freeze, if I have one, and keep my current streak going</label>
+    <div style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap">
+      <button class="btn primary" id="btn-confirm-relapse" type="button">Log slip and carry on</button>
+      <button class="btn ghost" id="btn-cancel-relapse" type="button">Not now</button>
+    </div>
+    <p class="tiny" style="margin-top:10px" id="relapse-cash-burn"></p>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal" id="modal-review" role="dialog" aria-modal="true" aria-label="Clinic review summary">
+  <div class="modal-card">
+    <h2 id="review-modal-title">Summary for Claire</h2>
+    <div id="review-summary-content" style="white-space:pre-wrap; font-size:14px; background:rgba(0,24,1,.4); border:1px solid var(--line); border-radius:14px; padding:14px"></div>
+    <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
+      <button class="btn teal" id="btn-copy-summary" type="button">Copy summary</button>
+      <button class="btn ghost" id="btn-close-review" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="modal" id="modal-onboarding" role="dialog" aria-modal="true" aria-label="Welcome to CloudClear">
+  <div class="modal-card">
+    <h2 id="onboard-title">Welcome to CloudClear</h2>
+    <p>Your vape-free companion is pre-set with your Yorkshire Smokefree plan. Check it, adjust anything, and begin. Nothing is shared, nothing is shaming, and a slip never erases your progress.</p>
+    <form id="onboarding-form">
+      <div class="field"><label for="ob-quit-date">When did you quit?</label><input class="glass-input" id="ob-quit-date" type="datetime-local" required></div>
+      <div class="grid2">
+        <div class="field"><label for="ob-spend">Weekly vape spend (£)</label><input class="glass-input" id="ob-spend" type="number" min="0" step="1" value="25"></div>
+        <div class="field"><label for="ob-pods">Pods per week</label><input class="glass-input" id="ob-pods" type="number" min="0" step="1" value="3"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="ob-patch">Patch strength</label><select class="glass-input" id="ob-patch"><option>21mg</option><option selected>14mg</option><option>7mg</option></select></div>
+        <div class="field"><label for="ob-time">Patch time</label><input class="glass-input" id="ob-time" type="time" value="08:00"></div>
+      </div>
+      <div class="field"><label for="ob-clinic">Clinic appointment</label><input class="glass-input" id="ob-clinic" value="Ashville Medical Practice - Dec 2 at 2:40 PM (Telephone Review)"></div>
+      <div class="field"><label for="ob-why">My why</label><textarea class="glass-input" id="ob-why">Clear lungs, steady energy, and keeping my money in my pocket.</textarea></div>
+      <button class="btn primary block" type="submit">Start my quit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var STORAGE_KEY='cloudclear_pwa_v1';
+var MS_MIN=60000, MS_HOUR=3600000, MS_DAY=86400000, MS_WEEK=604800000;
+var BOSS_FIGHTS=[
+ {id:'wave1',name:'Wave 1: The 24-Hour Wall',hours:24,mult:1.25,rank:'Daybreaker',unlockTheme:'cyberpunk',reward:'Unlocks 1.25x and Cyberpunk Cyan theme'},
+ {id:'wave2',name:'Wave 2: 72-Hour Peak Nicotine Purge',hours:72,mult:1.5,rank:'Iron Lungs',unlockTheme:'emerald',reward:'Unlocks 1.5x and Bioluminescent Emerald theme'},
+ {id:'wave3',name:'Wave 3: First Smoke-Free Weekend',hours:168,mult:1.75,rank:'Weekend Warrior',unlockTheme:'amethyst',reward:'Unlocks 1.75x and Royal Amethyst theme'},
+ {id:'wave4',name:'Wave 4: 14-Day Habit Breaker',hours:336,mult:2,rank:'Habit Breaker',unlockTheme:null,reward:'Unlocks 2.0x and Habit Mastery badge'},
+ {id:'wave5',name:'Wave 5: 30-Day Full System Reset',hours:720,mult:2.5,rank:'Unbreakable',unlockTheme:null,reward:'Unlocks 2.5x and Unbreakable rank'}
+];
+var MILESTONES=[
+ {label:'24 hours vape free',hours:24,badge:'First Day'},
+ {label:'3 days: withdrawal peak passed',hours:72,badge:'Peak Survivor'},
+ {label:'1 week vape free',hours:168,badge:'Week Warrior'},
+ {label:'14 days: habit breaking',hours:336,badge:'Habit Breaker'},
+ {label:'28 days: 5x more likely to stay quit (NHS)',hours:672,badge:'28 Day Star'},
+ {label:'3 months vape free',hours:2160,badge:'Quarter Clear'},
+ {label:'1 year vape free',hours:8760,badge:'One Year Clear'}
+];
+var HEALTH=[
+ {label:'Heart rate and blood pressure start to drop',ms:20*MS_MIN,when:'20 minutes'},
+ {label:'Carbon monoxide in blood halved, oxygen recovering',ms:8*MS_HOUR,when:'8 hours'},
+ {label:'Carbon monoxide at non-smoker level, taste and smell improving',ms:48*MS_HOUR,when:'48 hours'},
+ {label:'Bronchial tubes relax, breathing easier, energy increasing',ms:72*MS_HOUR,when:'72 hours'},
+ {label:'Circulation improves, blood pumping much better',ms:14*MS_DAY,when:'2 to 12 weeks'},
+ {label:'Coughs and wheezing improving, lung function up by up to 10%',ms:90*MS_DAY,when:'3 to 9 months'},
+ {label:'Risk of heart attack halved compared with a smoker',ms:365*MS_DAY,when:'1 year'},
+ {label:'Risk of death from lung cancer halved compared with a smoker',ms:3650*MS_DAY,when:'10 years'}
+];
+var THEMES={
+ auto:{id:'auto',name:'Reactive Auto',sub:'Shifts with your streak',swatch:'linear-gradient(135deg,#FF8A7A,#11747A,#7FFFD4)',req:null},
+ cyberpunk:{id:'cyberpunk',name:'Cyberpunk Cyan',sub:'Wave 1 unlock',swatch:'linear-gradient(135deg,#06B6D4,#3B82F6)',req:'wave1',p1:'#06B6D4',p2:'#3B82F6',p3:'#8B5CF6',accent:'#06B6D4',soft:'rgba(6,182,212,.2)',border:'rgba(6,182,212,.48)'},
+ emerald:{id:'emerald',name:'Bioluminescent Emerald',sub:'Wave 2 unlock',swatch:'linear-gradient(135deg,#10B981,#0D9488)',req:'wave2',p1:'#10B981',p2:'#0D9488',p3:'#059669',accent:'#10B981',soft:'rgba(16,185,129,.2)',border:'rgba(16,185,129,.48)'},
+ amethyst:{id:'amethyst',name:'Royal Amethyst',sub:'Wave 3 unlock',swatch:'linear-gradient(135deg,#8B5CF6,#EC4899)',req:'wave3',p1:'#8B5CF6',p2:'#D946EF',p3:'#6366F1',accent:'#A78BFA',soft:'rgba(139,92,246,.22)',border:'rgba(167,139,250,.5)'}
+};
+var TRIGGERS=['Stress','Coffee','Alcohol','Social','Driving','After a meal','Bedtime','Boredom','Work','Seeing my vape'];
+var MISSIONS=[
+ {id:'patch',text:'Put your 14mg patch on this morning'},
+ {id:'water',text:'Drink a full glass of water before your first coffee'},
+ {id:'walk',text:'Take a 10 minute walk, ideally with Tyler or Maegan'},
+ {id:'breathe',text:'Do one 4-7-8 breathing round when a craving comes'},
+ {id:'reason',text:'Read your My Why out loud once'},
+ {id:'journal',text:'Write one honest line in your journal'}
+];
+var REFRAMES=[
+ 'This urge will peak, then pass. You have beaten it before.',
+ 'You are not missing out. You are getting your breath, your money and your mornings back.',
+ 'Three minutes from now, this craving will be weaker. Stay with it.',
+ 'Your vape is still in the house, and you are still here, still trying. That counts.',
+ 'Tyler gets a dad with clearer lungs. That is worth three minutes.',
+ 'You do not need a vape to get through this moment. You need a breath, some water, and a minute.'
+];
+function createDefaultState(){return{
+ onboarded:false, currentStreakStart:Date.now(), bankedVapeFreeMs:0,
+ weeklySpendGbp:25, weeklyPods:3, patchStrength:'14mg', patchReminderTime:'08:00',
+ clinicAppointment:'Ashville Medical Practice - Dec 2 at 2:40 PM (Telephone Review)',
+ myWhy:'Clear lungs, steady energy, and keeping my money in my pocket.',
+ selectedTheme:'auto', unlockedThemes:['auto'], cravingsDefeated:0, xp:0, slipsCount:0,
+ slipLogs:[], patchLogs:[], sprayLogs:[], cravingLogs:[],
+ goal:{name:'New Wireless Earbuds', cost:120},
+ nrtWeeklyCostGbp:0, sprayStrength:'1mg', taperStage:0, streakFreezes:1, freezeUsed:0,
+ missionsDone:{}, journalEntries:[], reasons:['For Tyler','For Maegan','Clear lungs','Keep my money'], plans:[{trigger:'Stress',action:'Step outside for air and breathe 4-7-8'}],
+ lastCheckin:'', weeklyReviewDone:''
+};}
+function loadState(){
+ var d=createDefaultState();
+ try{
+  var raw=localStorage.getItem(STORAGE_KEY); if(!raw) return d;
+  var p=JSON.parse(raw); if(!p||typeof p!=='object') return d;
+  var s={}; Object.keys(d).forEach(function(k){ s[k]=(p[k]===undefined? d[k] : p[k]); });
+  s.goal={name:(p.goal&&p.goal.name)||d.goal.name, cost:Number((p.goal&&p.goal.cost)||d.goal.cost)||120};
+  ['patchLogs','sprayLogs','cravingLogs','slipLogs','journalEntries','reasons','plans','unlockedThemes'].forEach(function(k){ if(!Array.isArray(s[k])) s[k]=d[k].slice(); });
+  if(typeof s.missionsDone!=='object'||!s.missionsDone) s.missionsDone={};
+  if(typeof s.streakFreezes!=='number') s.streakFreezes=1;
+  if(typeof s.freezeUsed!=='number') s.freezeUsed=0;
+  if(typeof s.taperStage!=='number') s.taperStage=0;
+  if(typeof s.nrtWeeklyCostGbp!=='number') s.nrtWeeklyCostGbp=0;
+  return s;
+ }catch(e){ return d; }
+}
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+var state=loadState();
+function $(id){ return document.getElementById(id); }
+function todayKey(dt){ dt=dt||new Date(); var m=String(dt.getMonth()+1).padStart(2,'0'), d=String(dt.getDate()).padStart(2,'0'); return dt.getFullYear()+'-'+m+'-'+d; }
+function toLocal(ts){ var d=new Date(ts), p=function(n){return String(n).padStart(2,'0');}; return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes()); }
+function ago(ts){ var diff=Math.max(0,Date.now()-ts), m=Math.floor(diff/MS_MIN); if(m<1) return 'Just now'; if(m<60) return m+'m ago'; var h=Math.floor(m/60); if(h<24) return h+'h '+(m%60)+'m ago'; return Math.floor(h/24)+'d ago'; }
+function shortTime(ts){ var d=new Date(ts); return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+', '+d.toLocaleDateString([],{month:'short',day:'numeric'}); }
+function toast(msg){ var s=$('toast-stack'), el=document.createElement('div'); el.className='toast'; el.textContent=msg; s.appendChild(el); setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(function(){ el.remove(); },320); },2600); }
+function haptic(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||25); }catch(e){} }
+function elapsedMs(){ return Math.max(0, Date.now()-state.currentStreakStart); }
+function totalMs(){ return Math.max(0, state.bankedVapeFreeMs + elapsedMs()); }
+function grossMoney(){ return (totalMs()/MS_WEEK)*(Number(state.weeklySpendGbp)||0); }
+function nrtCost(){ return (totalMs()/MS_WEEK)*(Number(state.nrtWeeklyCostGbp)||0); }
+function netMoney(){ return Math.max(0, grossMoney()-nrtCost()); }
+function podsAvoided(){ return (totalMs()/MS_WEEK)*(Number(state.weeklyPods)||0); }
+function levelInfo(){ var lvl=Math.floor(state.xp/100)+1, into=state.xp%100; return {level:lvl, into:into, need:100-into}; }
+function bossStatus(){
+ var hrs=elapsedMs()/MS_HOUR, mult=1, rank='Rookie', next=null, changed=false;
+ BOSS_FIGHTS.forEach(function(b){ if(hrs>=b.hours){ mult=b.mult; rank=b.rank; if(b.unlockTheme && state.unlockedThemes.indexOf(b.unlockTheme)<0){ state.unlockedThemes.push(b.unlockTheme); changed=true; } } else if(!next){ next=b; } });
+ if(changed) saveState();
+ return {mult:mult, rank:rank, next:next, hrs:hrs};
+}
+function patchStreak(){
+ var set=new Set(state.patchLogs), n=0, c=new Date();
+ if(!set.has(todayKey(c))) c.setDate(c.getDate()-1);
+ while(set.has(todayKey(c))){ n++; c.setDate(c.getDate()-1); }
+ return n;
+}
+function patchAdherence(){ var days=Math.max(1, Math.ceil(totalMs()/MS_DAY)); return Math.min(100, Math.round((new Set(state.patchLogs).size/days)*100)); }
+function todaySprays(){ var t=todayKey(); return state.sprayLogs.filter(function(s){ return todayKey(new Date(s.ts))===t; }); }
+function awardXp(n, msg){ state.xp=(state.xp||0)+n; saveState(); if(msg) toast(msg+' (+'+n+' XP)'); }
+
+function renderLive(){
+ var el=elapsedMs(), tot=totalMs();
+ var d=Math.floor(el/MS_DAY), h=Math.floor(el%MS_DAY/MS_HOUR), m=Math.floor(el%MS_HOUR/MS_MIN), s=Math.floor(el%MS_MIN/1000);
+ var pad=function(n){ return String(n).padStart(2,'0'); };
+ $('t-days').textContent=pad(d); $('t-hours').textContent=pad(h); $('t-mins').textContent=pad(m); $('t-secs').textContent=pad(s);
+ var bs=bossStatus(), li=levelInfo();
+ $('hero-rank-badge').textContent=bs.mult.toFixed(2).replace(/\.00$/,'.0')+'x '+bs.rank;
+ $('hero-xp-badge').textContent=state.xp+' XP';
+ $('hero-level-badge').textContent='Level '+li.level;
+ $('health-mult-badge').textContent=bs.mult.toFixed(2).replace(/\.00$/,'.0')+'x '+bs.rank;
+ $('xp-fill').style.width=li.into+'%';
+ $('xp-text').textContent=li.into+' / 100 XP to Level '+(li.level+1);
+ var nextMs=MILESTONES.find(function(x){ return el < x.hours*MS_HOUR; });
+ var pct=0, label='All milestones cleared';
+ if(nextMs){ var prevMs=MILESTONES[MILESTONES.indexOf(nextMs)-1]; var start=prevMs? prevMs.hours*MS_HOUR : 0; pct=Math.min(100, Math.round(((el-start)/(nextMs.hours*MS_HOUR-start))*100)); label=nextMs.label; $('hero-next-boss').textContent='Next milestone: '+label; }
+ else { pct=100; $('hero-next-boss').textContent='All milestones cleared. You did it.'; }
+ $('ring-days').textContent=String(Math.floor(tot/MS_DAY));
+ $('ring-label').textContent=Math.floor(tot/MS_DAY)===1?'day vape free':'days vape free';
+ $('ring-pct').textContent=pct+'% to next milestone';
+ $('hero-ring').style.strokeDashoffset=String(540.4*(1-pct/100));
+ $('m-money').textContent='£'+netMoney().toFixed(2);
+ $('m-pods').textContent=podsAvoided().toFixed(1);
+ $('m-cravings').textContent=String(state.cravingsDefeated||0);
+ $('m-lifetime').textContent='Lifetime vape free: '+(tot/MS_DAY).toFixed(1)+' days'+(state.slipsCount? '  |  '+state.slipsCount+' slip(s) logged, lifetime kept' : '');
+ var phase='Starting out';
+ if(el>=168*MS_HOUR) phase='Clear System'; else if(el>=48*MS_HOUR) phase='Breaking Through'; else if(el>=24*MS_HOUR) phase='First Day Done';
+ $('header-phase-text').textContent=phase;
+ renderGoal(netMoney()); renderPatchTiles(); renderNrt();
+}
+function renderGoal(money){
+ var cost=Math.max(1, Number(state.goal.cost)||100), pct=Math.min(100,(money/cost)*100);
+ $('goal-name-display').textContent=state.goal.name;
+ $('goal-amount-display').textContent='£'+money.toFixed(2)+' / £'+cost.toFixed(2);
+ $('goal-progress-bar').style.width=pct+'%';
+ if(money>=cost) $('goal-eta-text').textContent='Goal reached. Treat yourself, you earned it.';
+ else { var rem=cost-money, perWeek=Math.max(0.01,(Number(state.weeklySpendGbp)||0)-(Number(state.nrtWeeklyCostGbp)||0)); $('goal-eta-text').textContent='£'+rem.toFixed(2)+' to go. About '+Math.ceil(rem/perWeek)+' week(s) at your current saving rate.'; }
+}
+function renderPatchTiles(){
+ var today=todayKey(), applied=state.patchLogs.indexOf(today)>=0;
+ $('patch-status-badge').textContent=applied?'Logged today':'Not logged yet';
+ $('patch-status-badge').className='badge'+(applied?'':' off');
+ $('patch-tile-title').textContent=applied?'Patch on today':'Patch today';
+ $('patch-tile-meta').textContent='Nicotinell '+state.patchStrength+'  |  '+patchStreak()+' day streak';
+ $('patch-streak').textContent=patchStreak()+' days';
+ $('patch-adherence').textContent=patchAdherence()+'%';
+ var sp=todaySprays();
+ $('spray-today-badge').textContent=sp.length+' today';
+ $('spray-last-meta').textContent=state.sprayLogs.length? ('Last spray '+ago(state.sprayLogs[state.sprayLogs.length-1].ts)) : '1mg spray, as needed';
+ $('spray-avg').textContent=sp.length+' today  |  '+(state.sprayLogs.length? (state.sprayLogs.length/Math.max(1,totalMs()/MS_DAY)).toFixed(1) : '0')+' / day avg';
+ $('patch-reminder-label').textContent=state.patchReminderTime;
+}
+function renderNrt(){
+ $('nrt-patch-strength').textContent='Nicotinell '+state.patchStrength;
+ $('nrt-patch-time').textContent=state.patchReminderTime;
+ $('nrt-spray-total').textContent=String(state.sprayLogs.length);
+ $('nrt-net').textContent='£'+netMoney().toFixed(2);
+ var list=$('spray-log-list');
+ if(!state.sprayLogs.length){ list.innerHTML='<p class="small">No sprays logged yet.</p>'; }
+ else { list.innerHTML=state.sprayLogs.slice(-8).reverse().map(function(s){ return '<div class="list-row"><span>Spray'+(s.note? '  |  '+escapeHtml(s.note):'')+'</span><b>'+ago(s.ts)+'</b></div>'; }).join(''); }
+}
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function renderMissions(){
+ var today=todayKey(), done=state.missionsDone[today]||[];
+ var picks=MISSIONS.slice(0,3); var all=MISSIONS;
+ var box=$('missions-list'); box.innerHTML='';
+ var daySeed=Math.floor(Date.now()/MS_DAY)%3;
+ var todays=[all[daySeed%all.length], all[(daySeed+1)%all.length], all[(daySeed+2)%all.length]];
+ todays.forEach(function(mn){
+  var doneFlag=done.indexOf(mn.id)>=0;
+  var div=document.createElement('label'); div.className='mission'+(doneFlag?' done':'');
+  div.innerHTML='<input type="checkbox" '+(doneFlag?'checked':'')+' data-mission="'+mn.id+'"> <span><b>'+escapeHtml(mn.text)+'</b><br><span class="tiny">+15 XP when ticked</span></span>';
+  box.appendChild(div);
+ });
+ $('missions-note').textContent=done.length? done.length+' mission(s) done today. Nice work.' : 'Pick one to start with. The patch one is the easiest win.';
+ box.querySelectorAll('input').forEach(function(inp){
+  inp.addEventListener('change', function(){
+   var t=todayKey(); if(!state.missionsDone[t]) state.missionsDone[t]=[];
+   var arr=state.missionsDone[t], id=inp.getAttribute('data-mission');
+   if(inp.checked && arr.indexOf(id)<0){ arr.push(id); awardXp(15,'Mission done'); }
+   if(!inp.checked){ var i=arr.indexOf(id); if(i>=0) arr.splice(i,1); }
+   saveState(); renderMissions(); renderLive();
+  });
+ });
+}
+function renderReasons(){
+ var box=$('reasons-list');
+ box.innerHTML=state.reasons.map(function(r,i){ return '<div class="list-row"><span>'+escapeHtml(r)+'</span><button class="btn small ghost" type="button" data-reason-del="'+i+'">Remove</button></div>'; }).join('') || '<p class="small">Add your first reason below.</p>';
+ box.querySelectorAll('[data-reason-del]').forEach(function(b){ b.addEventListener('click', function(){ state.reasons.splice(Number(b.getAttribute('data-reason-del')),1); saveState(); renderReasons(); }); });
+ $('sos-why-text').textContent=state.myWhy;
+ $('dash-why-text').textContent=state.myWhy;
+}
+function renderJournal(){
+ var box=$('journal-list');
+ if(!state.journalEntries.length){ box.innerHTML='<p class="small">No entries yet.</p>'; return; }
+ box.innerHTML=state.journalEntries.slice(-5).reverse().map(function(j){ return '<div class="list-row"><span><b>'+escapeHtml(j.mood)+'</b>  |  '+escapeHtml(j.text)+'</span><b>'+shortTime(j.ts)+'</b></div>'; }).join('');
+}
+function renderTriggers(){
+ var counts={}; state.cravingLogs.forEach(function(c){ counts[c.trigger]=(counts[c.trigger]||0)+1; });
+ var total=state.cravingLogs.length, box=$('trigger-breakdown');
+ if(!total){ box.innerHTML='<p class="small">No cravings logged yet. When you log one, your patterns will show here.</p>'; $('peak-insight').innerHTML=''; }
+ else {
+  var rows=Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; }).map(function(k){ var pct=Math.round(counts[k]/total*100); return '<div style="margin-bottom:9px"><div style="display:flex; justify-content:space-between; font-size:14px"><span>'+escapeHtml(k)+'</span><b>'+counts[k]+' ('+pct+'%)</b></div><div class="bar" style="margin-top:5px"><i style="width:'+pct+'%"></i></div></div>'; }).join('');
+  box.innerHTML=rows;
+  var hours={}; state.cravingLogs.forEach(function(c){ var h=new Date(c.ts).getHours(); var slot=h<6?'night':h<12?'morning':h<18?'afternoon':'evening'; hours[slot]=(hours[slot]||0)+1; });
+  var peak=Object.keys(hours).sort(function(a,b){ return hours[b]-hours[a]; })[0];
+  $('peak-insight').innerHTML='<div class="calm-note">Your busiest craving time is <b>'+peak+'</b>. Plan for it: keep water and spray nearby, and use your if-then plan for that time.</div>';
+ }
+ var hist=$('sos-history-list');
+ if(!state.cravingLogs.length){ hist.innerHTML='<p class="small">Nothing logged yet.</p>'; }
+ else { hist.innerHTML=state.cravingLogs.slice(-8).reverse().map(function(c){ return '<div class="list-row"><span>'+escapeHtml(c.trigger)+(c.usedSpray?'  |  spray used':'')+'</span><b>'+ago(c.ts)+'</b></div>'; }).join(''); }
+ var plans=$('plans-list');
+ plans.innerHTML=state.plans.map(function(p,i){ return '<div class="list-row"><span>When <b>'+escapeHtml(p.trigger)+'</b>, I will '+escapeHtml(p.action)+'</span><button class="btn small ghost" type="button" data-plan-del="'+i+'">Remove</button></div>'; }).join('') || '<p class="small">No plans yet. Save one below.</p>';
+ plans.querySelectorAll('[data-plan-del]').forEach(function(b){ b.addEventListener('click', function(){ state.plans.splice(Number(b.getAttribute('data-plan-del')),1); saveState(); renderTriggers(); }); });
+ var last7=state.cravingLogs.filter(function(c){ return Date.now()-c.ts < 7*MS_DAY; }).length;
+ var prev7=state.cravingLogs.filter(function(c){ return Date.now()-c.ts >= 7*MS_DAY && Date.now()-c.ts < 14*MS_DAY; }).length;
+ $('weekly-review').innerHTML='<div class="kv"><span>Cravings this week</span><b>'+last7+'</b></div><div class="kv"><span>Cravings the week before</span><b>'+prev7+'</b></div><div class="kv"><span>Cravings beaten in total</span><b>'+state.cravingsDefeated+'</b></div><div class="kv"><span>Patch adherence</span><b>'+patchAdherence()+'%</b></div><div class="kv"><span>Money saved (net)</span><b>£'+netMoney().toFixed(2)+'</b></div>'+(last7<prev7 && prev7>0 ? '<div class="calm-note">Cravings are falling compared with last week. That is real progress, even if it does not feel like it yet.</div>' : '<div class="calm-note">Keep logging. Patterns only show up once there is a week or two of data, and then you can plan around them.</div>');
+}
+function renderHealth(){
+ var el=elapsedMs();
+ $('boss-list').innerHTML=BOSS_FIGHTS.map(function(b){
+  var done=el>=b.hours*MS_HOUR;
+  var left=b.hours-el/MS_HOUR;
+  return '<div class="list-row"><span><b>'+(done?'✓ ':'')+escapeHtml(b.name)+'</b><br><span class="tiny">'+escapeHtml(b.reward)+'</span></span><b>'+(done?'Cleared':(left>=24? (left/24).toFixed(1)+'d left' : left.toFixed(1)+'h left'))+'</b></div>';
+ }).join('');
+ $('health-milestones-list').innerHTML=HEALTH.map(function(h){
+  var done=totalMs()>=h.ms;
+  return '<div class="tl'+(done?' done':'')+'"><b>'+escapeHtml(h.when)+'  '+(done?'<span class="tag">Unlocked</span>':'')+'</b><span>'+escapeHtml(h.label)+'</span></div>';
+ }).join('');
+ var badges=MILESTONES.map(function(m){ var done=el>=m.hours*MS_HOUR; return '<div class="list-row"><span>'+(done?'★ ':'○ ')+escapeHtml(m.badge)+'  |  '+escapeHtml(m.label)+'</span><b>'+(done?'Earned':'Not yet')+'</b></div>'; }).join('');
+ $('badges-list').innerHTML=badges;
+ var grid=$('theme-grid');
+ grid.innerHTML=Object.keys(THEMES).map(function(k){
+  var t=THEMES[k], unlocked=!t.req || state.unlockedThemes.indexOf(k)>=0, on=state.selectedTheme===k;
+  return '<button class="theme'+(on?' on':'')+'" type="button" data-theme="'+k+'" '+(unlocked?'':'disabled')+'><div class="swatch" style="background:'+t.swatch+'"></div><b>'+escapeHtml(t.name)+'</b><br><span class="tiny">'+escapeHtml(t.sub)+(unlocked?'':'  |  Locked')+'</span></button>';
+ }).join('');
+ grid.querySelectorAll('[data-theme]').forEach(function(b){ b.addEventListener('click', function(){ state.selectedTheme=b.getAttribute('data-theme'); saveState(); applyTheme(); renderHealth(); toast('Theme changed'); }); });
+}
+function applyTheme(){
+ var root=document.documentElement, el=elapsedMs();
+ var p1='#11747A', p2='#0a5a52', p3='#024340', accent='#11747A';
+ if(el>=168*MS_HOUR){ p1='#10B981'; p2='#0D9488'; }
+ else if(el>=48*MS_HOUR){ p1='#06B6D4'; p2='#8B5CF6'; }
+ var custom=THEMES[state.selectedTheme];
+ if(state.selectedTheme!=='auto' && custom && custom.p1){ p1=custom.p1; p2=custom.p2; p3=custom.p3; accent=custom.accent; }
+ root.style.setProperty('--accent', accent);
+ root.style.setProperty('--teal', p1);
+}
+function renderAll(){ renderLive(); renderMissions(); renderReasons(); renderJournal(); renderTriggers(); renderHealth(); applyTheme();
+ $('dash-clinic-text').textContent=state.clinicAppointment.replace(' - Dec 2 at 2:40 PM (Telephone Review)', ', Wed 2 Dec, 2:40pm, telephone call with Claire').replace('Ashville Medical Practice', 'Ashville Medical Practice');
+ $('freeze-text').textContent='You have '+(state.streakFreezes-state.freezeUsed)+' streak freeze(s) available. A freeze keeps your current streak going after a slip, while still logging what happened.';
+}
+
+/* Tabs */
+document.querySelectorAll('nav.tabs button').forEach(function(btn){
+ btn.addEventListener('click', function(){
+  document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('.tabpane').forEach(function(p){ p.classList.remove('on'); });
+  $(btn.getAttribute('data-tab')).classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+ });
+});
+function showTab(id){ document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab')===id); }); document.querySelectorAll('.tabpane').forEach(function(p){ p.classList.toggle('on', p.id===id); }); window.scrollTo({top:0, behavior:'smooth'}); }
+
+/* SOS */
+var sosTimer=null, sosLeft=180, breathTimer=null, breathStep=0, selectedTrigger='', sosSpray=false, distractCount=0;
+function fmtSos(sec){ return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); }
+function openSos(){
+ $('sos-sheet').classList.add('open'); document.body.style.overflow='hidden';
+ sosLeft=180; $('sos-timer-pill').textContent=fmtSos(sosLeft); $('sos-ring-fg').style.strokeDashoffset='0';
+ $('sos-why-text').textContent=state.myWhy;
+ clearInterval(sosTimer);
+ sosTimer=setInterval(function(){ sosLeft--; if(sosLeft<=0){ clearInterval(sosTimer); $('sos-timer-pill').textContent='0:00'; $('sos-guidance').textContent='Three minutes done. The wave has passed. You beat it.'; toast('Wave passed. Well done.'); return; } $('sos-timer-pill').textContent=fmtSos(sosLeft); $('sos-ring-fg').style.strokeDashoffset=String(402*(1-sosLeft/180)); },1000);
+ renderTriggerChips();
+}
+function closeSos(){ $('sos-sheet').classList.remove('open'); document.body.style.overflow=''; clearInterval(sosTimer); stopBreath(); }
+function renderTriggerChips(){
+ var box=$('trigger-chips'); box.innerHTML='';
+ TRIGGERS.forEach(function(t){
+  var b=document.createElement('button'); b.type='button'; b.className='tchip'+(selectedTrigger===t?' on':''); b.textContent=t;
+  b.addEventListener('click', function(){ selectedTrigger=t; renderTriggerChips(); });
+  box.appendChild(b);
+ });
+}
+var BREATH=[{label:'Inhale',sec:4,cls:'in'},{label:'Hold',sec:7,cls:'in'},{label:'Exhale',sec:8,cls:'out'}];
+function startBreath(){
+ stopBreath(); breathStep=0; runBreathStep();
+}
+function runBreathStep(){
+ var step=BREATH[breathStep%3];
+ $('breath-phase-label').textContent=step.label;
+ $('breath-orb-core').className='orb '+step.cls;
+ $('breath-orb-core').textContent=step.label;
+ var left=step.sec; $('breath-phase-sec').textContent=left+'s';
+ breathTimer=setInterval(function(){ left--; if(left<=0){ clearInterval(breathTimer); breathStep++; runBreathStep(); } else { $('breath-phase-sec').textContent=left+'s'; } },1000);
+}
+function stopBreath(){ if(breathTimer){ clearInterval(breathTimer); breathTimer=null; } $('breath-orb-core').className='orb'; $('breath-orb-core').textContent='Breathe'; }
+$('btn-sos-launch').addEventListener('click', openSos);
+$('btn-floating-sos').addEventListener('click', openSos);
+$('btn-close-sos').addEventListener('click', closeSos);
+$('btn-breath-start').addEventListener('click', startBreath);
+$('btn-breath-stop').addEventListener('click', stopBreath);
+$('btn-distract').addEventListener('click', function(){
+ distractCount++;
+ var ideas=[
+  {t:'Tap and count', x:'Tap the breathing orb 10 times, slowly. Count out loud. By 10, the sharpest part of the craving is usually gone.'},
+  {t:'Cold water', x:'Get a cold glass of water. Drink it slowly, in small sips. Feel it, do not rush it.'},
+  {t:'Walk it off', x:'Walk to the front door and back, or step outside for a minute of fresh air. Movement breaks the loop.'},
+  {t:'Text someone', x:'Text Maegan or a friend: "Craving right now, talk to me for a minute." You do not have to face it alone.'},
+  {t:'Play with Tyler', x:'Go and do one small thing with Tyler for two minutes. It pulls your mind right back to why you are doing this.'},
+  {t:'Reframe it', x: REFRAMES[distractCount % REFRAMES.length]}
+ ];
+ var idea=ideas[distractCount % ideas.length];
+ $('distract-box').hidden=false; $('distract-title').textContent=idea.t; $('distract-text').textContent=idea.x;
+ $('distract-count').textContent='Distraction '+(distractCount)+' used in this craving. Keep going, you are nearly through it.';
+});
+$('btn-sos-spray-toggle').addEventListener('click', function(){
+ sosSpray=!sosSpray; $('sos-spray-toggle-label').textContent='Use spray: '+(sosSpray?'on':'off'); $('btn-sos-spray-toggle').setAttribute('aria-pressed', String(sosSpray));
+});
+$('btn-defeat-craving').addEventListener('click', function(){
+ state.cravingLogs.push({ts:Date.now(), trigger:selectedTrigger||'Not logged', usedSpray:sosSpray});
+ state.cravingsDefeated=(state.cravingsDefeated||0)+1;
+ if(sosSpray) state.sprayLogs.push({ts:Date.now(), note:'Used during SOS'});
+ awardXp(10,'Craving beaten');
+ saveState(); renderAll(); closeSos(); haptic(40);
+ toast(selectedTrigger? 'You beat a '+selectedTrigger+' craving. Well done.' : 'You beat that craving. Well done.');
+ selectedTrigger=''; sosSpray=false; $('sos-spray-toggle-label').textContent='Use spray: off';
+});
+
+/* NRT quick log */
+function logPatch(){
+ var today=todayKey();
+ if(state.patchLogs.indexOf(today)>=0){ toast('Patch already logged for today.'); return; }
+ state.patchLogs.push(today); awardXp(15,'Patch logged'); saveState(); renderAll(); haptic(30);
+}
+function logSpray(note){
+ state.sprayLogs.push({ts:Date.now(), note:note||''}); awardXp(5,'Spray logged'); saveState(); renderAll(); haptic(20);
+}
+$('tile-patch').addEventListener('click', logPatch);
+$('btn-nrt-patch').addEventListener('click', logPatch);
+$('tile-spray').addEventListener('click', function(){ logSpray(''); toast('Spray logged.'); });
+$('btn-nrt-spray').addEventListener('click', function(){ logSpray(''); toast('Spray logged.'); });
+$('btn-nrt-spray-note').addEventListener('click', function(){ var n=$('spray-note').value.trim(); logSpray(n); $('spray-note').value=''; toast('Spray logged'+(n?' with note.':'.')); });
+$('taper-stage').addEventListener('change', function(){ state.taperStage=Number($('taper-stage').value); saveState(); toast('Taper stage saved.'); });
+
+/* Goal */
+$('btn-toggle-goal-edit').addEventListener('click', function(){ var b=$('goal-edit-box'); b.hidden=!b.hidden; if(!b.hidden){ $('input-goal-name').value=state.goal.name; $('input-goal-cost').value=state.goal.cost; } });
+$('btn-save-goal').addEventListener('click', function(){
+ var name=$('input-goal-name').value.trim()||'My treat goal', cost=Math.max(1, Number($('input-goal-cost').value)||120);
+ state.goal={name:name, cost:cost}; saveState(); renderAll(); $('goal-edit-box').hidden=true; toast('Goal saved.');
+});
+
+/* Why / reasons / journal / plans */
+$('btn-edit-why').addEventListener('click', function(){ showTab('tab-setup'); setTimeout(function(){ $('cfg-why').focus(); },300); });
+$('btn-add-reason').addEventListener('click', function(){
+ var v=$('reason-input').value.trim(); if(!v) return;
+ state.reasons.push(v); $('reason-input').value=''; saveState(); renderReasons(); toast('Reason added.');
+});
+$('btn-save-journal').addEventListener('click', function(){
+ var v=$('journal-text').value.trim(); if(!v){ toast('Write one line first.'); return; }
+ state.journalEntries.push({ts:Date.now(), text:v, mood:$('journal-mood').value});
+ $('journal-text').value=''; awardXp(10,'Journal saved'); saveState(); renderJournal(); renderLive();
+});
+$('btn-add-plan').addEventListener('click', function(){
+ var t=$('plan-trigger').value, a=$('plan-action').value.trim(); if(!a){ toast('Add what you will do, e.g. step outside.'); return; }
+ state.plans.push({trigger:t, action:a}); $('plan-action').value=''; saveState(); renderTriggers(); toast('Plan saved.');
+});
+
+/* Slip */
+function openRelapse(){
+ $('relapse-streak-loss').textContent='Current streak at risk: '+Math.floor(elapsedMs()/MS_DAY)+' day(s) in this streak. Lifetime total ('+(totalMs()/MS_DAY).toFixed(1)+' days) is never reset.';
+ $('relapse-cash-burn').textContent='If you go back to vaping every day, that costs about £'+(Number(state.weeklySpendGbp)||0)+' a week. One slip does not do that. Keep going.';
+ $('modal-relapse').classList.add('open');
+}
+$('btn-open-relapse').addEventListener('click', openRelapse);
+$('btn-cancel-relapse').addEventListener('click', function(){ $('modal-relapse').classList.remove('open'); });
+$('btn-confirm-relapse').addEventListener('click', function(){
+ var useFreeze=$('slip-use-freeze').checked && (state.streakFreezes-state.freezeUsed)>0;
+ var trig=$('slip-trigger').value, note=$('slip-note').value.trim();
+ state.slipLogs.push({ts:Date.now(), trigger:trig, note:note, freezeUsed:useFreeze});
+ state.slipsCount=(state.slipsCount||0)+1;
+ if(note) state.plans.push({trigger:trig, action:note});
+ if(useFreeze){ state.freezeUsed++; toast('Slip logged. Streak freeze used, your streak keeps going.'); }
+ else {
+  state.bankedVapeFreeMs=totalMs();
+  state.currentStreakStart=Date.now();
+  toast('Slip logged. Lifetime kept, streak restarts from now. You are still in this.');
+ }
+ $('slip-note').value=''; $('slip-use-freeze').checked=false;
+ saveState(); renderAll(); $('modal-relapse').classList.remove('open');
+});
+$('btn-use-freeze').addEventListener('click', function(){
+ if(state.streakFreezes-state.freezeUsed<=0){ toast('No freezes left. A slip still keeps your lifetime total.'); return; }
+ toast('Freeze ready. It will be offered automatically when you log a slip.');
+});
+
+/* Review summary */
+function buildReview(){
+ var days=Math.max(1, Math.ceil(totalMs()/MS_DAY));
+ return 'CloudClear summary for Claire, Ashville Medical Practice\nClinic review: Wed 2 Dec 2026, 2:40pm (telephone)\n\nQuit: '+(totalMs()/MS_DAY).toFixed(1)+' days vape free in total, current streak '+Math.floor(elapsedMs()/MS_DAY)+' days\nMoney saved (net): £'+netMoney().toFixed(2)+'\nPods avoided: '+podsAvoided().toFixed(1)+'\nCravings beaten: '+state.cravingsDefeated+'\nSlips: '+state.slipsCount+'\n\nNRT Patch ('+state.patchStrength+'): '+patchAdherence()+'% adherence ('+patchStreak()+'-day streak)\nNRT Mouth Spray: '+(state.sprayLogs.length/Math.max(1,totalMs()/MS_DAY)).toFixed(1)+'/day avg ('+todaySprays().length+' today, '+state.sprayLogs.length+' total)\n\nMy why: '+state.myWhy+'\n\nNote: the spray hurts a bit sometimes. Vape is still in the house, which makes resisting hard.';
+}
+$('btn-open-review-summary').addEventListener('click', function(){ $('review-summary-content').textContent=buildReview(); $('modal-review').classList.add('open'); });
+$('btn-close-review').addEventListener('click', function(){ $('modal-review').classList.remove('open'); });
+$('btn-copy-summary').addEventListener('click', function(){
+ var txt=buildReview();
+ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){ toast('Summary copied.'); }, function(){ toast('Copy did not work, please copy it by hand.'); }); }
+ else { toast('Copy did not work in this browser.'); }
+});
+
+/* Settings */
+function fillSettings(){
+ $('cfg-quit-date').value=toLocal(state.currentStreakStart);
+ $('cfg-weekly-spend').value=state.weeklySpendGbp; $('cfg-weekly-pods').value=state.weeklyPods;
+ $('cfg-patch-strength').value=state.patchStrength; $('cfg-patch-time').value=state.patchReminderTime;
+ $('cfg-nrt-cost').value=state.nrtWeeklyCostGbp||0; $('cfg-clinic').value=state.clinicAppointment; $('cfg-why').value=state.myWhy;
+ $('taper-stage').value=String(state.taperStage||0);
+}
+$('setup-form').addEventListener('submit', function(e){
+ e.preventDefault();
+ var q=new Date($('cfg-quit-date').value).getTime();
+ if(!isNaN(q) && q<=Date.now()){ state.bankedVapeFreeMs=0; state.currentStreakStart=q; }
+ state.weeklySpendGbp=Math.max(0, Number($('cfg-weekly-spend').value)||0);
+ state.weeklyPods=Math.max(0, Number($('cfg-weekly-pods').value)||0);
+ state.patchStrength=$('cfg-patch-strength').value; state.patchReminderTime=$('cfg-patch-time').value||'08:00';
+ state.nrtWeeklyCostGbp=Math.max(0, Number($('cfg-nrt-cost').value)||0);
+ state.clinicAppointment=$('cfg-clinic').value.trim()||state.clinicAppointment;
+ state.myWhy=$('cfg-why').value.trim()||state.myWhy;
+ saveState(); renderAll(); fillSettings(); toast('Settings saved.');
+});
+$('btn-export-json').addEventListener('click', function(){
+ var blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='cloudclear-backup-'+todayKey()+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+ toast('Backup downloaded.');
+});
+$('btn-import-json').addEventListener('click', function(){ $('import-file-input').click(); });
+$('import-file-input').addEventListener('change', function(e){
+ var f=e.target.files && e.target.files[0]; if(!f) return;
+ var r=new FileReader();
+ r.onload=function(){
+  try{ var imp=JSON.parse(r.result); if(!imp||typeof imp!=='object') throw new Error('bad file');
+   var d=createDefaultState(); state={}; Object.keys(d).forEach(function(k){ state[k]=(imp[k]===undefined? d[k] : imp[k]); });
+   state.goal={name:(imp.goal&&imp.goal.name)||d.goal.name, cost:Number((imp.goal&&imp.goal.cost)||120)};
+   state.onboarded=true; saveState(); renderAll(); fillSettings(); toast('Backup imported.');
+  }catch(err){ toast('That file could not be imported.'); }
+ };
+ r.readAsText(f); e.target.value='';
+});
+$('btn-reset-all').addEventListener('click', function(){
+ if(!confirm('Reset all CloudClear data on this phone? This cannot be undone. Export a backup first if you want to keep it.')) return;
+ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+ state=createDefaultState(); saveState(); location.reload();
+});
+
+/* Onboarding */
+function maybeOnboard(){
+ if(state.onboarded) return;
+ $('ob-quit-date').value=toLocal(state.currentStreakStart);
+ $('modal-onboarding').classList.add('open');
+}
+$('onboarding-form').addEventListener('submit', function(e){
+ e.preventDefault();
+ var q=new Date($('ob-quit-date').value).getTime(); if(!isNaN(q) && q<=Date.now()) state.currentStreakStart=q;
+ state.weeklySpendGbp=Math.max(0, Number($('ob-spend').value)||0);
+ state.weeklyPods=Math.max(0, Number($('ob-pods').value)||0);
+ state.patchStrength=$('ob-patch').value; state.patchReminderTime=$('ob-time').value||'08:00';
+ state.clinicAppointment=$('ob-clinic').value.trim()||state.clinicAppointment;
+ state.myWhy=$('ob-why').value.trim()||state.myWhy;
+ state.onboarded=true; saveState(); renderAll(); fillSettings();
+ $('modal-onboarding').classList.remove('open'); toast('Welcome. Day one starts now.');
+});
+
+/* PWA: service worker, guarded. On GitHub Pages a single file has no worker file to register, so this fails quietly by design. */
+if('serviceWorker' in navigator){
+ try{
+  var swCode="self.addEventListener('install',function(e){self.skipWaiting();});self.addEventListener('fetch',function(e){});";
+  var swUrl=URL.createObjectURL(new Blob([swCode],{type:'text/javascript'}));
+  navigator.serviceWorker.register(swUrl).catch(function(){ /* offline still works via localStorage, no worker needed */ });
+ }catch(e){ /* ignore */ }
+}
+renderAll(); fillSettings(); maybeOnboard();
+setInterval(renderLive, 1000);
+})();
+</script>
 </body>
 </html>
