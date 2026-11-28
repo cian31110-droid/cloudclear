@@ -114,8 +114,24 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .history{font-size:14px;color:var(--muted)} .history li{margin-bottom:8px}
 .confetti{position:fixed;top:-10px;width:8px;height:14px;z-index:99;pointer-events:none;animation:fall 2.8s ease-in forwards}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}
+.page{display:none}
+.page.active{display:block;animation:pageIn .18s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.page-head{padding:22px 0 2px}
+.page-head h1{font-size:32px}
+.page-head p{color:var(--muted);margin:6px 0 0;font-size:14px}
+.page-head + section{margin-top:18px}
+.wrap{padding-bottom:112px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.tab-btn{background:transparent;border:0;border-radius:12px;min-height:54px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.02em;line-height:1.1}
+.tab-btn svg{width:22px;height:22px;flex:0 0 22px}
+.tab-btn.active{color:var(--accent);background:var(--soft)}
+.tab-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(8px);bottom:calc(84px + env(safe-area-inset-bottom));z-index:70;background:var(--ink);color:var(--bg);border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;max-width:calc(100% - 32px);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .widget{display:none}
 html[data-hatch-view="widget"] .app{display:none}
+html[data-hatch-view="widget"] .tabbar,html[data-hatch-view="widget"] .toast{display:none!important}
 html[data-hatch-view="widget"] dialog{display:none!important}
 html[data-hatch-view="widget"] .widget{display:flex;flex-direction:column;justify-content:center;height:100vh;padding:16px;color:var(--ink)}
 @media(prefers-color-scheme:dark){html[data-hatch-view="widget"] .widget{--ink:#F2F3F0;--muted:#C9CCC4;--accent:#9BD18E;color:#F2F3F0}}
@@ -130,6 +146,8 @@ footer{margin-top:32px;border-top:1px solid var(--line);padding-top:16px;color:v
 <main class="app wrap">
   <div class="topbar"><div class="logo">Cloud<span>Clear</span></div><div class="live-dot"><i></i> Live tracker</div></div>
 
+  <!-- PAGE: HOME -->
+  <div class="page active" data-page-panel="home" id="page-home">
   <div class="hero">
     <p class="k">Vape free</p>
     <div class="bigdays"><span id="daysBig">0</span> <small>days</small></div>
@@ -146,7 +164,13 @@ footer{margin-top:32px;border-top:1px solid var(--line);padding-top:16px;color:v
       <div class="stat"><label>Cravings beaten</label><strong id="cravingsBeaten">0</strong><p>Tap +1 when you ride one out</p><button class="btn ghost" id="beatBtn" style="margin-top:10px;width:100%">+ I beat a craving</button></div>
       <div class="stat"><label>Lifetime total</label><strong id="lifetimeTotal">0 days</strong><p id="bestStreak">Best streak: 0 days</p></div>
     </div>
+    <button class="btn secondary full" data-nav="sos" style="margin-top:14px">Craving right now? Go to SOS</button>
   </div>
+  </div><!-- /page-home -->
+
+  <!-- PAGE: GARDEN -->
+  <div class="page" data-page-panel="garden" id="page-garden">
+  <div class="page-head"><h1>Garden</h1><p>Your tree, your worlds, and everyone who joins you along the way.</p></div>
 
   <!-- TREE -->
   <section>
@@ -160,24 +184,6 @@ footer{margin-top:32px;border-top:1px solid var(--line);padding-top:16px;color:v
         <div class="progress"><i id="stageProgress" style="width:0%"></i></div>
         <p id="stageNext" style="font-size:13px;color:var(--muted);margin:8px 0 0"></p>
       </div>
-    </div>
-  </section>
-
-  <!-- SOS -->
-  <section><div class="sos"><h2 style="font-size:24px">Craving right now?</h2><p>Most cravings peak and pass in about 3 minutes. Breathe through this one, have a drink of water, change rooms.</p><button class="btn" id="sosBtn">Start SOS breathing</button><button class="btn secondary" id="sosBeat" style="width:100%;margin-top:8px;background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">I got through it — log it</button></div></section>
-
-  <!-- CHECK IN -->
-  <section>
-    <div class="sec-head"><h2>Daily check-in</h2><span id="checkinDate"></span></div>
-    <div class="card">
-      <p style="margin:0 0 10px;font-weight:600;font-size:14px">How are you feeling today?</p>
-      <div class="mood-row" id="moodRow">
-        <button class="mood" data-mood="Great">Great</button><button class="mood" data-mood="Good">Good</button><button class="mood" data-mood="Okay">Okay</button><button class="mood" data-mood="Tough">Tough</button><button class="mood" data-mood="Really hard">Really hard</button>
-      </div>
-      <div class="field" style="margin-top:14px"><label>Craving level (1 = none, 10 = intense)</label><input type="number" id="cravingLevel" min="1" max="10" value="3"></div>
-      <div class="field"><label>Note (optional)</label><textarea id="checkinNote" placeholder="What helped today? What was hard?"></textarea></div>
-      <button class="btn full" id="saveCheckin">Save today's check-in</button>
-      <p id="checkinSaved" style="color:var(--accent);font-weight:600;font-size:14px;margin:10px 0 0"></p>
     </div>
   </section>
 
@@ -195,18 +201,56 @@ footer{margin-top:32px;border-top:1px solid var(--line);padding-top:16px;color:v
     <div class="sec-head"><h2>Badges</h2><span>Quiet extras</span></div>
     <div class="badges" id="badgeList"></div>
   </section>
+  </div><!-- /page-garden -->
 
-  <!-- HEALTH -->
-  <section>
-    <div class="sec-head"><h2>Health timeline</h2><span>What recovers, and when</span></div>
-    <div class="card"><ul class="timeline" id="healthList"></ul></div>
-  </section>
+  <!-- PAGE: SOS -->
+  <div class="page" data-page-panel="sos" id="page-sos">
+  <div class="page-head"><h1>SOS</h1><p>For the hard minutes. Breathe first, decide after.</p></div>
+
+  <!-- SOS -->
+  <section><div class="sos"><h2 style="font-size:24px">Craving right now?</h2><p>Most cravings peak and pass in about 3 minutes. Breathe through this one, have a drink of water, change rooms.</p><button class="btn" id="sosBtn">Start SOS breathing</button><button class="btn secondary" id="sosBeat" style="width:100%;margin-top:8px;background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">I got through it — log it</button></div></section>
 
   <!-- WHY -->
   <section>
     <div class="sec-head"><h2>My why</h2><span>Read this on a hard day</span></div>
     <div class="card"><textarea id="whyInput" placeholder="Why did you quit? For Tyler, for money, for your lungs — write it in your own words."></textarea><button class="btn full" id="saveWhy" style="margin-top:10px">Save my why</button></div>
   </section>
+  </div><!-- /page-sos -->
+
+  <!-- PAGE: CHECK-IN -->
+  <div class="page" data-page-panel="checkin" id="page-checkin">
+  <div class="page-head"><h1>Check-ins</h1><p>A quick note on how today actually felt.</p></div>
+
+  <!-- CHECK IN -->
+  <section>
+    <div class="sec-head"><h2>Daily check-in</h2><span id="checkinDate"></span></div>
+    <div class="card">
+      <p style="margin:0 0 10px;font-weight:600;font-size:14px">How are you feeling today?</p>
+      <div class="mood-row" id="moodRow">
+        <button class="mood" data-mood="Great">Great</button><button class="mood" data-mood="Good">Good</button><button class="mood" data-mood="Okay">Okay</button><button class="mood" data-mood="Tough">Tough</button><button class="mood" data-mood="Really hard">Really hard</button>
+      </div>
+      <div class="field" style="margin-top:14px"><label>Craving level (1 = none, 10 = intense)</label><input type="number" id="cravingLevel" min="1" max="10" value="3"></div>
+      <div class="field"><label>Note (optional)</label><textarea id="checkinNote" placeholder="What helped today? What was hard?"></textarea></div>
+      <button class="btn full" id="saveCheckin">Save today's check-in</button>
+      <p id="checkinSaved" style="color:var(--accent);font-weight:600;font-size:14px;margin:10px 0 0"></p>
+    </div>
+  </section>
+  </div><!-- /page-checkin -->
+
+  <!-- PAGE: HEALTH -->
+  <div class="page" data-page-panel="health" id="page-health">
+  <div class="page-head"><h1>Health</h1><p>What is recovering, and when it happens.</p></div>
+
+  <!-- HEALTH -->
+  <section>
+    <div class="sec-head"><h2>Health timeline</h2><span>What recovers, and when</span></div>
+    <div class="card"><ul class="timeline" id="healthList"></ul></div>
+  </section>
+  </div><!-- /page-health -->
+
+  <!-- PAGE: SETTINGS -->
+  <div class="page" data-page-panel="settings" id="page-settings">
+  <div class="page-head"><h1>Settings</h1><p>Your quit details, theme, backups, and what happens if you slip.</p></div>
 
   <!-- SLIP / HISTORY -->
   <section>
@@ -234,9 +278,21 @@ footer{margin-top:32px;border-top:1px solid var(--line);padding-top:16px;color:v
       <p style="font-size:13px;color:var(--muted)">Data is saved in this browser under <span class="mono">cloudclear_testlab_live_v1</span>. Export a backup before changing phones or browsers.</p>
     </div>
   </section>
+  </div><!-- /page-settings -->
 
   <footer>CloudClear Live — your tracker, on your phone. No account, no payments, works offline once loaded.</footer>
 </main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<nav class="tabbar" aria-label="CloudClear pages">
+  <button class="tab-btn active" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/></svg><span>Home</span></button>
+  <button class="tab-btn" data-nav="garden" aria-label="Garden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-3.5-2.8-5.5-7-5.5 0 4.2 2 7 7 5.5Z"/><path d="M12 10.5c0-3 2.2-4.7 6-4.7 0 3.6-1.7 6-6 4.7Z"/></svg><span>Garden</span></button>
+  <button class="tab-btn" data-nav="sos" aria-label="SOS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.8 5.8l3.4 3.4M14.8 14.8l3.4 3.4M18.2 5.8l-3.4 3.4M9.2 14.8l-3.4 3.4"/></svg><span>SOS</span></button>
+  <button class="tab-btn" data-nav="checkin" aria-label="Check-ins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/><path d="m9 16 2 2 4-4.5"/></svg><span>Check-in</span></button>
+  <button class="tab-btn" data-nav="health" aria-label="Health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5S3.5 15.4 3.5 9.3A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.7c0 6.1-8.5 11.2-8.5 11.2Z"/><path d="M6.5 12h3l1.5-3 2 5 1.5-2h3"/></svg><span>Health</span></button>
+  <button class="tab-btn" data-nav="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h9M18 7h1M5 12h3M12 12h7M5 17h11M20 17h-1"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="17" r="2"/></svg><span>Settings</span></button>
+</nav>
 
 <!-- ONBOARDING -->
 <dialog id="onboardDlg"><div class="dialog-body">
@@ -360,7 +416,7 @@ function render(){
  const st=STAGES[stage];document.getElementById('treeSvg').innerHTML=treeSVG(stage);
  document.getElementById('stageLabel').textContent='Day '+dInt+' · '+st.name;
  document.getElementById('treeDesc').textContent=st.desc;
- document.getElementById('treeNameInput').value=S.treeName;
+ setVal('treeNameInput',S.treeName);
  const nextSt=STAGES[stage+1];
  if(nextSt){const span=nextSt.day-STAGES[stage].day, done=dInt-STAGES[stage].day;document.getElementById('stageProgress').style.width=Math.min(100,done/span*100)+'%';document.getElementById('stageNext').textContent=(nextSt.day-dInt)+' day(s) to '+nextSt.name+' — '+S.treeName+' is growing.';}
  else{document.getElementById('stageProgress').style.width='100%';document.getElementById('stageNext').textContent=S.treeName+' is in full blossom. Keep going — the worlds beyond 30 days are still unlocking.';}
@@ -380,10 +436,10 @@ function render(){
  document.getElementById('healthList').innerHTML=HEALTH.map(h=>{const done=el>=h.ms;return '<li><span class="dot '+(done?'done':'')+'">'+(done?'✓':'')+'</span><span><b>'+h.title+(done?' — reached':'')+'</b><p>'+h.text+'</p></span></li>'}).join('');
  // checkin
  const today=new Date().toISOString().slice(0,10);document.getElementById('checkinDate').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
- const ci=S.checkins[today];if(ci){document.getElementById('cravingLevel').value=ci.craving;document.getElementById('checkinNote').value=ci.note||'';document.querySelectorAll('.mood').forEach(m=>m.classList.toggle('sel',m.dataset.mood===ci.mood));S.selectedMood=ci.mood;document.getElementById('checkinSaved').textContent='Checked in today — nice one.';}
+ const ci=S.checkins[today];if(ci){setVal('cravingLevel',ci.craving);setVal('checkinNote',ci.note||'');document.querySelectorAll('.mood').forEach(m=>m.classList.toggle('sel',m.dataset.mood===ci.mood));S.selectedMood=ci.mood;document.getElementById('checkinSaved').textContent='Checked in today — nice one.';}
  // why, settings, history
- document.getElementById('whyInput').value=S.why||'';
- document.getElementById('setQuit').value=S.quitDate.slice(0,16);document.getElementById('setSpend').value=S.dailySpend;document.getElementById('setPuffs').value=S.puffsPerDay;
+ setVal('whyInput',S.why||'');
+ setVal('setQuit',S.quitDate.slice(0,16));setVal('setSpend',S.dailySpend);setVal('setPuffs',S.puffsPerDay);
  document.getElementById('freezeInfo').textContent=S.freezes+' streak freeze'+(S.freezes===1?'':'s')+' available';
  document.getElementById('freezeBox').style.display=S.freezes>0?'block':'none';
  const hl=document.getElementById('historyList');hl.textContent='';if(S.history.length){S.history.slice().reverse().forEach(h=>{const li=document.createElement('li');const b=document.createElement('b');b.style.color='var(--ink)';b.textContent=h.label;li.appendChild(b);li.appendChild(document.createTextNode(' — '+new Date(h.date).toLocaleString('en-GB')+(h.detail?' · '+h.detail:'')));hl.appendChild(li);});}else{const li=document.createElement('li');li.textContent='No history yet. This is your first streak — day one counts.';hl.appendChild(li);}
@@ -392,7 +448,12 @@ function render(){
  document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{S.theme=b.dataset.theme;save();render();});
  save();
 }
-function alertMsg(m){const p=document.getElementById('checkinSaved');p.textContent=m;window.scrollTo({top:0,behavior:'smooth'});}
+let toastTimer=null;
+function alertMsg(m){const t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3400);}
+let currentPage='home';
+function showPage(id){currentPage=id;document.querySelectorAll('[data-page-panel]').forEach(p=>p.classList.toggle('active',p.dataset.pagePanel===id));document.querySelectorAll('.tab-btn').forEach(b=>{const on=b.dataset.nav===id;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});window.scrollTo({top:0,behavior:'auto'});}
+document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.nav)));
+function setVal(id,v){const el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=v;}
 document.getElementById('beatBtn').onclick=()=>{S.cravingsBeaten++;save();render();};
 document.getElementById('sosBeat').onclick=()=>{S.cravingsBeaten++;save();render();};
 document.getElementById('sosBeat2').onclick=()=>{S.cravingsBeaten++;save();render();document.getElementById('sosDlg').close();};
